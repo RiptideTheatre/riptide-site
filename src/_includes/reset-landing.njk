@@ -124,6 +124,28 @@ select,input[type=email]{font:inherit;font-size:17px;color:var(--ink);background
 .fine{font-size:14px;color:var(--muted);margin:0}
 .msg{border-radius:14px;padding:14px 18px;font-size:16px;margin:0 0 24px;background:var(--note)}
 .msg.err{border:1px solid var(--alert);color:var(--alert);background:transparent}
+/* gift */
+.gf{border-top:1px solid var(--line);padding-top:16px}
+.gf__toggle{display:inline-flex;align-items:center;gap:12px;cursor:pointer;font-size:16px;color:var(--ink);position:relative}
+.gf__toggle input{position:absolute;opacity:0;width:1px;height:1px}
+.gf__box{width:22px;height:22px;border:1px solid var(--muted);border-radius:6px;display:grid;place-items:center;flex:none;transition:background .2s,border-color .2s}
+.gf__toggle input:checked + .gf__box{background:var(--ink);border-color:var(--ink)}
+.gf__toggle input:checked + .gf__box::after{content:"";width:6px;height:11px;border:solid var(--bg);border-width:0 2px 2px 0;transform:translateY(-1px) rotate(45deg)}
+.gf__toggle input:focus-visible + .gf__box{outline:2px solid var(--dusk);outline-offset:3px}
+.gf__fields{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.gf__fields[hidden],.gf [hidden]{display:none!important}
+.gf__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.gf__field{display:flex;flex-direction:column;gap:6px}
+.gf__opt{opacity:.75}
+.gf input[type=text],.gf textarea{font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%;min-height:50px}
+.gf textarea{min-height:96px;resize:vertical;line-height:1.5}
+.gf__send{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.gf__send legend{font-size:14px;color:var(--muted);padding:0;margin-bottom:8px}
+.gf__choice{display:flex;align-items:center;gap:10px;font-size:16px;color:var(--ink);cursor:pointer}
+.gf__choice input{accent-color:var(--ink);width:18px;height:18px;margin:0}
+.gf__hint{font-size:14px;color:var(--muted);margin:0;line-height:1.55}
+.book:has(.is-gift){align-items:start}
+@media (max-width:560px){.gf__row{grid-template-columns:1fr}}
 
 .signin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start}
 form.signform{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
@@ -263,6 +285,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
           <label for="run">Choose your start date</label>
           <select id="run" name="run" required></select>
         </div>
+        {% set giftProduct = "reset" %}{% include "gift-fields.njk" %}
         <button class="btn btn--ink" type="submit">Continue to payment</button>
       </form>
     </div>
@@ -308,7 +331,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
     <details><summary>Can I use it on my phone?</summary><p>Yes. Reset works on a phone, tablet or computer. To open it on a new device, sign in with the email address you booked with and we’ll send you a link.</p></details>
     <details><summary>Is there anything live?</summary><p>No. There are no sessions to attend and nothing happens at a set time, so Reset fits around your life.</p></details>
     <details><summary>Is Reset a form of therapy?</summary><p>No. Reset is a creative and reflective practice. It isn’t a substitute for professional support. If you’re struggling with your mental health, please speak to your GP or a qualified professional.</p></details>
-    <details><summary>Can I buy it as a gift?</summary><p>[GIFT ANSWER — e.g. email info@theriptide.co.uk and we'll set up a gift place with a start date of your choice.]</p></details>
+    <details><summary>Can I buy it as a gift?</summary><p>Yes. Tick "This is a gift" when you book. We'll email them their gift, or send it to you to give them yourself, with a gift card you can print. They choose the month they start, and Reset is theirs for a year from then.</p></details>
     <details><summary>Can I get a refund?</summary><p>[YOUR REFUND POLICY]</p></details>
   </div>
 </section>
@@ -338,6 +361,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
   </div>
 </footer>
 
+<script src="/assets/js/gift-form.js"></script>
 <script>
 /* Start dates: from the server (always correct), with a local fallback. */
 (function(){
@@ -371,18 +395,20 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
   function close(){
     if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; }
     box.innerHTML='<p class="pay__loading">Opening secure payment…</p>';
-    pay.hidden=true; card.hidden=false; form.querySelector("button").disabled=false;
+    pay.hidden=true; card.hidden=false; form.querySelector("button[type=submit]").disabled=false;
     card.scrollIntoView({behavior:"smooth",block:"center"});
   }
   document.getElementById("payChange").addEventListener("click",close);
   form.addEventListener("submit",function(e){
     e.preventDefault();
     var run=form.run.value; if(!run) return;
-    var btn=form.querySelector("button"); btn.disabled=true; msg.innerHTML="";
-    document.getElementById("payRun").textContent=form.run.options[form.run.selectedIndex].text;
+    var g=window.RiptideGift?RiptideGift.read(form):null;
+    if(g&&g.error){ say(g.error); g.field.focus(); return; }
+    var btn=form.querySelector("button[type=submit]"); btn.disabled=true; msg.innerHTML="";
+    document.getElementById("payRun").textContent=form.run.options[form.run.selectedIndex].text+(g?" · a gift for "+g.gift.to:"");
     card.hidden=true; pay.hidden=false;
     pay.scrollIntoView({behavior:"smooth",block:"start"});
-    fetch("/api/reset/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({run:run})})
+    fetch("/api/reset/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({run:run,gift:g?g.gift:null})})
       .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw new Error(j.error||"checkout"); return j; }); })
       .then(function(j){
         if(j.preview){ box.innerHTML='<div class="pay__preview">Preview only: Stripe\'s secure payment form appears here on the live site.</div>'; return; }
@@ -393,7 +419,8 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
       .catch(function(err){
         close();
         var m={run:"That start date isn't available any more. Please choose another.",setup:"Booking isn't open quite yet. Please try again shortly."};
-        say(m[err&&err.message]||"We couldn't open the secure payment form. Please try again.");
+        var e=err&&err.message;
+        say(m[e]||(window.RiptideGift&&RiptideGift.errors[e])||"We couldn't open the secure payment form. Please try again.");
       });
   });
 })();

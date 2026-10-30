@@ -70,6 +70,7 @@ layout: base.njk
           </label>
           {% endfor %}
         </fieldset>
+        {% set giftProduct = "pi" %}{% include "gift-fields.njk" %}
         <button class="btn btn--primary" type="submit">Continue to payment</button>
         <p class="pbook__msg" role="status" hidden></p>
       </form>
@@ -87,34 +88,37 @@ layout: base.njk
     </div>
   </div>
 </section>
+<script src="/assets/js/gift-form.js" defer></script>
 <script>
-(function(){
+document.addEventListener("DOMContentLoaded",function(){
   var form=document.getElementById("pbookForm"); if(!form||!window.fetch) return;
   var card=document.getElementById("pbookCard"), pay=document.getElementById("pbookPay"), host=document.getElementById("pbookCheckout"), msg=form.querySelector(".pbook__msg"), checkout=null;
   var today=new Date().toISOString().slice(0,10);
   [].forEach.call(form.querySelectorAll("[data-starts]"),function(l){ if(l.dataset.starts<=today) l.remove(); });
-  if(!form.querySelector("input[name=run]")){ form.querySelector("fieldset").insertAdjacentHTML("beforeend",'<p class="pbook__none">All current dates have started. New dates are announced to our mailing list first.</p>'); form.querySelector("button").hidden=true; return; }
+  if(!form.querySelector("input[name=run]")){ form.querySelector("fieldset").insertAdjacentHTML("beforeend",'<p class="pbook__none">All current dates have started. New dates are announced to our mailing list first.</p>'); form.querySelector("button[type=submit]").hidden=true; var gb=form.querySelector("[data-gift]"); if(gb) gb.hidden=true; return; }
   if(!form.querySelector("input[name=run]:checked")) form.querySelector("input[name=run]").checked=true;
   function say(t){ msg.textContent=t; msg.hidden=false; }
   function loadStripe(){ if(window.Stripe) return Promise.resolve(window.Stripe); return new Promise(function(ok,no){ var s=document.createElement("script"); s.src="https://js.stripe.com/v3/"; s.async=true; s.onload=function(){ window.Stripe?ok(window.Stripe):no(); }; s.onerror=no; document.head.appendChild(s); }); }
-  function close(){ if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; } host.innerHTML='<p class="pbook__loading">Opening secure payment…</p>'; pay.hidden=true; card.hidden=false; form.querySelector("button").disabled=false; }
+  function close(){ if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; } host.innerHTML='<p class="pbook__loading">Opening secure payment…</p>'; pay.hidden=true; card.hidden=false; form.querySelector("button[type=submit]").disabled=false; }
   document.getElementById("pbookChange").addEventListener("click",function(){ close(); card.scrollIntoView({behavior:"smooth",block:"center"}); });
   form.addEventListener("submit",function(e){
     e.preventDefault();
     var r=form.querySelector("input[name=run]:checked"); if(!r) return;
-    msg.hidden=true; form.querySelector("button").disabled=true;
-    document.getElementById("pbookRun").textContent=r.closest("label").querySelector("strong").textContent;
+    var g=window.RiptideGift?RiptideGift.read(form):null;
+    if(g&&g.error){ say(g.error); g.field.focus(); return; }
+    msg.hidden=true; form.querySelector("button[type=submit]").disabled=true;
+    document.getElementById("pbookRun").textContent=r.closest("label").querySelector("strong").textContent+(g?" · a gift for "+g.gift.to:"");
     card.hidden=true; pay.hidden=false; pay.scrollIntoView({behavior:"smooth",block:"start"});
-    fetch("/api/pi/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({run:r.value})})
+    fetch("/api/pi/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({run:r.value,gift:g?g.gift:null})})
       .then(function(res){ return res.json().then(function(j){ if(!res.ok) throw new Error(j.error||"checkout"); return j; }); })
       .then(function(j){
         if(j.preview){ host.innerHTML='<div class="pbook__preview">Preview only: Stripe\'s secure payment form appears here on the live site.</div>'; return; }
         return loadStripe().then(function(S){ return S(j.publishableKey).initEmbeddedCheckout({fetchClientSecret:function(){ return Promise.resolve(j.clientSecret); }}); })
           .then(function(c){ checkout=c; host.innerHTML=""; c.mount(host); });
       })
-      .catch(function(err){ close(); say(({run:"Those dates aren't available any more. Please choose another fortnight.",setup:"Booking isn't open quite yet. Please try again shortly."})[err&&err.message]||"We couldn't open the secure payment form. Please try again."); });
+      .catch(function(err){ close(); var e=err&&err.message; say(({run:"Those dates aren't available any more. Please choose another fortnight.",setup:"Booking isn't open quite yet. Please try again shortly."})[e]||(window.RiptideGift&&RiptideGift.errors[e])||"We couldn't open the secure payment form. Please try again."); });
   });
-})();
+});
 </script>
 {% endif %}
 

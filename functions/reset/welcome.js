@@ -8,6 +8,7 @@ export async function onRequestGet({ request, env }) {
   try {
     const session = await stripe(env, "GET", "checkout/sessions/" + id);
     if (!isSettled(session)) return redirect("/reset/?error=unpaid#book");
+    if (session.metadata?.gift === "1") return redirect("/gift/?session_id=" + encodeURIComponent(id));
     const { buyer, isNew } = await recordBooking(env, session);
     const run = buyer.runs.find((r) => r.session === session.id);
     if (isNew) await sendEmail(env, { to: buyer.email, ...welcomeEmail(env, run) });

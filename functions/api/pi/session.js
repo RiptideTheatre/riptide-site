@@ -10,6 +10,7 @@ export async function onRequestGet({ request, env }) {
   try {
     const session = await stripe(env, "GET", "checkout/sessions/" + id);
     if (session.metadata?.product !== "pi") return json({ error: "session" }, 404);
+    if (session.metadata?.gift === "1") return json({ paid: false, gift: true });
     const paid = isSettled(session);
     const runs = await loadRuns(env, request, false).catch(() => []);
     const all = runs.length ? runs : [];

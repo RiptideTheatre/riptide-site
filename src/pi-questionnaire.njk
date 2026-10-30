@@ -28,9 +28,10 @@ eleventyExcludeFromCollections: true
 <section class="band band--flush pq">
   <div class="wrap">
     <div class="pq-booked" id="pqBooked" hidden>
-      <p class="eyebrow ab-eyebrow">Payment received</p>
-      <p class="pq-booked__title display">You're booked<span id="pqBookedRun"></span>.</p>
-      <p class="pq-booked__text">A confirmation is on its way to your inbox.</p>
+      <p class="eyebrow ab-eyebrow" id="pqBookedEyebrow">Payment received</p>
+      <p class="pq-booked__title display" id="pqBookedTitle">You're booked<span id="pqBookedRun"></span>.</p>
+      <p class="pq-booked__text" id="pqBookedText">A confirmation is on its way to your inbox.</p>
+      <blockquote class="pq-booked__note" id="pqBookedNote" hidden></blockquote>
       <div class="pq-call">
         <p class="pq-call__kicker">Now the important part</p>
         <p class="pq-call__line display">Somewhere, a stranger is answering these same questions. <em>Tell us who you really are, so we can find them.</em></p>
@@ -195,6 +196,27 @@ eleventyExcludeFromCollections: true
     });
   }
   restore();
+
+  /* Arriving with a gift code: greet them, show who it's from, fill in their email and start date. */
+  (function () {
+    var code = new URLSearchParams(location.search).get('gift');
+    if (!code || !window.fetch) return;
+    fetch('/api/gift/info?code=' + encodeURIComponent(code))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (g) {
+        if (!g || g.product !== 'pi') return;
+        document.getElementById('pqBookedEyebrow').textContent = 'A gift from ' + g.from;
+        document.getElementById('pqBookedTitle').textContent = g.to + ", you're booked" + (g.when ? ' for ' + g.when : '') + '.';
+        document.getElementById('pqBookedText').textContent = g.from + ' has given you a place on Project Intimacy.';
+        if (g.note) { var n = document.getElementById('pqBookedNote'); n.textContent = g.note; n.hidden = false; }
+        document.getElementById('pqBooked').hidden = false;
+        var em = form.querySelector('input[name=emailAddress]');
+        if (em && !em.value && g.toEmail) em.value = g.toEmail;
+        if (g.startLabel) [].forEach.call(form.querySelectorAll('input[name="450404477"]'), function (i) { if (i.value === g.startLabel) i.checked = true; });
+        save();
+      })
+      .catch(function () {});
+  })();
 
   /* Arriving straight from payment: greet the buyer, fill in their email and start date. */
   (function () {

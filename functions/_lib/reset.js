@@ -53,31 +53,33 @@ export function isoDay(d) {
 
 /* ---------- bookings (KV) ---------- */
 
-const normEmail = (e) => String(e || "").trim().toLowerCase();
+export const normEmail = (e) => String(e || "").trim().toLowerCase();
 
 export async function getBuyer(env, email) {
   const raw = await env.RESET_KV.get("buyer:" + normEmail(email));
   return raw ? JSON.parse(raw) : null;
 }
 
-// Record a paid Stripe Checkout Session. Safe to call twice for the same session.
-export async function recordBooking(env, session) {
-  const email = normEmail(session.customer_details?.email || session.customer_email);
-  const run = session.metadata?.run;
-  if (!email || !run) throw new Error("Session is missing email or run");
+// Give an email address access to a run. `ref` identifies the payment (or gift), so
+// calling twice with the same ref changes nothing.
+export async function grantAccess(env, email, run, ref, extra = {}) {
+  email = normEmail(email);
+  if (!email || !run || !ref) throw new Error("Missing email, run or reference");
   const buyer = (await getBuyer(env, email)) || { email, runs: [] };
-  const isNew = !buyer.runs.some((r) => r.session === session.id);
+  const isNew = !buyer.runs.some((r) => r.session === ref);
   if (isNew) {
-    buyer.runs.push({
-      start: run,
-      expires: accessEnds(run),
-      session: session.id,
-      name: session.customer_details?.name || "",
-      paidAt: Date.now()
-    });
+    buyer.runs.push({ start: run, expires: accessEnds(run), session: ref, paidAt: Date.now(), ...extra });
     await env.RESET_KV.put("buyer:" + email, JSON.stringify(buyer));
   }
   return { buyer, isNew };
+}
+
+// Record a paid Stripe Checkout Session for the person who paid. Safe to call twice.
+export async function recordBooking(env, session) {
+  const email = session.customer_details?.email || session.customer_email;
+  const run = session.metadata?.run;
+  if (!email || !run) throw new Error("Session is missing email or run");
+  return grantAccess(env, email, run, session.id, { name: session.customer_details?.name || "" });
 }
 
 // The run someone should see now: the one in progress, else the next one, else none.
@@ -93,10 +95,10 @@ export function activeRun(buyer, now = Date.now()) {
 /* ---------- signed cookie ---------- */
 
 const enc = new TextEncoder();
-const b64u = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+export const b64u = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 const fromB64u = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4)), (c) => c.charCodeAt(0));
 
-async function hmac(secret, data) {
+export async function hmac(secret, data) {
   const key = await crypto.subtle.importKey("raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   return new Uint8Array(await crypto.subtle.sign("HMAC", key, enc.encode(data)));
 }
@@ -206,9 +208,9 @@ export async function sendEmail(env, { to, subject, text, html }) {
   return res.ok;
 }
 
-const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
-function emailShell(inner) {
+export function emailShell(inner) {
   return `<!doctype html><html><body style="margin:0;background:#F1F2EF;font-family:Georgia,serif;color:#1E2431">
 <div style="max-width:520px;margin:0 auto;padding:40px 24px">
 <div style="font-size:28px;letter-spacing:.2em;margin-bottom:28px">RESET</div>

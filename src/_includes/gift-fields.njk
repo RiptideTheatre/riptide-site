@@ -1,0 +1,33 @@
+{#
+  "This is a gift" fields, shared by the Project Intimacy and Reset booking forms.
+  Set giftProduct ("pi" or "reset") before including. Read by /assets/js/gift-form.js.
+#}
+<div class="gf" data-gift>
+  <label class="gf__toggle">
+    <input type="checkbox" data-gift-on>
+    <span class="gf__box" aria-hidden="true"></span>
+    <span>This is a gift</span>
+  </label>
+  <div class="gf__fields" data-gift-fields hidden>
+    <div class="gf__row">
+      <label class="gf__field">Their name
+        <input type="text" data-gift-to maxlength="60" autocomplete="off">
+      </label>
+      <label class="gf__field">From
+        <input type="text" data-gift-from maxlength="60" autocomplete="name" placeholder="How you'd like to sign it">
+      </label>
+    </div>
+    <label class="gf__field"><span>A message for them <span class="gf__opt">(optional)</span></span>
+      <textarea data-gift-note maxlength="300" rows="3"></textarea>
+    </label>
+    <fieldset class="gf__send">
+      <legend>How should they get it?</legend>
+      <label class="gf__choice"><input type="radio" name="giftSend-{{ giftProduct }}" value="email" checked> <span>Email it to them now</span></label>
+      <label class="gf__choice"><input type="radio" name="giftSend-{{ giftProduct }}" value="me"> <span>Send it to me, and I'll give it to them myself</span></label>
+    </fieldset>
+    <label class="gf__field" data-gift-email-wrap>Their email address
+      <input type="email" data-gift-email maxlength="120" autocomplete="off">
+    </label>
+    <p class="gf__hint">{% if giftProduct == "pi" %}You'll get a gift card to print or forward. They fill in the questionnaire themselves, and we match them like anyone else.{% else %}You'll get a gift card to print or forward. They choose the month they start, and Reset is theirs for a year from then.{% endif %}</p>
+  </div>
+</div>

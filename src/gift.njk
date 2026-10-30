@@ -1,0 +1,221 @@
+---
+layout: base.njk
+title: Your gift
+permalink: /gift/
+description: A Riptide gift. Enter your gift code to unwrap it.
+noindex: true
+eleventyExcludeFromCollections: true
+---
+{#
+  One page, three views:
+    ?session_id=cs_…  the buyer, straight after paying: their gift card, to print or forward
+    ?g=CODE           the person receiving it: their card, and how to start
+    (nothing)         a box to type a gift code into, for printed cards
+  Data comes from /api/gift/session, /api/gift/info and (Reset) /api/gift/claim.
+#}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&display=swap">
+
+<section class="band band--flush band--waves gift-head">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <p class="eyebrow ab-eyebrow" id="giftEyebrow">A gift from Riptide</p>
+    <h1 class="display gift-title" id="giftTitle">Unwrap your gift</h1>
+    <p class="gift-lede" id="giftLede">Type the code from your gift card.</p>
+  </div>
+</section>
+
+<section class="band band--flush gift">
+  <div class="wrap gift__grid">
+
+    <div class="gift__cardwrap" id="giftCardWrap" hidden>
+      <article class="gc" id="giftCard" aria-label="Gift card">
+        <div class="gc__art" aria-hidden="true"></div>
+        <div class="gc__top">
+          <p class="gc__for" id="gcFor"></p>
+          <img class="gc__logo" src="/assets/img/riptide-logo.png" alt="Riptide" width="104" height="32">
+          <p class="gc__by">Riptide</p>
+        </div>
+        <div class="gc__mid">
+          <p class="gc__name" id="gcName"></p>
+          <p class="gc__when" id="gcWhen"></p>
+        </div>
+        <blockquote class="gc__note" id="gcNote" hidden></blockquote>
+        <div class="gc__foot">
+          <p class="gc__from" id="gcFrom"></p>
+          <p class="gc__code"><span>Gift code</span><strong id="gcCode"></strong><small>Unwrap at theriptide.co.uk/gift</small></p>
+        </div>
+      </article>
+    </div>
+
+    <div class="gift__side">
+      <!-- Enter a code -->
+      <form class="gift__panel" id="giftCodeForm" hidden novalidate>
+        <label class="gf__field" for="giftCodeInput">Gift code</label>
+        <input class="gift__input gift__input--code" id="giftCodeInput" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX" maxlength="16">
+        <button class="btn btn--primary" type="submit">Unwrap</button>
+        <p class="gift__msg" role="status" hidden></p>
+      </form>
+
+      <!-- The buyer -->
+      <div class="gift__panel" id="giftBuyer" hidden>
+        <p class="gift__status" id="giftBuyerStatus"></p>
+        <div class="gift__actions">
+          <button class="btn btn--primary" type="button" id="giftPrint">Print the gift card</button>
+          <button class="btn btn--ghost" type="button" id="giftCopy">Copy their gift link</button>
+        </div>
+        <p class="gift__fine" id="giftCopied" role="status" hidden>Copied. Paste it into a message or an email to them.</p>
+        <p class="gift__fine">A copy of everything is on its way to your inbox. Questions? <a href="mailto:info@theriptide.co.uk">info@theriptide.co.uk</a></p>
+      </div>
+
+      <!-- Receiving Project Intimacy -->
+      <div class="gift__panel" id="giftPi" hidden>
+        <p class="gift__status">Next step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.</p>
+        <a class="btn btn--primary" id="giftPiGo" href="/project-intimacy/questionnaire/">Fill in your questionnaire</a>
+        <p class="gift__fine"><a href="/project-intimacy/">What is Project Intimacy?</a></p>
+      </div>
+
+      <!-- Receiving Reset -->
+      <form class="gift__panel" id="giftReset" hidden novalidate>
+        <p class="gift__status">Choose the month you'd like to begin. Your Reset is yours for a year from that date.</p>
+        <label class="gf__field">Start date
+          <select class="gift__input" id="giftRun"></select>
+        </label>
+        <label class="gf__field">Your email address
+          <input class="gift__input" type="email" id="giftEmail" autocomplete="email" placeholder="you@example.com">
+        </label>
+        <p class="gift__fine">This is the address you'll sign in to Reset with.</p>
+        <button class="btn btn--primary" type="submit">Unwrap your Reset</button>
+        <p class="gift__msg" role="status" hidden></p>
+        <p class="gift__fine"><a href="/reset/">What is Reset?</a></p>
+      </form>
+
+      <!-- Already unwrapped -->
+      <div class="gift__panel" id="giftClaimed" hidden>
+        <p class="gift__status">This gift has already been unwrapped. Sign in with the email address it was unwrapped with.</p>
+        <a class="btn btn--primary" href="/reset/#signin">Sign in to Reset</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  if (!window.fetch) return;
+  var q = new URLSearchParams(location.search);
+  var $ = function (id) { return document.getElementById(id); };
+  var code = '';
+
+  function show(id) { $(id).hidden = false; }
+  function msg(form, text) { var m = form.querySelector('.gift__msg'); m.textContent = text; m.hidden = !text; }
+  function head(eyebrow, title, lede) {
+    $('giftEyebrow').textContent = eyebrow; $('giftTitle').textContent = title;
+    $('giftLede').textContent = lede || ''; $('giftLede').hidden = !lede;
+  }
+  function getJSON(url) {
+    return fetch(url).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'lookup'); return j; }); });
+  }
+
+  function card(g) {
+    var c = $('giftCard');
+    c.className = 'gc gc--' + g.product;
+    $('gcFor').textContent = 'A gift for ' + g.to;
+    $('gcName').textContent = g.productName;
+    $('gcWhen').textContent = g.product === 'pi' ? (g.when || '') : 'Twenty-one days, twenty minutes a day';
+    if (g.note) { $('gcNote').textContent = g.note; show('gcNote'); }
+    $('gcFrom').textContent = 'From ' + g.from;
+    $('gcCode').textContent = g.code;
+    code = g.code;
+    show('giftCardWrap');
+  }
+
+  function link() { return location.origin + '/gift/?g=' + code.replace(/-/g, ''); }
+
+  /* The buyer, straight after paying */
+  function buyer(sid, tries) {
+    getJSON('/api/gift/session?session_id=' + encodeURIComponent(sid)).then(function (g) {
+      if (!g.paid) {
+        head('Almost there', 'Confirming your payment…', 'This usually takes a few seconds.');
+        if (tries < 8) setTimeout(function () { buyer(sid, tries + 1); }, 2500);
+        else head('Almost there', 'Your payment is still confirming', "We'll email your gift card as soon as it's through. If you were charged and nothing arrives, email info@theriptide.co.uk.");
+        return;
+      }
+      head('Gift booked', 'Your gift is booked.', g.productName + ' for ' + g.to + '.');
+      card(g);
+      $('giftBuyerStatus').textContent = g.send === 'email' && g.toEmail
+        ? "We've emailed " + g.to + ' at ' + g.toEmail + ' with their gift and everything they need. You can still print the card or send the link yourself.'
+        : "When you're ready to give it, print the card or send " + g.to + ' the link. Everything they need is on it.';
+      show('giftBuyer');
+    }).catch(function () {
+      head('Something went wrong', "We couldn't load your gift", 'Your payment is safe. Your gift card is on its way by email, or contact info@theriptide.co.uk.');
+    });
+  }
+
+  /* The person receiving it */
+  function recipient(c) {
+    getJSON('/api/gift/info?code=' + encodeURIComponent(c)).then(function (g) {
+      card(g);
+      head('A gift from ' + g.from, g.to + ', this is for you.', g.product === 'pi'
+        ? 'A place on Project Intimacy: two strangers, two weeks, one conversation.'
+        : 'Reset: twenty-one days, twenty minutes a day.');
+      if (g.product === 'pi') {
+        $('giftPiGo').href = '/project-intimacy/questionnaire/?gift=' + g.code.replace(/-/g, '');
+        show('giftPi');
+      } else if (g.claimed) {
+        show('giftClaimed');
+      } else {
+        resetForm(g);
+      }
+    }).catch(function () {
+      head('A gift from Riptide', "We couldn't find that code", 'Check it against your gift card and try again.');
+      codeForm(c);
+    });
+  }
+
+  function resetForm(g) {
+    var f = $('giftReset'), sel = $('giftRun');
+    if (g.toEmail) $('giftEmail').value = g.toEmail;
+    getJSON('/api/reset/runs').then(function (j) {
+      sel.innerHTML = j.runs.map(function (r) { return '<option value="' + r.value + '">' + r.label + '</option>'; }).join('');
+      if (g.run) sel.value = g.run;
+      if (!sel.value && j.runs.length) sel.value = j.runs[0].value;
+    }).catch(function () {});
+    show('giftReset');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = $('giftEmail').value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg(f, 'Please enter your email address.'); $('giftEmail').focus(); return; }
+      msg(f, ''); f.querySelector('button').disabled = true;
+      fetch('/api/gift/claim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: code, email: email, run: sel.value }) })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'claim'); return j; }); })
+        .then(function (j) { location.href = j.next || '/reset/members/'; })
+        .catch(function (err) {
+          f.querySelector('button').disabled = false;
+          msg(f, ({ claimed: 'This gift has already been unwrapped with a different email address.', run: "That start date isn't available any more. Please choose another.", email: 'Please enter your email address.' })[err.message] || "We couldn't unwrap your gift. Please try again, or email info@theriptide.co.uk.");
+        });
+    });
+  }
+
+  function codeForm(prefill) {
+    var f = $('giftCodeForm'), input = $('giftCodeInput');
+    if (prefill) input.value = prefill;
+    show('giftCodeForm');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var c = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (c.length !== 12) { msg(f, 'Gift codes are twelve letters and numbers, like K3MQ-9XD7-P2HT.'); input.focus(); return; }
+      location.href = '/gift/?g=' + c;
+    });
+  }
+
+  $('giftPrint').addEventListener('click', function () { window.print(); });
+  $('giftCopy').addEventListener('click', function () {
+    var done = function () { $('giftCopied').hidden = false; };
+    if (navigator.clipboard) navigator.clipboard.writeText(link()).then(done, function () { prompt('Copy their gift link:', link()); });
+    else prompt('Copy their gift link:', link());
+  });
+
+  if (q.get('session_id')) buyer(q.get('session_id'), 0);
+  else if (q.get('g')) recipient(q.get('g'));
+  else codeForm('');
+})();
+</script>

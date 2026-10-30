@@ -98,3 +98,15 @@ fills in their email and start date, and sends the answers to the Google Form.
 - A run can be booked until the day it starts. Add or change dates in the show's "Run dates".
 - Stripe's own receipt also goes to the buyer if receipts are switched on in Stripe
   (Settings → Customer emails → Successful payments).
+
+## Gifts (Project Intimacy and Reset)
+
+Both booking forms have a **This is a gift** option. The buyer adds the recipient's name, their own name, an optional message, and chooses either to have it emailed to the recipient now or sent to themselves to give in person.
+
+- Gift purchases use the same Stripe prices and the same promotion codes. In the Stripe dashboard they show as "Gift: …" with `gift = 1` in the metadata.
+- After paying, the buyer lands on `/gift/`, which shows a gift card they can print (A5 landscape) or forward, and a gift code like `K3MQ-9XD7-P2HT`.
+- Emails (these need `RESEND_API_KEY`): the buyer always gets a copy. The recipient gets their own email if the buyer chose that.
+- **Project Intimacy recipients** go to the questionnaire with their gift details and start date already filled in. A gift never counts as the buyer's own place.
+- **Reset recipients** open their gift, choose a start month and enter their own email. That email then gets a year's access and the usual welcome email. Each gift can be unwrapped once.
+- Anyone with a printed card can type the code at **theriptide.co.uk/gift**.
+- Gifts are stored in the `RESET_KV` namespace as `gift:<CODE>` for about 13 months.

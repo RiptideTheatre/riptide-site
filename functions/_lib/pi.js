@@ -44,7 +44,7 @@ Riptide`;
 
 // Sends the confirmation once per payment, whether the page or Stripe's webhook gets there first.
 export async function confirmPiBooking(env, session, runs) {
-  if (!isSettled(session)) return false;
+  if (!isSettled(session) || session.metadata?.gift === "1") return false;
   const email = session.customer_details?.email || session.customer_email;
   if (!email) return false;
   const key = "pi:sent:" + session.id;
