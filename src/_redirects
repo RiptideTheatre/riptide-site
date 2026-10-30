@@ -8,6 +8,21 @@
 /the-directors-diary /directors-diary/    301
 /pi-faqs            /project-intimacy/    301
 /mission-statement  /about/               301
+/home               /                     301
+/14-days            /project-intimacy/    301
+/pi-terms           /project-intimacy/    301
+/tickets/p/projectintimacy /project-intimacy/#book 301
+/tickets/p/riptide-gift-card /contact/    301
+/tickets/p/*        /whats-on/            301
+/opencall           /work-with-us/        301
+/workshop           /work-with-us/        301
+/lost-connections   /archive/             301
+/aboutintermission  /intermission/        301
+/intermission-faqs  /intermission/        301
+/inttickets         /intermission/        301
+/inttickets-1       /intermission/        301
+/green-room-faqs    /whats-on/            301
+/termsandconditions /privacy/             301
 # Reset: old Squarespace day pages → the members area (sign-in required)
 /reset/1            /reset/members/#day-1   301
 /reset/2            /reset/members/#day-2   301
