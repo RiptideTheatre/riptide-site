@@ -774,3 +774,8 @@ input::placeholder { color: var(--quiet); }
 .pq-call__line em { color: var(--amber); }
 .pq-call__go { margin-top: clamp(20px, 3vw, 28px); }
 #pq-start { scroll-margin-top: 90px; }
+/* Gold boxed heading at the start of each questionnaire part (matches the "Payment received" box) */
+.pq-intro:has(+ .pq-part) { margin-bottom: clamp(22px, 3vw, 32px); }
+.pq-part { border: 1px solid var(--amber); border-radius: 14px; background: rgba(233, 182, 92, .06); padding: clamp(18px, 2.4vw, 26px) clamp(20px, 3vw, 32px); margin: 0 0 clamp(18px, 3vw, 28px); max-width: 780px; }
+.pq-part__step { font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--amber); font-weight: 500; margin: 0 0 6px; }
+.pq-part__title { font-size: clamp(28px, 3.2vw, 40px); line-height: 1.1; margin: 0; }

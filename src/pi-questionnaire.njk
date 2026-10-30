@@ -45,6 +45,10 @@ eleventyExcludeFromCollections: true
       <fieldset class="pq-page"{% if loop.first %} id="pq-start"{% endif %} data-page="{{ pageIndex }}" data-title="{{ page.title }}"{% if not loop.first %} hidden{% endif %}>
         <legend class="visually-hidden">{{ page.title }}</legend>
         {% if page.help %}<p class="pq-intro">{{ page.help }}</p>{% endif %}
+        <div class="pq-part" aria-hidden="true">
+          <p class="pq-part__step">Part {{ loop.index }} of {{ piForm.pages.length }}</p>
+          <p class="pq-part__title display">{{ page.title }}</p>
+        </div>
 
         {% for group in page.groups %}
         <div class="pq-group{% if group.style %} pq-group--{{ group.style }}{% endif %}">
