@@ -768,3 +768,9 @@ input::placeholder { color: var(--quiet); }
 .pq-booked .eyebrow { margin-bottom: 10px; }
 .pq-booked__title { font-size: clamp(28px, 3.4vw, 42px); line-height: 1.1; margin: 0; }
 .pq-booked__text { color: var(--muted); margin: 12px 0 0; }
+.pq-call { margin-top: clamp(22px, 3vw, 30px); padding-top: clamp(22px, 3vw, 30px); border-top: 1px solid rgba(233, 182, 92, .35); }
+.pq-call__kicker { font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--amber); font-weight: 500; margin: 0 0 12px; }
+.pq-call__line { font-size: clamp(30px, 4.2vw, 52px); line-height: 1.06; letter-spacing: -.01em; margin: 0; color: var(--ivory); text-wrap: balance; }
+.pq-call__line em { color: var(--amber); }
+.pq-call__go { margin-top: clamp(20px, 3vw, 28px); }
+#pq-start { scroll-margin-top: 90px; }

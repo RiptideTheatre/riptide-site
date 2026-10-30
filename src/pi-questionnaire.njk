@@ -30,14 +30,19 @@ eleventyExcludeFromCollections: true
     <div class="pq-booked" id="pqBooked" hidden>
       <p class="eyebrow ab-eyebrow">Payment received</p>
       <p class="pq-booked__title display">You're booked<span id="pqBookedRun"></span>.</p>
-      <p class="pq-booked__text">A confirmation is on its way to your inbox. Now the important part: tell us about you, so we can find your match.</p>
+      <p class="pq-booked__text">A confirmation is on its way to your inbox.</p>
+      <div class="pq-call">
+        <p class="pq-call__kicker">Now the important part</p>
+        <p class="pq-call__line display">Somewhere, a stranger is answering these same questions. <em>Tell us who you really are, so we can find them.</em></p>
+        <a class="btn btn--primary pq-call__go" href="#pq-start">Start the questionnaire &darr;</a>
+      </div>
     </div>
     <form id="pq" class="pq-form" novalidate>
       <div class="pq-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 
       {% for page in piForm.pages %}
       {% set pageIndex = loop.index0 %}
-      <fieldset class="pq-page" data-page="{{ pageIndex }}" data-title="{{ page.title }}"{% if not loop.first %} hidden{% endif %}>
+      <fieldset class="pq-page"{% if loop.first %} id="pq-start"{% endif %} data-page="{{ pageIndex }}" data-title="{{ page.title }}"{% if not loop.first %} hidden{% endif %}>
         <legend class="visually-hidden">{{ page.title }}</legend>
         {% if page.help %}<p class="pq-intro">{{ page.help }}</p>{% endif %}
 
