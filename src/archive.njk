@@ -1,0 +1,60 @@
+---
+layout: base.njk
+title: Our work
+permalink: /archive/
+description: Riptide's back catalogue of immersive, interactive and digital work since 2014 — with venues, credits and press for each project.
+---
+
+<section class="band band--flush band--waves">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">Our work</h1>
+    <p class="lede">Everything we have made since 2014. If you are programming, commissioning or researching, this is the page you want.</p>
+  </div>
+</section>
+
+<section class="band band--flush" style="padding-top: 8px;">
+  <div class="wrap">
+    <div class="cards">
+      {% for show in collections.current %}
+      <article class="card">
+        <div class="card__media"><img src="{{ show.data.image }}" alt="{{ show.data.imageAlt or show.data.title }}" width="1200" height="675" loading="lazy"></div>
+        <div class="card__head">
+          <h3><a href="{{ show.url }}">{{ show.data.title }}</a></h3>
+          <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
+        </div>
+        <p>{{ show.data.summary }}</p>
+        <p class="card__meta">{{ show.data.cardMeta }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band band--tint arc" aria-labelledby="arc-title">
+  <div class="wrap">
+    <div class="arc__head">
+      <h2 id="arc-title" class="display">Previously</h2>
+      <p>Nightclubs, city streets, hotel rooms, phones. A decade of work that doesn't sit still.</p>
+    </div>
+    <ol class="arc__list">
+      {% for show in collections.past | byYearDesc %}
+      <li class="arc__row">
+        <a class="arc__link" href="{{ show.url }}">
+          <span class="arc__year">{{ show.data.year }}</span>
+          <span class="arc__main">
+            <span class="arc__title display">{{ show.data.title }}</span>
+            <span class="arc__meta">{% if show.data.format | isFilled %}{{ show.data.format }}{% endif %}{% if (show.data.format | isFilled) and (show.data.place | isFilled) %} · {% endif %}{% if show.data.place | isFilled %}{{ show.data.place }}{% endif %}</span>
+          </span>
+          <span class="arc__about">
+            {% if show.data.summary | isFilled %}<span class="arc__line">{{ show.data.summary }}</span>{% elif show.data.tagline %}<span class="arc__line">{{ show.data.tagline }}</span>{% endif %}
+            {% if show.data.press and (show.data.press[0].quote | isFilled) %}<span class="arc__quote">“{{ show.data.press[0].quote }}” <cite>{{ show.data.press[0].source }}</cite></span>{% endif %}
+          </span>
+          <span class="arc__thumb" aria-hidden="true"><img src="{{ show.data.image }}" alt="" loading="lazy"></span>
+          <span class="arc__go" aria-hidden="true">→</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

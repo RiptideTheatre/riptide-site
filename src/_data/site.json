@@ -1,0 +1,59 @@
+{
+  "name": "Riptide",
+  "tagline": "Immersive, interactive and digital experiences",
+  "description": "Riptide make immersive, interactive and digital experiences from Leeds. We put the audience at the heart of the work and build it with the technology they already carry.",
+  "url": "https://www.theriptide.co.uk",
+  "email": "info@theriptide.co.uk",
+  "companyNumber": "12489037",
+  "registeredOffice": "Patrick Studios, East Street Arts, St Mary's Lane, Leeds LS9 7EH",
+  "newsletterAction": "",
+  "awards": "Winner, Best Immersive Theatre Company — UK Enterprise Awards 2023 & 2025",
+  "social": [
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/riptide_uk/"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/intheriptide"
+    },
+    {
+      "name": "The Director's Diary",
+      "url": "https://podcasts.apple.com/gb/podcast/the-directors-diary/id1449664591"
+    }
+  ],
+  "press": [
+    {
+      "quote": "Ambitious and riveting experiences",
+      "source": "The Times"
+    },
+    {
+      "quote": "Genuinely surprising, blurring the line between fiction and reality",
+      "source": "The Guardian"
+    },
+    {
+      "quote": "Riptide tears up the theatrical rulebook",
+      "source": "North West End"
+    },
+    {
+      "quote": "A company to watch",
+      "source": "Lyn Gardner"
+    }
+  ],
+  "numbersIntro": "Since 2014",
+  "numbers": [
+    {
+      "value": "[X]",
+      "label": "audience members"
+    },
+    {
+      "value": "[X]",
+      "label": "cities and venues"
+    },
+    {
+      "value": "2",
+      "label": "UK Enterprise Awards"
+    }
+  ],
+  "showNumbers": false
+}

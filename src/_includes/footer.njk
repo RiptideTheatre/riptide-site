@@ -1,0 +1,42 @@
+<footer class="foot" id="newsletter">
+  <div class="wrap">
+    <div class="foot__cols">
+      <div>
+        <h2>Hear about the next riptide first</h2>
+        <p style="color: var(--muted); font-size: 15px; margin: 10px 0 0;">New experiences usually sell out before we advertise them. The list hears first.</p>
+        <form class="signup" {% if site.newsletterAction %}action="{{ site.newsletterAction }}" method="post"{% endif %}>
+          <div class="field">
+            <label for="foot-email">Email address</label>
+            <input id="foot-email" type="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <button class="btn btn--primary" type="submit">Sign up</button>
+        </form>
+      </div>
+
+      <div class="foot__list">
+        <span class="foot__label">Explore</span>
+        <a href="/whats-on/">What's on</a>
+        <a href="/archive/">Our work</a>
+        <a href="/team/">Team</a>
+      </div>
+
+      <div class="foot__list">
+        <span class="foot__label">More</span>
+        <a href="/contact/">Get in touch</a>
+        <a href="/work-with-us/">Services</a>
+        <a href="/contact/">Vacancies</a>
+        <a href="/privacy/">Privacy policy</a>
+      </div>
+
+      <div class="foot__list">
+        <span class="foot__label">Follow</span>
+        {% for item in site.social %}<a href="{{ item.url }}">{{ item.name }}</a>{% endfor %}
+      </div>
+    </div>
+
+    <p class="smallprint">
+      {{ site.name }} is a company registered in England and Wales, number {{ site.companyNumber }}.
+      Registered office: {{ site.registeredOffice }} (post only — not a public venue).
+    </p>
+  </div>
+</footer>

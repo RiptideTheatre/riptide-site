@@ -1,0 +1,53 @@
+---
+layout: base.njk
+title: Team
+permalink: /team/
+description: The people who make Riptide — core team, associate artists and the companies and venues we have worked with.
+---
+
+<section class="band band--flush band--waves">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">Team</h1>
+    <p class="lede">The people who make the work.</p>
+  </div>
+</section>
+
+<section class="band band--flush" style="padding-top: 8px;">
+  <div class="wrap">
+    <div class="people">
+      {% for person in team.members %}
+      <div class="person">
+        <img src="{{ person.photo }}" alt="{{ person.name }}" width="116" height="116" loading="lazy">
+        <h3>{{ person.name }}</h3>
+        <p class="person__role">{{ person.role }}</p>
+        <p>{{ person.bio }}</p>
+        {% if person.more and person.more.length %}
+        <details class="person__more">
+          <summary>Read more</summary>
+          {% for para in person.more %}<p>{{ para }}</p>{% endfor %}
+          {% if person.link %}<p><a href="{{ person.link }}" rel="noopener">More information</a></p>{% endif %}
+        </details>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band band--tint">
+  <div class="wrap">
+    <p class="eyebrow">Who we have worked with</p>
+    <p style="color: var(--muted); max-width: 60ch;">[LIST THE VENUES, FESTIVALS AND COMPANIES — Royal Exchange Theatre, East Street Arts and the rest. Logos work well here, or a plain list if you would rather.]</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap split">
+    <div>
+      <h2 class="display" style="font-size: clamp(26px, 3vw, 36px); margin: 0;">Work with us</h2>
+      <p style="color: var(--muted); margin: 12px 0 0;">We take on associate artists, and we are always interested in hearing from people who make work that does not sit still.</p>
+    </div>
+    <div><a class="btn btn--outline" href="/contact/">Get in touch</a></div>
+  </div>
+</section>

@@ -1,0 +1,405 @@
+{
+  "formId": "1FAIpQLSfH4EdpdgDljNLEslEudCCm_pWNePp63l7pA0moXcT6ncG41w",
+  "title": "Project Intimacy Questionnaire",
+  "pages": [
+    {
+      "title": "Housekeeping",
+      "help": "Information we need to make this happen.",
+      "groups": [
+        {
+          "questions": [
+            {
+              "entry": "emailAddress",
+              "label": "Email",
+              "type": "email",
+              "required": true
+            },
+            {
+              "entry": "450404477",
+              "label": "When is your start date?",
+              "type": "radio",
+              "required": true,
+              "dynamic": "runs",
+              "sendAsOther": true
+            },
+            {
+              "entry": "1524830953",
+              "label": "Full Name",
+              "type": "text",
+              "required": true
+            },
+            {
+              "entry": "436501717",
+              "label": "Your mobile phone number (if outside the UK please include your International dialling code)",
+              "type": "tel",
+              "required": true
+            },
+            {
+              "entry": "691829211",
+              "label": "Your Gender",
+              "type": "radio",
+              "required": true,
+              "options": [
+                "Female",
+                "Male",
+                "Non-Binary",
+                "Prefer not to say"
+              ],
+              "other": true
+            },
+            {
+              "entry": "1495981808",
+              "label": "Preferred gender of your PIP (Project Intimacy Partner) *We cannot guarantee this choice.",
+              "type": "radio",
+              "required": true,
+              "options": [
+                "Female",
+                "Male",
+                "Non-Binary",
+                "It doesn't matter to me"
+              ],
+              "other": true
+            },
+            {
+              "entry": "685003464",
+              "label": "How old are you?",
+              "type": "radio",
+              "required": true,
+              "options": [
+                "18-25",
+                "26-35",
+                "36-45",
+                "46-55",
+                "56-65",
+                "65+"
+              ],
+              "sendMap": {
+                "46-55": "45-55",
+                "56-65": "55-65"
+              }
+            },
+            {
+              "entry": "858884645",
+              "label": "What time would you prefer for you to interact during this experience? (You may select more than one answer)",
+              "type": "checkbox",
+              "required": false,
+              "options": [
+                "Afternoons - 1PM - 4PM (UK time)",
+                "Evenings - 5PM - 9PM (UK time)"
+              ]
+            },
+            {
+              "entry": "19715619",
+              "label": "Would you like to be added to Riptide's mailing list? (We don't email regularly - but this is the best way to know about our new projects!)",
+              "type": "radio",
+              "required": true,
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "entry": "345354393",
+              "label": "Do you know anyone else doing this month's project? (So we don't pair you with someone you know!)",
+              "type": "text",
+              "required": true
+            },
+            {
+              "entry": "1081406015",
+              "label": "Why did you sign up for this experience? What did you hope to get out of it?",
+              "type": "paragraph",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Questionnaire",
+      "help": "These are the answers we will use to pair you with your PIP (Project Intimacy Partner). Please answer as honestly as possible.",
+      "groups": [
+        {
+          "title": "Multiple choice",
+          "help": "Which do you prefer? (10 Questions)",
+          "style": "versus",
+          "questions": [
+            {
+              "entry": "1549344077",
+              "label": "Question 1",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Cats",
+                "Dogs",
+                "Neither",
+                "Both"
+              ]
+            },
+            {
+              "entry": "1892635198",
+              "label": "Question 2",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Tea",
+                "Coffee",
+                "Neither"
+              ]
+            },
+            {
+              "entry": "1592578064",
+              "label": "Question 3",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "iOS",
+                "PC",
+                "Neither"
+              ]
+            },
+            {
+              "entry": "1595898532",
+              "label": "Question 4",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Darts",
+                "Pool",
+                "Neither"
+              ]
+            },
+            {
+              "entry": "905376450",
+              "label": "Question 5",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Formal",
+                "Casual"
+              ]
+            },
+            {
+              "entry": "1904888799",
+              "label": "Question 6",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Harry Potter",
+                "Lord of the Rings",
+                "Neither"
+              ]
+            },
+            {
+              "entry": "803251139",
+              "label": "Question 7",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Red",
+                "Blue"
+              ]
+            },
+            {
+              "entry": "1110942207",
+              "label": "Question 8",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Early Riser",
+                "Night Owl"
+              ]
+            },
+            {
+              "entry": "629761334",
+              "label": "Question 9",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Summer",
+                "Winter"
+              ]
+            },
+            {
+              "entry": "557822871",
+              "label": "Question 10",
+              "type": "radio",
+              "required": false,
+              "options": [
+                "Money",
+                "Free time"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Section 2",
+          "help": "Please answer these questions as honestly as possible. (12 Questions)",
+          "questions": [
+            {
+              "entry": "1286597840",
+              "label": "How would your friends describe you?",
+              "type": "text",
+              "required": false
+            },
+            {
+              "entry": "295830555",
+              "label": "What does friendship mean to you?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "1334352047",
+              "label": "What qualities do you most admire in others?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "206313488",
+              "label": "What are three key interests/hobbies that you have? (Be as specific as you can please!)",
+              "type": "paragraph",
+              "required": true,
+              "help": "i.e. not just the genre of music but a specific favourite band, not just 'sports' but say if this is playing, watching, supporting a team etc.\nWe read these in detail and research answers so please be specific and descriptive."
+            },
+            {
+              "entry": "163478071",
+              "label": "What would constitute a “perfect” day for you?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "1583675146",
+              "label": "If you could wake up tomorrow having gained any one quality or ability, what would it be?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "286210499",
+              "label": "What is the greatest accomplishment of your life?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "1118536815",
+              "label": "What do you value most in a friendship?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "446896658",
+              "label": "Do you think you are a good friend? Please answer with a 'Yes' or a 'No' and then give reasons why.",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "677848897",
+              "label": "What is a common misconception people have about you?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "105525700",
+              "label": "In your own words, how would you describe your political views?",
+              "type": "paragraph",
+              "required": false,
+              "help": "If possible without using language like right, centre or left - or naming any political parties."
+            },
+            {
+              "entry": "867564653",
+              "label": "How moral are you? On a scale from 1-10 (1 being extremely immoral, and 10 being extremely moral)",
+              "type": "scale",
+              "required": false,
+              "options": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Section 3",
+          "help": "Take your time to answer these. (5 Questions)",
+          "questions": [
+            {
+              "entry": "2013860864",
+              "label": "How close are you to your family? How does this compare to other people you know?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "2025213113",
+              "label": "How would you describe your relationship with your mother?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "1836403722",
+              "label": "If you could have a gigantic billboard anywhere with anything on it — metaphorically speaking, getting a message out to millions or billions — what would it say and why? It could be a few words or a paragraph. (If helpful, it can be someone else’s quote: Are there any quotes you think of often or live your life by?)",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "2130206217",
+              "label": "In the last five years, what new belief, behaviour, or habit has most improved your life?",
+              "type": "paragraph",
+              "required": false
+            },
+            {
+              "entry": "203281341",
+              "label": "When you feel overwhelmed or unfocused, or have lost your focus temporarily, what do you do?",
+              "type": "paragraph",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Checklist to start your experience",
+      "help": "Please take one minute to make sure you have done this so we can start your experience.",
+      "groups": [
+        {
+          "style": "checklist",
+          "questions": [
+            {
+              "entry": "92272416",
+              "label": "I have anonymised myself on WhatsApp",
+              "type": "checkbox",
+              "required": true,
+              "options": [
+                "Yes"
+              ],
+              "help": "(We cannot pair you or start your experience without this)"
+            },
+            {
+              "entry": "1940846690",
+              "label": "I understand that this experience is a platonic experience.",
+              "type": "checkbox",
+              "required": true,
+              "options": [
+                "Yes"
+              ]
+            },
+            {
+              "entry": "282517856",
+              "label": "I have saved Riptide's number +44 7385597953 to my contacts.",
+              "type": "checkbox",
+              "required": true,
+              "options": [
+                "Yes"
+              ],
+              "help": "(We use WhatsApp Broadcasts which means you will not receive the prompts if you do not save the number)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

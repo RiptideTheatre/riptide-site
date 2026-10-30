@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reset — a 21-day creative retreat — {{ site.name }}</title>
+<meta name="description" content="{{ description }}">
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="Reset — a 21-day creative retreat from Riptide">
+<meta property="og:description" content="{{ description }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap">
+<style>
+/* Reset: the same retreat world as the members' pages — still water, bronze, quiet type */
+:root{
+  --bg:#F1F2EF; --surface:#FAFAF8; --ink:#1E2431; --muted:#5D6573; --line:#D6D9D5;
+  --lake:#4E6178; --dusk:#9A7344; --note:#E4E8EC; --alert:#B4553F;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#12161D; --surface:#181D26; --ink:#E7E8E4; --muted:#9AA1AC; --line:#2B323D;
+  --lake:#A3B5CC; --dusk:#D2AC80; --note:#1E2531; --alert:#E58A72; color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:300;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:var(--dusk)}
+strong{font-weight:600}
+:focus-visible{outline:2px solid var(--dusk);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;background:var(--surface);padding:10px 16px;z-index:9}
+
+/* water */
+.water{position:relative;overflow:hidden;color:#F4F1EA;background:linear-gradient(180deg,#0A141D 0%,#10222F 50%,#173244 100%)}
+.water canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.water .wrap{position:relative}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px}
+.topbar a{color:rgba(244,241,234,.75);text-decoration:none;font-size:14px;letter-spacing:.08em}
+.topbar a:hover{color:#F4F1EA}
+.topbar .rip{display:block;line-height:0}
+.topbar .rip img{height:clamp(32px,3.6vw,42px);width:auto;display:block}
+.topbar__links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+.topbar .topbar__book{color:#F4F1EA;border:1px solid rgba(244,241,234,.5);border-radius:999px;padding:8px 16px}
+.topbar .topbar__book:hover{border-color:#F4F1EA;background:rgba(244,241,234,.08)}
+@media (max-width:520px){.topbar a:not(.topbar__book):not(.rip){display:none}}
+.book-cta{margin-top:44px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.book-cta small{color:var(--muted);font-size:14px}
+.book-float{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:20;background:var(--ink);color:var(--bg);text-decoration:none;border-radius:999px;padding:14px 24px;font-size:15px;letter-spacing:.02em;box-shadow:0 10px 30px rgba(0,0,0,.22);opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .4s ease,transform .4s ease}
+.book-float.is-on{opacity:1;transform:none;pointer-events:auto}
+.book-float:hover{opacity:.92}
+@media (prefers-reduced-motion:reduce){.book-float{transition:none}}
+.hero{padding-block:clamp(64px,12vw,150px) clamp(56px,9vw,110px)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(64px,13vw,150px);letter-spacing:.18em;line-height:.9;margin:0}
+.hero .sub{font-family:var(--body);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:#C9A672;margin:22px 0 0}
+.hero .line{font-family:var(--body);font-weight:400;font-size:clamp(20px,2.4vw,26px);line-height:1.5;letter-spacing:.005em;color:#F4F1EA;max-width:30ch;margin:34px 0 0;text-wrap:balance;text-shadow:0 1px 12px rgba(10,20,29,.6)}
+.hero .actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:40px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 28px;border-radius:999px;font:500 16px/1 var(--body);text-decoration:none;cursor:pointer;border:1px solid transparent}
+.btn--light{background:#F4F1EA;color:#10222F}
+.btn--light:hover{background:#fff}
+.btn--line{border-color:rgba(244,241,234,.45);color:#F4F1EA;background:transparent}
+.btn--line:hover{border-color:#F4F1EA}
+.btn--ink{background:var(--ink);color:var(--bg)}
+.btn--ink:hover{opacity:.9}
+
+/* sections */
+section.band{padding-block:clamp(64px,9vw,120px);border-bottom:1px solid var(--line)}
+.eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--dusk);font-weight:500;margin:0 0 18px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(34px,4.6vw,54px);line-height:1.1;margin:0 0 24px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.25;margin:0 0 8px}
+.lede{font-family:var(--display);font-size:clamp(26px,3.4vw,40px);line-height:1.3;margin:0;max-width:26ch;text-wrap:balance}
+.prose{max-width:62ch}
+.prose p{margin:0 0 1.1em}
+.intro{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:start}
+
+/* growth strip */
+.growth{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:56px;color:var(--dusk)}
+.growth figure{margin:0;text-align:center}
+.tree{width:100%;max-width:180px;height:auto;aspect-ratio:160/200}
+.growth figcaption{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.ink path,.ink circle,.ink ellipse{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.ink .dot{fill:currentColor;stroke:none}
+.ink .soft{opacity:.45}
+
+/* the 21 days */
+.days{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 40px;counter-reset:d}
+.days li{display:flex;gap:18px;align-items:baseline;padding:14px 0;border-top:1px solid var(--line);min-width:0}
+.days .n{font-family:var(--display);color:var(--dusk);font-size:18px;min-width:2ch;font-variant-numeric:lining-nums tabular-nums}
+.days .t{font-size:17px}
+
+/* a day */
+.day3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:40px}
+.day3 > div{border-top:1px solid var(--dusk);padding-top:20px}
+.day3 p{color:var(--muted);margin:0;font-size:16px}
+
+/* practical */
+.practical{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px)}
+dl.facts{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:14px 28px;margin:0}
+.facts dt{color:var(--muted);font-size:15px}
+.facts dd{margin:0;font-size:17px}
+.needs{margin:0;padding-left:1.1em}.needs li{margin-bottom:.5em}
+
+/* booking */
+.book{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(28px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:end}
+.price{font-family:var(--display);font-size:64px;line-height:1;margin:0}
+.price span{font-family:var(--body);font-size:15px;color:var(--muted);margin-left:8px}
+form.bookform{display:flex;flex-direction:column;gap:16px}
+.pay{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,3.4vw,40px)}
+.pay__head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.pay__head .eyebrow{margin-bottom:6px}
+.pay__what{font-family:var(--display);font-size:clamp(22px,2.6vw,30px);line-height:1.2;margin:0}
+.pay__change{font:inherit;font-size:15px;background:none;border:0;border-bottom:1px solid var(--dusk);color:var(--dusk);padding:2px 0;cursor:pointer}
+.pay__form{min-height:420px}
+.pay__loading{color:var(--muted);margin:0;padding:40px 0;text-align:center}
+.pay__note{margin-top:18px;display:flex;align-items:center;gap:8px}
+.pay__preview{border:1px dashed var(--line);border-radius:14px;padding:48px 24px;text-align:center;color:var(--muted)}
+label{font-size:14px;color:var(--muted)}
+select,input[type=email]{font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 14px;width:100%;min-height:50px}
+.fine{font-size:14px;color:var(--muted);margin:0}
+.msg{border-radius:14px;padding:14px 18px;font-size:16px;margin:0 0 24px;background:var(--note)}
+.msg.err{border:1px solid var(--alert);color:var(--alert);background:transparent}
+
+.signin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start}
+form.signform{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+form.signform > div{flex:1 1 260px;display:flex;flex-direction:column;gap:6px}
+
+/* faq */
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 0;font-family:var(--display);font-size:22px;display:flex;justify-content:space-between;gap:20px}
+.faq summary::after{content:"+";font-family:var(--body);color:var(--muted)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:0 0 20px;max-width:62ch;color:var(--muted)}
+
+footer{padding-block:48px 64px;font-size:14px;color:var(--muted)}
+footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+
+@media (max-width:860px){
+  .intro,.practical,.book,.signin{grid-template-columns:1fr}
+  .days{grid-template-columns:1fr 1fr}
+  .day3{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  body{font-size:17px}
+  .days{grid-template-columns:1fr}
+  .growth{gap:8px}
+  .topbar .back{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="water">
+  <canvas id="water" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="rip" href="/" aria-label="Riptide, home"><img src="/assets/img/riptide-logo.png" alt="Riptide" width="130" height="40"></a>
+      <span class="topbar__links"><a href="#signin">Already booked? Sign in</a><a class="topbar__book" href="#book">Book — {{ price }}</a></span>
+    </div>
+    <div class="hero">
+      <h1>RESET</h1>
+      <p class="sub">A Regenerative Retreat</p>
+      <p class="line">{{ tagline }} {{ subtitle }}</p>
+      <div class="actions">
+        <a class="btn btn--light" href="#book">Book your place — {{ price }}</a>
+        <a class="btn btn--line" href="#days">See the 21 days</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="band">
+  <div class="wrap intro">
+    <div>
+      <p class="eyebrow">The retreat</p>
+      <p class="lede">“This is a chance to replenish, rejuvenate, restore… release.”</p>
+    </div>
+    <div class="prose">
+      <p>Reset is 21 days of small creative practice, done wherever you are. Each day opens a door into your own internal landscape: a walk with no destination, a cup of tea taken slowly, a letter to yourself a year from now, a seed planted on the first morning.</p>
+      <p>Across the 21 days, we share tools, techniques and gifts with you: tiny works of art, music, poetry and reflection, to help you pour into your own reserves, refuel and revitalise.</p>
+      <p>By Day 21 you'll have a journal with something on every page, and the habit of making again.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="growth" aria-label="The seed you plant on Day 1, the sapling by Day 10, the tree under the stars on Day 21">
+      <figure>{{ reset.trees["1"] | safe }}<figcaption>Day 1</figcaption></figure>
+      <figure>{{ reset.trees["10"] | safe }}<figcaption>Day 10</figcaption></figure>
+      <figure>{{ reset.trees["21"] | safe }}<figcaption>Day 21</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="days">
+  <div class="wrap">
+    <p class="eyebrow">One door a day</p>
+    <h2>The 21 days</h2>
+    <ol class="days">
+      {% for t in reset.titles %}<li><span class="n">{{ loop.index }}</span><span class="t">{{ t }}</span></li>{% endfor %}
+    </ol>
+    <div class="book-cta"><a class="btn btn--ink" href="#book">Book your place — {{ price }}</a></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">What a day holds</p>
+    <h2>Twenty minutes, or as long as you want</h2>
+    <p class="prose" style="margin:0;color:var(--muted)">Reset is a holistic approach to wellness and creative recovery. Each day brings together three things.</p>
+    <div class="day3">
+      <div><h3>A contemplation</h3><p>Each day opens with a line to carry with you, from inspirational authors and thinkers such as Thich Nhat Hanh, Rebecca Solnit and Julia Cameron.</p></div>
+      <div><h3>A practice</h3><p>A guided audio, a short film or a written exercise, curated by life coaches, wellness experts and immersive theatre makers. Some days you sit, some days you walk, some days you write.</p></div>
+      <div><h3>An accompaniment</h3><p>A piece of music chosen specifically for the day, with a note on why. Listen to it as the day closes.</p></div>
+    </div>
+    <div class="book-cta"><a class="btn btn--ink" href="#book">Book your place — {{ price }}</a></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap practical">
+    <div>
+      <p class="eyebrow">The practical bit</p>
+      <dl class="facts">
+        <dt>Price</dt><dd>{{ price }}</dd>
+        <dt>Starts</dt><dd>On the 1st of each month. Book any time; everyone on a run begins together.</dd>
+        <dt>Length</dt><dd>21 days. Each day opens on its own date, or open them all at once if you're in a flow.</dd>
+        <dt>Access</dt><dd>Every day stays open to you for a year from your start date.</dd>
+        <dt>Where</dt><dd>At home, outdoors, wherever you are. On your phone or computer.</dd>
+        <dt>Live element</dt><dd>None. There are no sessions to attend, so it fits around your life.</dd>
+      </dl>
+    </div>
+    <div>
+      <p class="eyebrow">What you'll need</p>
+      <ul class="needs">
+        <li>A notebook, to become your RESET journal</li>
+        <li>A packet of seeds, for the first morning</li>
+        <li>Headphones for the audio guides</li>
+        <li>Twenty minutes of your day</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="book">
+  <div class="wrap">
+    <div id="bookMsg"></div>
+    <div class="book">
+      <div>
+        <p class="eyebrow">Book your place</p>
+        <p class="price">{{ price }}<span>one payment</span></p>
+        <p class="fine" style="margin-top:18px">Pay securely by card, Apple Pay or Google Pay. You'll be signed in straight away and we'll email you everything you need.</p>
+      </div>
+      <form class="bookform" method="post" action="/api/reset/checkout">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label for="run">Choose your start date</label>
+          <select id="run" name="run" required></select>
+        </div>
+        <button class="btn btn--ink" type="submit">Continue to payment</button>
+      </form>
+    </div>
+    <div class="pay" id="pay" hidden>
+      <div class="pay__head">
+        <div>
+          <p class="eyebrow">Your booking</p>
+          <p class="pay__what">Reset · <span id="payRun"></span> · {{ price }}</p>
+        </div>
+        <button class="pay__change" type="button" id="payChange">Change date</button>
+      </div>
+      <div class="pay__form" id="checkout" aria-live="polite"><p class="pay__loading">Opening secure payment…</p></div>
+      <p class="fine pay__note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Payment is handled securely by Stripe. Your card details never touch our site.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="signin">
+  <div class="wrap signin">
+    <div>
+      <p class="eyebrow">Already booked</p>
+      <h2 style="margin-bottom:12px">Sign in to your Reset</h2>
+      <p class="fine">Enter the email address you paid with and we'll send you a sign-in link.</p>
+    </div>
+    <div>
+      <div id="signMsg"></div>
+      <form class="signform" method="post" action="/api/reset/signin">
+        <div><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com"></div>
+        <button class="btn btn--ink" type="submit">Send my link</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap faq">
+    <p class="eyebrow">Questions people ask</p>
+    <details><summary>What happens after I book?</summary><p>You’ll get an email straight away with everything you need. Day 1 opens on the 1st of your start month, and before then we’ll suggest a few things to have ready: a notebook, a packet of seeds, and twenty minutes of your day.</p></details>
+    <details><summary>How long does each day take?</summary><p>About twenty minutes, or as long as you want. The audio guides run from around six to twenty minutes, and some days invite you to take longer if you can.</p></details>
+    <details><summary>What if I fall behind?</summary><p>Nothing is lost. Every day stays open for a year from your start date, so you can come back to a meditation or a track whenever you like.</p></details>
+    <details><summary>Can I go ahead?</summary><p>Yes. Each day opens on its own date, but there's an "Open all days" button if you'd rather move at your own pace.</p></details>
+    <details><summary>Do I need any experience?</summary><p>None. Reset is for anyone who used to make things and stopped, and for anyone who would like to start.</p></details>
+    <details><summary>Can I use it on my phone?</summary><p>Yes. Reset works on a phone, tablet or computer. To open it on a new device, sign in with the email address you booked with and we’ll send you a link.</p></details>
+    <details><summary>Is there anything live?</summary><p>No. There are no sessions to attend and nothing happens at a set time, so Reset fits around your life.</p></details>
+    <details><summary>Is Reset a form of therapy?</summary><p>No. Reset is a creative and reflective practice. It isn’t a substitute for professional support. If you’re struggling with your mental health, please speak to your GP or a qualified professional.</p></details>
+    <details><summary>Can I buy it as a gift?</summary><p>[GIFT ANSWER — e.g. email info@theriptide.co.uk and we'll set up a gift place with a start date of your choice.]</p></details>
+    <details><summary>Can I get a refund?</summary><p>[YOUR REFUND POLICY]</p></details>
+  </div>
+</section>
+
+<a class="book-float" href="#book" aria-hidden="true" tabindex="-1">Book your place — {{ price }}</a>
+<script>
+(function(){
+  var b=document.querySelector('.book-float'),hero=document.querySelector('header.water'),book=document.getElementById('book'),signin=document.getElementById('signin');
+  if(!b||!('IntersectionObserver' in window))return;
+  var past=false,near=false;
+  function set(){var on=past&&!near;b.classList.toggle('is-on',on);b.setAttribute('aria-hidden',on?'false':'true');b.tabIndex=on?0:-1}
+  new IntersectionObserver(function(e){past=!e[0].isIntersecting;set()}).observe(hero);
+  var seen=new Set();
+  var io=new IntersectionObserver(function(es){es.forEach(function(x){x.isIntersecting?seen.add(x.target):seen.delete(x.target)});near=seen.size>0;set()},{rootMargin:'0px 0px -20% 0px'});
+  io.observe(book); if(signin)io.observe(signin);
+})();
+</script>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <span>RESET is made by <a href="/">Riptide</a>. Questions: <a href="mailto:{{ site.email }}">{{ site.email }}</a></span>
+      <span><a href="/privacy/">Privacy policy</a></span>
+    </div>
+    <p style="margin:18px 0 0">{{ site.name }} is a company registered in England and Wales, number {{ site.companyNumber }}. Registered office: {{ site.registeredOffice }} (post only — not a public venue).</p>
+  </div>
+</footer>
+
+<script>
+/* Start dates: from the server (always correct), with a local fallback. */
+(function(){
+  var sel=document.getElementById("run");
+  function fill(runs){ sel.innerHTML=runs.map(function(r){return '<option value="'+r.value+'">'+r.label+'</option>'}).join(""); }
+  function local(){
+    var first=new Date(Date.UTC(2027,0,1)), now=new Date(), d=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()+1,1)); if(d<first)d=first;
+    var out=[]; for(var i=0;i<6;i++){var x=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+i,1));
+      out.push({value:x.toISOString().slice(0,10),label:x.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"})});}
+    return out;
+  }
+  fill(local());
+  fetch("/api/reset/runs").then(function(r){return r.ok?r.json():null}).then(function(j){ if(j&&j.runs&&j.runs.length) fill(j.runs); }).catch(function(){});
+})();
+
+/* Booking: Stripe's secure form opens here, on the Reset page, instead of a separate site. */
+(function(){
+  var form=document.querySelector("form.bookform"), pay=document.getElementById("pay"), box=document.getElementById("checkout"),
+      msg=document.getElementById("bookMsg"), card=document.querySelector("#book .book");
+  if(!form||!pay||!window.fetch) return;
+  var checkout=null;
+  function say(text){ msg.innerHTML='<p class="msg err" role="status"></p>'; msg.firstChild.textContent=text; }
+  function loadStripe(){
+    if(window.Stripe) return Promise.resolve(window.Stripe);
+    return new Promise(function(ok,no){
+      var s=document.createElement("script"); s.src="https://js.stripe.com/v3/"; s.async=true;
+      s.onload=function(){ window.Stripe?ok(window.Stripe):no(new Error("stripe")); }; s.onerror=no;
+      document.head.appendChild(s);
+    });
+  }
+  function close(){
+    if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; }
+    box.innerHTML='<p class="pay__loading">Opening secure payment…</p>';
+    pay.hidden=true; card.hidden=false; form.querySelector("button").disabled=false;
+    card.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+  document.getElementById("payChange").addEventListener("click",close);
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var run=form.run.value; if(!run) return;
+    var btn=form.querySelector("button"); btn.disabled=true; msg.innerHTML="";
+    document.getElementById("payRun").textContent=form.run.options[form.run.selectedIndex].text;
+    card.hidden=true; pay.hidden=false;
+    pay.scrollIntoView({behavior:"smooth",block:"start"});
+    fetch("/api/reset/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({run:run})})
+      .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw new Error(j.error||"checkout"); return j; }); })
+      .then(function(j){
+        if(j.preview){ box.innerHTML='<div class="pay__preview">Preview only: Stripe\'s secure payment form appears here on the live site.</div>'; return; }
+        return loadStripe().then(function(S){
+          return S(j.publishableKey).initEmbeddedCheckout({fetchClientSecret:function(){ return Promise.resolve(j.clientSecret); }});
+        }).then(function(c){ checkout=c; box.innerHTML=""; c.mount(box); });
+      })
+      .catch(function(err){
+        close();
+        var m={run:"That start date isn't available any more. Please choose another.",setup:"Booking isn't open quite yet. Please try again shortly."};
+        say(m[err&&err.message]||"We couldn't open the secure payment form. Please try again.");
+      });
+  });
+})();
+
+/* Messages after a redirect back here. */
+(function(){
+  var q=new URLSearchParams(location.search), b=document.getElementById("bookMsg"), s=document.getElementById("signMsg");
+  function say(el,text,err){ el.innerHTML='<p class="msg'+(err?' err':'')+'" role="status"></p>'; el.firstChild.textContent=text; }
+  var errs={run:"That start date isn't available any more. Please choose another.",setup:"Booking isn't open quite yet. Please try again shortly.",checkout:"We couldn't open the payment page. Please try again.",unpaid:"Your payment hasn't gone through yet. If you were charged, please email us.",welcome:"Your payment went through, but we couldn't sign you in. Enter your email below and we'll send you a link.",link:"That sign-in link has expired or has already been used. Enter your email to get a new one."};
+  var e=q.get("error");
+  if(e==="welcome"||e==="link") say(s,errs[e],true); else if(e&&errs[e]) say(b,errs[e],true);
+  if(q.get("cancelled")) say(b,"No payment was taken. Your place is still here when you're ready.");
+  if(q.get("sent")) say(s,"If that address has a booking, a sign-in link is on its way. It works once, for the next 30 minutes.");
+  if(q.get("members")) say(s,"That part of Reset is for people on a run. Book your place above, or sign in with the email you paid with.");
+  if(q.get("signedout")) say(s,"You're signed out.");
+})();
+
+/* Still water with light drifting on it. */
+(function(){
+  var cv=document.getElementById("water"); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext("2d"),W=0,H=0,ripples=[],last=0,raf=0;
+  var still=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function size(){var r=cv.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);}
+  function frame(ts){
+    var t=ts/1000; ctx.clearRect(0,0,W,H);
+    var rows=34, gl=W*0.74;
+    for(var i=0;i<rows;i++){
+      var p=i/(rows-1), y0=H*(0.18+0.82*Math.pow(p,1.6)), a=0.6+p*2.6, k=0.012-p*0.006, sp=0.25+p*0.35;
+      ctx.beginPath();
+      for(var x=0;x<=W;x+=6){var y=y0+Math.sin(x*k+t*sp+i*1.7)*a+Math.sin(x*k*2.3-t*sp*0.7+i)*a*0.4; x?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+      var g=ctx.createLinearGradient(0,0,W,0), b=0.05+p*0.10, hi=b+0.22*(1-Math.abs(p-0.55));
+      g.addColorStop(0,"rgba(214,196,160,"+b*0.5+")");g.addColorStop(Math.max(0,(gl-160)/W),"rgba(214,196,160,"+b+")");
+      g.addColorStop(gl/W,"rgba(236,222,192,"+hi+")");g.addColorStop(Math.min(1,(gl+160)/W),"rgba(214,196,160,"+b+")");g.addColorStop(1,"rgba(214,196,160,"+b*0.5+")");
+      ctx.strokeStyle=g; ctx.lineWidth=0.8+p*0.6; ctx.stroke();
+    }
+    if(!still){
+      if(ts-last>5200){last=ts;ripples.push({x:W*(0.15+Math.random()*0.7),y:H*(0.6+Math.random()*0.3),b:ts});}
+      ripples=ripples.filter(function(r){return ts-r.b<6000});
+      ripples.forEach(function(r){var a=(ts-r.b)/6000;for(var j=0;j<3;j++){var q=a-j*0.08;if(q<=0)continue;var rr=12+q*170;
+        ctx.beginPath();ctx.ellipse(r.x,r.y,rr,rr*0.22,0,0,Math.PI*2);ctx.strokeStyle="rgba(236,222,192,"+(1-q)*0.32+")";ctx.lineWidth=1;ctx.stroke();}});
+    }
+  }
+  function loop(ts){frame(ts);raf=requestAnimationFrame(loop);}
+  size(); window.addEventListener("resize",function(){size();if(still)frame(4000);});
+  if(still){frame(4000);return;}
+  raf=requestAnimationFrame(loop);
+  document.addEventListener("visibilitychange",function(){cancelAnimationFrame(raf);if(!document.hidden)raf=requestAnimationFrame(loop);});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+# Sveltia CMS — the editing interface at /admin/
+# The site lives at github.com/RiptideTheatre/riptide-site
+backend:
+  name: github
+  repo: RiptideTheatre/riptide-site
+  branch: main
+
+media_folder: src/assets/img
+public_folder: /assets/img
+
+collections:
+  - name: shows
+    label: Shows and projects
+    label_singular: Show
+    folder: src/shows
+    create: true
+    slug: "{{slug}}"
+    preview_path: "{{slug}}"
+    summary: "{{title}} — {{status}}"
+    sortable_fields: [order, year, title]
+    fields:
+      - { name: title, label: Name, widget: string }
+      - name: status
+        label: Status
+        widget: select
+        default: coming-soon
+        options:
+          - { label: "On sale — shows a Book tickets button", value: on-sale }
+          - { label: "Coming soon — shows Join the waiting list", value: coming-soon }
+          - { label: "Anytime — always available", value: anytime }
+          - { label: "Available to tour", value: touring }
+          - { label: "Podcast", value: podcast }
+          - { label: "Past work — moves to the archive", value: past }
+      - { name: featured, label: Show on the homepage, widget: boolean, default: true }
+      - { name: hidden, label: "Hide from the site (page still works by direct link)", widget: boolean, default: false, required: false }
+      - { name: order, label: Order (1 leads the homepage), widget: number, default: 5, value_type: int }
+      - { name: tagline, label: One-line hook, widget: string, hint: "Short. This is the biggest text after the name." }
+      - { name: subtitle, label: Second line, widget: string, required: false }
+      - { name: summary, label: Summary for listings, widget: text }
+      - { name: cardMeta, label: Listing meta line, widget: string, hint: "e.g. Leeds · 50 mins · Free" }
+      - { name: description, label: Search-engine description, widget: text, required: false }
+      - name: ticketUrl
+        label: Ticket Tailor link
+        widget: string
+        required: false
+        hint: "Paste the Ticket Tailor event URL. Leave empty until the show is on sale — the button falls back to the waiting list."
+      - { name: ctaLabel, label: Button label override, widget: string, required: false }
+      - { name: ctaUrl, label: Button link override, widget: string, required: false }
+      - { name: price, label: Price, widget: string, required: false }
+      - { name: year, label: Year, widget: number, required: false, value_type: int }
+      - { name: heroVideo, label: "Hero video (mp4, 1920 wide, under 3 MB)", widget: file, required: false, hint: "Leave empty to fall back to the drawn currents." }
+      - { name: heroPoster, label: Hero video poster frame (jpg), widget: image, required: false }
+      - { name: heroImage, label: "Hero photograph (used if there is no video)", widget: image, required: false }
+      - { name: image, label: Landscape image (1200 × 675), widget: image, required: false }
+      - { name: portrait, label: Portrait image (880 × 1104), widget: image, required: false }
+      - { name: imageAlt, label: Image description for screen readers, widget: string, required: false }
+      - { name: format, label: "Format, for the archive (e.g. GPS journey for one)", widget: string, required: false }
+      - { name: place, label: "Place, for the archive (e.g. Studio 24, Leeds)", widget: string, required: false }
+      - name: runs
+        label: Run dates (Project Intimacy) — feeds the page and the questionnaire
+        widget: list
+        required: false
+        summary: "{{fields.start}} → {{fields.end}}"
+        fields:
+          - { name: start, label: First day, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+          - { name: end, label: Last day, widget: datetime, time_format: false, format: "YYYY-MM-DD" }
+      - name: facts
+        label: The practical bit
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: value, label: Value, widget: string }
+      - { name: needs, label: What you'll need, widget: list, required: false, field: { name: item, label: Item, widget: string } }
+      - name: steps
+        label: How it works
+        widget: list
+        required: false
+        fields:
+          - { name: title, label: Step, widget: string }
+          - { name: body, label: Detail, widget: text }
+      - name: care
+        label: Care and safety
+        widget: list
+        required: false
+        fields:
+          - { name: title, label: Heading, widget: string }
+          - { name: body, label: Detail, widget: text }
+      - name: faq
+        label: Questions people ask
+        widget: list
+        required: false
+        fields:
+          - { name: q, label: Question, widget: string }
+          - { name: a, label: Answer, widget: text }
+      - name: quotes
+        label: Audience quotes
+        widget: list
+        required: false
+        fields:
+          - { name: quote, label: Quote, widget: text }
+          - { name: source, label: Who said it, widget: string }
+      - name: credits
+        label: Credits (archive entries)
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: value, label: Value, widget: string }
+      - name: press
+        label: Press (archive entries)
+        widget: list
+        required: false
+        fields:
+          - { name: quote, label: Quote, widget: text }
+          - { name: source, label: Publication, widget: string }
+      - { name: closing, label: Closing line above the last button, widget: string, required: false }
+      - { name: body, label: Main description, widget: markdown }
+
+  - name: settings
+    label: Site settings
+    files:
+      - name: site
+        label: Company details, press quotes and socials
+        file: src/_data/site.json
+        fields:
+          - { name: name, label: Company name, widget: string }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: description, label: Default search-engine description, widget: text }
+          - { name: url, label: Site address, widget: string }
+          - { name: email, label: Contact email, widget: string }
+          - { name: companyNumber, label: Company number, widget: string }
+          - { name: registeredOffice, label: Registered office (legally required on the site), widget: string }
+          - { name: awards, label: Awards line, widget: string }
+          - { name: newsletterAction, label: Newsletter form action URL, widget: string, required: false, hint: "Paste the form endpoint from Mailchimp, Buttondown or whichever list you use." }
+          - { name: numbersIntro, label: Heading above the numbers, widget: string }
+          - name: numbers
+            label: Numbers band (homepage)
+            widget: list
+            fields:
+              - { name: value, label: The number, widget: string }
+              - { name: label, label: What it counts, widget: string }
+          - name: press
+            label: Press quotes
+            widget: list
+            fields:
+              - { name: quote, label: Quote, widget: text }
+              - { name: source, label: Publication, widget: string }
+          - name: social
+            label: Social links
+            widget: list
+            fields:
+              - { name: name, label: Label, widget: string }
+              - { name: url, label: Link, widget: string }
+
+      - name: team
+        label: Team
+        file: src/_data/team.json
+        fields:
+          - name: members
+            label: People
+            widget: list
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: role, label: Role, widget: string }
+              - { name: photo, label: Photo (square, 400 × 400), widget: image }
+              - { name: bio, label: Short bio, widget: text }

@@ -1,0 +1,11 @@
+---
+permalink: /project-intimacy/runs.json
+eleventyExcludeFromCollections: true
+---
+{%- set out = [] -%}
+{%- for show in collections.all -%}{%- if show.url == "/project-intimacy/" -%}
+{%- for r in show.data.runs | currentRuns -%}
+{%- set out = (out.push({ start: r.start | runIso, startLabel: r.start | runStartLabel, range: r | runRange }), out) -%}
+{%- endfor -%}
+{%- endif -%}{%- endfor -%}
+{{ { runs: out } | dump | safe }}

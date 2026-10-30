@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if title %}{{ title }} — {{ site.name }}{% else %}{{ site.name }} — {{ site.tagline }}{% endif %}</title>
+<meta name="description" content="{{ description or site.description }}">
+{% if noindex %}<meta name="robots" content="noindex">{% endif %}
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<meta property="og:site_name" content="{{ site.name }}">
+<meta property="og:title" content="{% if title %}{{ title }} — {{ site.name }}{% else %}{{ site.name }} — {{ site.tagline }}{% endif %}">
+<meta property="og:description" content="{{ description or site.description }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <a class="wordmark" href="/" aria-label="Riptide, home"><img src="/assets/img/riptide-logo.png" alt="Riptide" width="156" height="48"></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="sitenav">
+      <span class="bars" aria-hidden="true"><span></span><span></span></span> Menu
+    </button>
+    <nav class="nav" id="sitenav" aria-label="Main">
+      <a href="/whats-on/" {% if page.url == "/whats-on/" %}aria-current="page"{% endif %}>What's on</a>
+      <a href="/archive/" {% if page.url == "/archive/" %}aria-current="page"{% endif %}>Our work</a>
+      <a href="/about/" {% if page.url == "/about/" %}aria-current="page"{% endif %}>About</a>
+      <a href="/team/" {% if page.url == "/team/" %}aria-current="page"{% endif %}>Team</a>
+      <a href="/work-with-us/" {% if page.url == "/work-with-us/" %}aria-current="page"{% endif %}>Work with us</a>
+      <a href="/contact/" {% if page.url == "/contact/" %}aria-current="page"{% endif %}>Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{{ content | safe }}
+</main>
+
+{% include "footer.njk" %}
+
+<script>
+(function () {
+  var btn = document.querySelector('.nav-toggle');
+  var nav = document.getElementById('sitenav');
+  if (!btn || !nav) return;
+  var mq = window.matchMedia('(max-width: 860px)');
+  function sync() {
+    if (mq.matches) {
+      nav.hidden = btn.getAttribute('aria-expanded') !== 'true';
+    } else {
+      nav.hidden = false;
+    }
+  }
+  btn.addEventListener('click', function () {
+    btn.setAttribute('aria-expanded', btn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+    sync();
+  });
+  mq.addEventListener('change', sync);
+  sync();
+})();
+(function () {
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('video.hero__media').forEach(function (v) {
+    v.autoplay = false;
+    v.removeAttribute('autoplay');
+    v.pause();
+  });
+})();
+</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="rt-water" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.010 0.028" numOctaves="2" seed="7" result="n">
+      <animate attributeName="baseFrequency" dur="16s" values="0.010 0.028;0.014 0.034;0.010 0.028" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap id="rt-water-map" in="SourceGraphic" in2="n" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+<script>
+/* The hero portrait sits dissolved in the water and surfaces as the cursor approaches.
+   Touch screens: it surfaces by itself. Reduced motion: it is simply there. */
+(function () {
+  var box = document.querySelector('.hero__portrait');
+  if (!box) return;
+  var img = box.querySelector('img'), map = document.getElementById('rt-water-map');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  box.classList.add('is-water');
+  var s = 0, target = 0, tx = 0, ty = 0, rx = 0, ry = 0, raf = 0;
+  function apply() {
+    box.style.setProperty('--s', s.toFixed(3));
+    box.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+    box.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    if (map) map.setAttribute('scale', (26 * (1 - s)).toFixed(1));
+    box.classList.toggle('is-surfaced', s > 0.985);
+  }
+  function tick() {
+    s += (target - s) * 0.06; rx += (tx - rx) * 0.08; ry += (ty - ry) * 0.08;
+    apply();
+    raf = (Math.abs(target - s) > 0.002 || Math.abs(tx - rx) > 0.02 || Math.abs(ty - ry) > 0.02) ? requestAnimationFrame(tick) : 0;
+  }
+  function go() { if (!raf) raf = requestAnimationFrame(tick); }
+  if (reduce) { s = 1; apply(); return; }
+  if (!fine) { setTimeout(function () { target = 1; go(); }, 500); apply(); return; }
+  apply();
+  window.addEventListener('pointermove', function (e) {
+    var r = box.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var dx = e.clientX - cx, dy = e.clientY - cy;
+    var inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    var d = Math.hypot(dx, dy), reach = Math.max(r.width, r.height) * 1.1;
+    target = inside ? 1 : Math.max(0, Math.min(1, 1 - (d - r.width / 2) / reach));
+    tx = inside ? (dx / r.width) * 7 : 0; ty = inside ? -(dy / r.height) * 7 : 0;
+    go();
+  }, { passive: true });
+  document.addEventListener('pointerleave', function () { target = 0; tx = ty = 0; go(); });
+  box.closest('.hero') && box.closest('.hero').addEventListener('focusin', function () { target = 1; go(); });
+})();
+</script>
+</body>
+</html>

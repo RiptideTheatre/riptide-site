@@ -1,0 +1,123 @@
+---
+layout: base.njk
+permalink: /
+description: Riptide make immersive, interactive and digital experiences from Leeds. See what's on and book tickets.
+---
+
+{% set lead = collections.featured[0] %}
+
+<section class="hero">
+  {% set heroVideo = lead.data.heroVideo %}
+  {% set heroImage = lead.data.heroImage %}
+  {% set heroVideoWebm = lead.data.heroVideoWebm %}
+  {% set heroPoster = lead.data.heroPoster %}
+  {% include "hero-art.njk" %}
+  <div class="wrap hero__inner hero__inner--wide">
+    <div>
+      <span class="badge badge--{{ lead.data.status | statusTone }}">{{ lead.data.status | statusLabel }}</span>
+      <h1>{{ lead.data.title }}</h1>
+      <p class="hero__hook">{{ lead.data.tagline }}</p>
+      <p class="hero__meta">{{ lead.data.cardMeta }}</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="{% if lead.data.ticketUrl %}{{ lead.data.ticketUrl }}{% elif lead.data.ctaUrl and lead.data.ctaUrl[0] == '#' %}{{ lead.url }}{{ lead.data.ctaUrl }}{% else %}{{ lead.data.ctaUrl or '#newsletter' }}{% endif %}">{{ lead.data.ctaLabel or (lead.data.status | statusCta) }}</a>
+        <a class="btn btn--ghost" href="{{ lead.url }}">How it works</a>
+      </div>
+    </div>
+    <div class="hero__portrait hero__portrait--wide">
+      <img src="{{ lead.data.portrait or lead.data.image }}" alt="{{ lead.data.imageAlt or lead.data.title }}">
+    </div>
+  </div>
+</section>
+
+<section class="band band--tint band--flush">
+  <div class="wrap">
+    <p class="manifesto">We don't break the fourth wall — we demolish the other three too. Our work has run in nightclubs, on city streets, in hotel rooms, through your phone, to a rooftop of an unmarked building in Leeds.</p>
+  </div>
+</section>
+
+{% if site.showNumbers %}
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">{{ site.numbersIntro }}</p>
+    <dl class="numbers">
+      {% for item in site.numbers %}
+      <div>
+        <dt>{{ item.value }}</dt>
+        <dd>{{ item.label }}</dd>
+      </div>
+      {% endfor %}
+    </dl>
+  </div>
+</section>
+{% endif %}
+
+<section class="band">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Also running</h2>
+      <a href="/whats-on/">See everything &rarr;</a>
+    </div>
+    <div class="cards">
+      {% for show in collections.featured %}{% if show.url != lead.url %}
+      <article class="card">
+        <div class="card__media"><img src="{{ show.data.image }}" alt="{{ show.data.imageAlt or show.data.title }}" width="1200" height="675" loading="lazy"></div>
+        <div class="card__head">
+          <h3><a href="{{ show.url }}">{{ show.data.title }}</a></h3>
+          <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
+        </div>
+        <p>{{ show.data.summary }}</p>
+        <p class="card__meta">{{ show.data.cardMeta }}</p>
+      </article>
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band band--tint">
+  <div class="wrap split">
+    <div>
+      <h2 class="display" style="font-size: clamp(30px, 3.6vw, 44px); margin: 0;">Who we are</h2>
+      <p style="font-size: 18px; margin: 22px 0 0;">Riptide have been making immersive, interactive and digital experiences from Leeds since 2014. We put the audience at the heart of the work and build it with the technology they already carry.</p>
+      <p style="color: var(--muted); font-size: 16px; margin: 16px 0 0;">We are pioneers of care: ITC rates as standard, free mental health support for every artist and freelancer on an opt-out basis, and a trained mental health first aider on every project.</p>
+      <p style="margin-top: 30px; display: flex; gap: 16px; flex-wrap: wrap;">
+        <a class="btn btn--ghost" href="/team/">Meet the team</a>
+        <a class="btn btn--ghost" href="/about/">Our mission</a>
+      </p>
+    </div>
+    <div>
+      <div class="people people--compact">
+        {% for person in team.members %}
+        <div class="person">
+          <img src="{{ person.photo }}" alt="{{ person.name }}" width="116" height="116" loading="lazy">
+          <h3>{{ person.name }}</h3>
+          <p class="person__role">{{ person.role }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band press-band">
+  <img class="press-band__art" src="/assets/img/current-coral.svg" alt="" aria-hidden="true">
+  <div class="wrap press-band__inner">
+    <p class="eyebrow">What people say</p>
+    <div class="quotes">
+      {% for item in site.press %}
+      <blockquote>
+        <p>&ldquo;{{ item.quote }}&rdquo;</p>
+        <footer>{{ item.source }}</footer>
+      </blockquote>
+      {% endfor %}
+    </div>
+    <p class="ab-proof__award" style="margin: 48px 0 0;"><span aria-hidden="true">✦</span> {{ site.awards }}</p>
+  </div>
+</section>
+
+<section class="band band--tint">
+  <div class="wrap" style="max-width: 900px; margin-inline: auto;">
+    <h2 class="display" style="font-size: clamp(28px, 3.2vw, 40px); margin: 0;">Work with us</h2>
+    <p style="color: var(--muted); font-size: 17px; margin: 18px 0 0;">Commissions, R&amp;D and consultancy for venues, festivals, universities and brands. We build the experiences other people can't — and we have the digital infrastructure to run them at scale.</p>
+    <p style="margin-top: 28px;"><a class="btn btn--outline" href="/work-with-us/">See what we offer</a></p>
+  </div>
+</section>

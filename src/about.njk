@@ -1,0 +1,142 @@
+---
+layout: base.njk
+title: About
+permalink: /about/
+description: Riptide create immersive and interactive theatrical experiences which transport you to another world. Making work from Leeds since 2014.
+---
+{#
+  About is read by programmers, funders, commissioners, press and artists deciding
+  whether to trust Riptide. Order: conviction → the name → what we believe → proof → people.
+  Every sentence below is Riptide's own text; only the staging is new.
+#}
+
+<section class="ab-hero">
+  <div class="ab-hero__art" aria-hidden="true">
+    <video class="hero__media" autoplay muted loop playsinline preload="metadata" poster="/assets/video/waves-poster.jpg">
+      <source src="/assets/video/waves.mp4" type="video/mp4">
+    </video>
+    <div class="ab-hero__scrim"></div>
+  </div>
+  <div class="wrap ab-hero__inner">
+    <p class="eyebrow ab-eyebrow">About Riptide · Leeds · Since 2014</p>
+    <h1 class="ab-hero__title display reveal">We don't just break the fourth wall, we entirely demolish the other three walls too.</h1>
+    <a class="ab-hero__down" href="#intro" aria-label="Read on"><span></span></a>
+  </div>
+</section>
+
+<section class="band band--flush ab-intro" id="intro">
+  <div class="wrap ab-intro__grid">
+    <p class="ab-intro__lead display reveal">Riptide create unique immersive and interactive theatrical experiences which transport you to another world. Audiences are swept through the narratives, spaces and cities in which our performances occur.</p>
+    <div class="ab-intro__body reveal">
+      <p>Since 2014 we have been making work which places the audience at the heart of the experience, combining innovative storytelling with digital technologies. These experiences may be as varied as encounters in secret corners of a confetti-filled nightclub, an intimate, pervasive and personalised performance for one, or a guided journey through city spaces accompanied by smartphone and GPS technology.</p>
+      <p>Our work combines the artistry of immersive theatre, the thrill of being inside a real-life Black Mirror episode and the interactivity of your very own Truman Show. Our current series of work is called Lost Connections.</p>
+      <p>We don't just break the fourth wall, we entirely demolish the other three walls too. Discard all sense of where you think the ground should be. Give yourself up to the riptide, and see where it takes you. The riptide will leave you unmoored and irreversibly changed.</p>
+    </div>
+  </div>
+</section>
+
+<section class="ab-work" aria-label="Our work">
+  <div class="ab-work__rail">
+    {% set shown = 0 %}
+    {% for show in collections.current.concat(collections.past) %}
+      {% set railImg = show.data.aboutImage or show.data.portrait %}
+      {% if shown < 4 and show.data.aboutRail !== false and railImg and (".jpg" in railImg) %}
+        {% set shown = shown + 1 %}
+        <a class="ab-work__item reveal" href="{{ show.url }}">
+          <img src="{{ railImg }}" alt="{{ show.data.aboutAlt or show.data.imageAlt or show.data.title }}" loading="lazy">
+          <span>{{ show.data.title }}</span>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="ab-name">
+  <div class="ab-name__art" aria-hidden="true"></div>
+  <div class="wrap ab-name__inner">
+    <p class="eyebrow ab-eyebrow">Why Riptide?</p>
+    <p class="ab-name__big display reveal">Riptides are strong currents that pull you in new and unexpected directions. They are hidden and unpredictable, and they can emerge at random locations; it is only when you are immersed in a riptide that you know it is there.</p>
+    <p class="ab-name__small reveal">Many of our performances occur in public spaces, and passers-by may be oblivious to the fact you are caught in the riptide. In our experiences you will be pulled through hidden spaces, cities and fractured narratives, unable to see how far the riptide extends.</p>
+  </div>
+</section>
+
+<section class="band band--flush ab-values">
+  <div class="wrap">
+    <div class="ab-values__head">
+      <p class="eyebrow ab-eyebrow">What we stand for</p>
+    </div>
+    <ol class="ab-values__list">
+      <li class="reveal">
+        <span class="ab-values__n">01</span>
+        <h2 class="display">We place the audience at the very heart of everything we do and seek to empower them through the experiences we create.</h2>
+        <p>Our work blends moments of epic spectacle with intimate, personal and bespoke encounters.</p>
+      </li>
+      <li class="reveal">
+        <span class="ab-values__n">02</span>
+        <h2 class="display">We challenge the status quo.</h2>
+        <p>We transform, reinvent and reimagine theatre conventions — and that means everything from how we hire and work with artists to how we collaborate, how we sell tickets and the nature of our events.</p>
+      </li>
+      <li class="reveal">
+        <span class="ab-values__n">03</span>
+        <h2 class="display">We plan to be pioneers of care.</h2>
+        <p>This is a central value. It covers everything from paying ITC rates as standard to offering free mental health support to all of our artists and freelancers on an opt-out basis. There is also a trained mental health first aider on all of our projects.</p>
+      </li>
+      <li class="reveal">
+        <span class="ab-values__n">04</span>
+        <h2 class="display">We are a digital company.</h2>
+        <p>We use GPS-locative technology, apps, AR and VR, binaural 360 immersive sound and mobile technologies, and we are interested in how technology enhances the live experience.</p>
+      </li>
+      <li class="reveal">
+        <span class="ab-values__n">05</span>
+        <h2 class="display">We are proud to be from the North.</h2>
+        <p>We strive to represent the city of Leeds, the North and the world around us, and to celebrate its diversity.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="band ab-proof">
+  <div class="wrap">
+    <p class="ab-proof__award reveal"><span aria-hidden="true">✦</span> {{ site.awards }}</p>
+    <div class="quotes">
+      {% for item in site.press %}
+      <blockquote class="reveal">
+        <p>“{{ item.quote }}”</p>
+        <footer>{{ item.source }}</footer>
+      </blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band ab-people">
+  <div class="wrap ab-people__grid">
+    <div class="ab-people__faces">
+      {% for person in team.members %}
+      <img src="{{ person.photo }}" alt="{{ person.name }}" width="88" height="88" loading="lazy">
+      {% endfor %}
+    </div>
+    <div class="ab-people__cta">
+      <a class="btn btn--primary" href="/team/">Meet the team</a>
+      <a class="btn btn--ghost" href="/archive/">See our work</a>
+      <a class="btn btn--ghost" href="/contact/">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function (e) { e.classList.add('is-in'); });
+    return;
+  }
+  document.documentElement.classList.add('js-reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (e) { io.observe(e); });
+})();
+</script>

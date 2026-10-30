@@ -1,0 +1,30 @@
+---
+layout: base.njk
+title: Contact
+permalink: /contact/
+description: Get in touch with Riptide about tickets, access, commissions, press or working with us.
+---
+
+<section class="band band--flush band--waves">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">Contact</h1>
+    <p class="lede">We read everything and we reply.</p>
+    <div class="split" style="margin-top: 40px;">
+      <div class="panel">
+        <p class="eyebrow">Email us</p>
+        <dl class="facts" style="margin-top: 18px;">
+          <dt>Anything at all</dt><dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd>
+          <dt>Access needs</dt><dd>Say what would help and we will do it. Nothing is too small to ask.</dd>
+          <dt>Press</dt><dd>Images, quotes and interview requests — just ask.<br><a href="mailto:alex@theriptide.co.uk">alex@theriptide.co.uk</a></dd>
+          <dt>Commissions</dt><dd>Tell us the shape of the thing and the budget if you have one.</dd>
+        </dl>
+      </div>
+      <div>
+        <p class="eyebrow">Working with us</p>
+        <p style="color: var(--muted);">We are always open to new collaborations.</p>
+        <p style="color: var(--muted);">We are a Leeds company and we work across the North and beyond. Our registered office takes post but is not a public venue — please email before sending anything that needs signing for.</p>
+      </div>
+    </div>
+  </div>
+</section>

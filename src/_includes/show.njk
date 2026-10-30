@@ -1,0 +1,216 @@
+---
+layout: base.njk
+---
+
+<section class="hero">
+  {% include "hero-art.njk" %}
+  <div class="wrap hero__inner">
+    <div>
+      <span class="badge badge--{{ status | statusTone }}">{{ status | statusLabel }}</span>
+      <h1>{{ title }}</h1>
+      {% if tagline %}<p class="hero__hook display" style="font-style: italic; color: var(--teal-bright); max-width: 30ch;">{{ tagline }}</p>{% endif %}
+      {% if subtitle %}<p class="hero__meta">{{ subtitle }}</p>{% endif %}
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="{{ ticketUrl or ctaUrl or '/#newsletter' }}">
+          {{ ctaLabel or (status | statusCta) }}{% if status == "on-sale" and price %} — {{ price }}{% endif %}
+        </a>
+        {% if status == "coming-soon" %}<span style="font-size: 15px; color: var(--quiet);">Dates announced to the list first</span>{% endif %}
+      </div>
+    </div>
+    {% if portrait %}
+    <div class="hero__portrait">
+      <img src="{{ portrait }}" alt="{{ imageAlt or title }}">
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="band band--tint">
+  <div class="wrap"><div class="prose">
+    {{ content | safe }}
+  </div></div>
+</section>
+
+{% if steps %}
+<section class="band">
+  <div class="wrap">
+    <div class="section-head"><h2>How it works</h2></div>
+    <div class="steps">
+      {% for step in steps %}
+      <div class="step">
+        <span class="step__num">0{{ loop.index }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.body }}</p>
+        {% if step.link %}<p class="step__link"><a href="{{ step.link }}">{{ step.linkLabel or "Open" }} &rarr;</a></p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if booking == "stripe" %}
+{% set bookRuns = runs | currentRuns %}
+<section class="band pbook" id="book" aria-labelledby="pbook-title">
+  <div class="wrap">
+    <div class="pbook__card" id="pbookCard">
+      <div class="pbook__intro">
+        <p class="eyebrow">Book your place</p>
+        <h2 id="pbook-title" class="display pbook__title">{{ title }}</h2>
+        <p class="pbook__price display">{{ price }}<span>per person</span></p>
+        <p class="pbook__fine">Pay securely by card, Apple Pay or Google Pay. Straight after paying you'll fill in the questionnaire we use to match you.</p>
+      </div>
+      <form class="pbook__form" id="pbookForm">
+        <fieldset>
+          <legend>Choose your fortnight</legend>
+          {% for r in bookRuns %}
+          <label class="pbook__run" data-starts="{{ r.start | runIso }}">
+            <input type="radio" name="run" value="{{ r.start | runIso }}"{% if loop.first %} checked{% endif %}>
+            <span><strong>{{ r | runRange }}</strong><small>Starts {{ r.start | runStartLabel }}</small></span>
+          </label>
+          {% endfor %}
+        </fieldset>
+        <button class="btn btn--primary" type="submit">Continue to payment</button>
+        <p class="pbook__msg" role="status" hidden></p>
+      </form>
+    </div>
+    <div class="pbook__pay" id="pbookPay" hidden>
+      <div class="pbook__payhead">
+        <div>
+          <p class="eyebrow">Your booking</p>
+          <p class="pbook__what display">{{ title }} · <span id="pbookRun"></span> · {{ price }}</p>
+        </div>
+        <button class="pbook__change" type="button" id="pbookChange">Change dates</button>
+      </div>
+      <div class="pbook__form-host" id="pbookCheckout"><p class="pbook__loading">Opening secure payment…</p></div>
+      <p class="pbook__fine pbook__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Payment is handled securely by Stripe. Your card details never touch our site.</p>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var form=document.getElementById("pbookForm"); if(!form||!window.fetch) return;
+  var card=document.getElementById("pbookCard"), pay=document.getElementById("pbookPay"), host=document.getElementById("pbookCheckout"), msg=form.querySelector(".pbook__msg"), checkout=null;
+  var today=new Date().toISOString().slice(0,10);
+  [].forEach.call(form.querySelectorAll("[data-starts]"),function(l){ if(l.dataset.starts<=today) l.remove(); });
+  if(!form.querySelector("input[name=run]")){ form.querySelector("fieldset").insertAdjacentHTML("beforeend",'<p class="pbook__none">All current dates have started. New dates are announced to our mailing list first.</p>'); form.querySelector("button").hidden=true; return; }
+  if(!form.querySelector("input[name=run]:checked")) form.querySelector("input[name=run]").checked=true;
+  function say(t){ msg.textContent=t; msg.hidden=false; }
+  function loadStripe(){ if(window.Stripe) return Promise.resolve(window.Stripe); return new Promise(function(ok,no){ var s=document.createElement("script"); s.src="https://js.stripe.com/v3/"; s.async=true; s.onload=function(){ window.Stripe?ok(window.Stripe):no(); }; s.onerror=no; document.head.appendChild(s); }); }
+  function close(){ if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; } host.innerHTML='<p class="pbook__loading">Opening secure payment…</p>'; pay.hidden=true; card.hidden=false; form.querySelector("button").disabled=false; }
+  document.getElementById("pbookChange").addEventListener("click",function(){ close(); card.scrollIntoView({behavior:"smooth",block:"center"}); });
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var r=form.querySelector("input[name=run]:checked"); if(!r) return;
+    msg.hidden=true; form.querySelector("button").disabled=true;
+    document.getElementById("pbookRun").textContent=r.closest("label").querySelector("strong").textContent;
+    card.hidden=true; pay.hidden=false; pay.scrollIntoView({behavior:"smooth",block:"start"});
+    fetch("/api/pi/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({run:r.value})})
+      .then(function(res){ return res.json().then(function(j){ if(!res.ok) throw new Error(j.error||"checkout"); return j; }); })
+      .then(function(j){
+        if(j.preview){ host.innerHTML='<div class="pbook__preview">Preview only: Stripe\'s secure payment form appears here on the live site.</div>'; return; }
+        return loadStripe().then(function(S){ return S(j.publishableKey).initEmbeddedCheckout({fetchClientSecret:function(){ return Promise.resolve(j.clientSecret); }}); })
+          .then(function(c){ checkout=c; host.innerHTML=""; c.mount(host); });
+      })
+      .catch(function(err){ close(); say(({run:"Those dates aren't available any more. Please choose another fortnight.",setup:"Booking isn't open quite yet. Please try again shortly."})[err&&err.message]||"We couldn't open the secure payment form. Please try again."); });
+  });
+})();
+</script>
+{% endif %}
+
+{% if needs or facts %}
+<section class="band band--tint">
+  <div class="wrap split">
+    {% if needs %}
+    <div>
+      <p class="eyebrow">What you'll need</p>
+      <div class="prose"><ul>{% for item in needs %}<li>{{ item }}</li>{% endfor %}</ul></div>
+    </div>
+    {% endif %}
+    {% if facts %}
+    <div class="panel">
+      <p class="eyebrow">The practical bit</p>
+      <dl class="facts">
+        {% set liveRuns = runs | currentRuns %}
+        {% for fact in facts %}<dt>{{ fact.label }}</dt><dd>{% if fact.label == "Runs" and liveRuns.length %}{% for r in liveRuns %}{{ r | runRange }}{% if not loop.last %} · {% endif %}{% endfor %}{% else %}{{ fact.value }}{% endif %}</dd>{% endfor %}
+      </dl>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if credits %}
+<section class="band band--tint">
+  <div class="wrap panel" style="max-width: 720px;">
+    <p class="eyebrow">Credits</p>
+    <dl class="facts">
+      {% for fact in credits %}<dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd>{% endfor %}
+    </dl>
+  </div>
+</section>
+{% endif %}
+
+{% if care %}
+<section class="band">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom: 8px;">
+      <h2>Care and safety</h2>
+      <p class="lede" style="font-size: 15px; margin: 0;">Care is one of our founding values, and it applies to audiences as much as artists.</p>
+    </div>
+    <div class="care" style="margin-top: 28px;">
+      {% for item in care %}
+      <div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.body }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if faq %}
+<section class="band band--tint">
+  <div class="wrap">
+    <div class="section-head"><h2>Questions people ask</h2></div>
+    {% if faqIntro %}<div class="prose faq-intro">{% for para in faqIntro.split("\n\n") %}<p>{{ para }}</p>{% endfor %}</div>{% endif %}
+    <div class="faq">
+      {% for item in faq %}
+      <details>
+        <summary>{{ item.q }}</summary>
+        {% for para in item.a.split("\n\n") %}<p>{{ para | urlize | safe }}</p>{% endfor %}
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if quotes or press %}
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">{% if press %}Press{% else %}What participants said{% endif %}</p>
+    <div class="quotes">
+      {% for item in (quotes or press) %}
+      <blockquote>
+        <p>&ldquo;{{ item.quote }}&rdquo;</p>
+        <footer>{{ item.source }}</footer>
+      </blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if closing %}
+<section class="band band--tint" style="text-align: center;">
+  <div class="wrap">
+    <h2 class="display" style="font-size: clamp(30px, 4vw, 52px); line-height: 1.15; margin: 0;">{{ closing }}</h2>
+    <p style="margin-top: 30px;">
+      <a class="btn btn--primary" href="{{ ticketUrl or ctaUrl or '/#newsletter' }}">{{ ctaLabel or (status | statusCta) }}</a>
+    </p>
+    <p><a href="/whats-on/">See everything else we have on</a></p>
+  </div>
+</section>
+{% endif %}

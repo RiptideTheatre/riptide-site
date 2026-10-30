@@ -1,0 +1,252 @@
+---
+layout: base.njk
+title: Project Intimacy Questionnaire
+permalink: /project-intimacy/questionnaire/
+description: The Project Intimacy questionnaire, for people who have booked a place.
+noindex: true
+eleventyExcludeFromCollections: true
+---
+{#
+  Riptide's own front end for the Project Intimacy questionnaire.
+  Questions live in src/_data/piForm.json. Answers are sent to /api/pi/questionnaire,
+  which passes them to the Google Form, so responses still land in the same sheet.
+  Every question's wording is copied from the Google Form exactly.
+#}
+<section class="band band--flush band--waves pq-head">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <p class="eyebrow ab-eyebrow">Project Intimacy</p>
+    <h1 class="display pq-title" id="pq-title">{{ piForm.pages[0].title }}</h1>
+    <ol class="pq-steps" aria-label="Progress">
+      {% for page in piForm.pages %}
+      <li data-step="{{ loop.index0 }}"{% if loop.first %} aria-current="step"{% endif %}><span>{{ loop.index }}</span>{{ page.title }}</li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="band band--flush pq">
+  <div class="wrap">
+    <div class="pq-booked" id="pqBooked" hidden>
+      <p class="eyebrow ab-eyebrow">Payment received</p>
+      <p class="pq-booked__title display">You're booked<span id="pqBookedRun"></span>.</p>
+      <p class="pq-booked__text">A confirmation is on its way to your inbox. Now the important part: tell us about you, so we can find your match.</p>
+    </div>
+    <form id="pq" class="pq-form" novalidate>
+      <div class="pq-hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+      {% for page in piForm.pages %}
+      {% set pageIndex = loop.index0 %}
+      <fieldset class="pq-page" data-page="{{ pageIndex }}" data-title="{{ page.title }}"{% if not loop.first %} hidden{% endif %}>
+        <legend class="visually-hidden">{{ page.title }}</legend>
+        {% if page.help %}<p class="pq-intro">{{ page.help }}</p>{% endif %}
+
+        {% for group in page.groups %}
+        <div class="pq-group{% if group.style %} pq-group--{{ group.style }}{% endif %}">
+          {% if group.title %}
+          <div class="pq-group__head">
+            <h2 class="display">{{ group.title }}</h2>
+            {% if group.help %}<p>{{ group.help }}</p>{% endif %}
+          </div>
+          {% endif %}
+
+          {% for qn in group.questions %}
+          {% set id = "q-" + qn.entry %}
+          <div class="pq-q pq-q--{{ qn.type }}" data-entry="{{ qn.entry }}" data-type="{{ qn.type }}"{% if qn.required %} data-required{% endif %}>
+            {% if qn.type == "radio" or qn.type == "checkbox" or qn.type == "scale" %}
+            <fieldset>
+              <legend class="pq-label">{% if group.style == "versus" %}<span class="pq-num">{{ qn.label }}</span>{% else %}{{ qn.label }}{% endif %}{% if qn.required %}<span class="pq-req" aria-label="required">*</span>{% endif %}</legend>
+              {% if qn.help %}<p class="pq-help">{{ qn.help | replace("\n", "<br>") | safe }}</p>{% endif %}
+              <div class="pq-options{% if group.style == 'versus' %} pq-options--versus{% endif %}{% if qn.type == 'scale' %} pq-options--scale{% endif %}">
+                {% if qn.dynamic == "runs" %}
+                {% for show in collections.all %}{% if show.url == "/project-intimacy/" %}{% for r in show.data.runs | currentRuns %}
+                <label class="pq-opt" data-starts="{{ r.start | runIso }}">
+                  <input type="radio" name="{{ qn.entry }}" value="{{ r.start | runStartLabel }}"{% if qn.required %} required{% endif %}>
+                  <span>{{ r.start | runStartLabel }}</span>
+                </label>
+                {% endfor %}{% endif %}{% endfor %}
+                {% endif %}
+                {% for opt in qn.options %}
+                {% if group.style == "versus" and not loop.first and opt != "Neither" and opt != "Both" %}<span class="pq-or" aria-hidden="true">or</span>{% endif %}
+                <label class="pq-opt{% if opt == 'Neither' or opt == 'Both' %} pq-opt--soft{% endif %}">
+                  <input type="{{ 'checkbox' if qn.type == 'checkbox' else 'radio' }}" name="{{ qn.entry }}" value="{{ opt }}"{% if qn.required and qn.type != 'checkbox' %} required{% endif %}>
+                  <span>{{ opt }}</span>
+                </label>
+                {% endfor %}
+                {% if qn.other %}
+                <label class="pq-opt pq-opt--other">
+                  <input type="radio" name="{{ qn.entry }}" value="__other_option__">
+                  <span>Other:</span>
+                  <input type="text" class="pq-other" name="{{ qn.entry }}.other_option_response" aria-label="Other">
+                </label>
+                {% endif %}
+              </div>
+              {% if qn.type == "scale" %}<div class="pq-scale-ends" aria-hidden="true"><span>1</span><span>10</span></div>{% endif %}
+            </fieldset>
+            {% else %}
+            <label class="pq-label" for="{{ id }}">{{ qn.label }}{% if qn.required %}<span class="pq-req" aria-label="required">*</span>{% endif %}</label>
+            {% if qn.help %}<p class="pq-help">{{ qn.help | replace("\n", "<br>") | safe }}</p>{% endif %}
+            {% if qn.type == "paragraph" %}
+            <textarea id="{{ id }}" name="{{ qn.entry }}" rows="4"{% if qn.required %} required{% endif %}></textarea>
+            {% else %}
+            <input id="{{ id }}" name="{{ qn.entry }}" type="{{ qn.type if qn.type == 'email' or qn.type == 'tel' else 'text' }}"{% if qn.type == 'email' %} autocomplete="email"{% elif qn.type == 'tel' %} autocomplete="tel"{% elif qn.entry == '1524830953' %} autocomplete="name"{% endif %}{% if qn.required %} required{% endif %}>
+            {% endif %}
+            {% endif %}
+            <p class="pq-error" role="alert" hidden></p>
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div class="pq-nav">
+          {% if not loop.first %}<button type="button" class="btn btn--ghost" data-back>Back</button>{% endif %}
+          {% if loop.last %}
+          <button type="submit" class="btn btn--primary">Submit</button>
+          {% else %}
+          <button type="button" class="btn btn--primary" data-next>Next</button>
+          {% endif %}
+          <span class="pq-saved" aria-live="polite"></span>
+        </div>
+      </fieldset>
+      {% endfor %}
+
+      <div class="pq-done" hidden tabindex="-1">
+        <p class="eyebrow ab-eyebrow">Project Intimacy</p>
+        <h2 class="display">Your response has been recorded.</h2>
+      </div>
+      <p class="pq-fail" role="alert" hidden></p>
+    </form>
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('pq');
+  if (!form) return;
+  var pages = [].slice.call(form.querySelectorAll('.pq-page'));
+  var steps = [].slice.call(document.querySelectorAll('.pq-steps li'));
+  var title = document.getElementById('pq-title');
+  var KEY = 'riptide-pi-questionnaire';
+  /* Hide runs that have already started (the page is only rebuilt when something changes) */
+  var today = new Date().toISOString().slice(0, 10);
+  [].forEach.call(form.querySelectorAll('[data-starts]'), function (l) { if (l.dataset.starts < today) l.remove(); });
+  var current = 0;
+
+  function show(i) {
+    pages.forEach(function (p, n) { p.hidden = n !== i; });
+    steps.forEach(function (s, n) {
+      if (n === i) s.setAttribute('aria-current', 'step'); else s.removeAttribute('aria-current');
+      s.classList.toggle('is-done', n < i);
+    });
+    title.textContent = pages[i].dataset.title;
+    current = i;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function valueOf(q) {
+    var e = q.dataset.entry, t = q.dataset.type;
+    if (t === 'checkbox') return [].slice.call(q.querySelectorAll('input[type=checkbox]:checked')).map(function (i) { return i.value; });
+    if (t === 'radio' || t === 'scale') { var c = q.querySelector('input[type=radio]:checked'); return c ? c.value : ''; }
+    var f = q.querySelector('input, textarea'); return f ? f.value.trim() : '';
+  }
+
+  function check(q) {
+    var v = valueOf(q), err = q.querySelector('.pq-error'), msg = '';
+    if (q.hasAttribute('data-required') && (!v || (Array.isArray(v) && !v.length))) msg = 'This is a required question';
+    if (!msg && q.dataset.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = 'Must be a valid email';
+    if (!msg && v === '__other_option__' && !q.querySelector('.pq-other').value.trim()) msg = 'This is a required question';
+    err.textContent = msg; err.hidden = !msg; q.classList.toggle('has-error', !!msg);
+    return !msg;
+  }
+
+  function checkPage(i) {
+    var bad = pages[i].querySelectorAll('.pq-q');
+    var first = null;
+    [].forEach.call(bad, function (q) { if (!check(q) && !first) first = q; });
+    if (first) { first.scrollIntoView({ behavior: 'smooth', block: 'center' }); var f = first.querySelector('input, textarea'); if (f) f.focus({ preventScroll: true }); }
+    return !first;
+  }
+
+  /* Save a draft on this device so a long questionnaire survives a closed tab */
+  function save() {
+    var data = {};
+    [].forEach.call(form.querySelectorAll('.pq-q'), function (q) { data[q.dataset.entry] = valueOf(q); var o = q.querySelector('.pq-other'); if (o) data[q.dataset.entry + '.other'] = o.value; });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  }
+  function restore() {
+    var data; try { data = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+    if (!data) return;
+    [].forEach.call(form.querySelectorAll('.pq-q'), function (q) {
+      var v = data[q.dataset.entry]; if (v == null) return;
+      var t = q.dataset.type;
+      if (t === 'checkbox') [].forEach.call(q.querySelectorAll('input[type=checkbox]'), function (i) { i.checked = v.indexOf(i.value) > -1; });
+      else if (t === 'radio' || t === 'scale') [].forEach.call(q.querySelectorAll('input[type=radio]'), function (i) { i.checked = i.value === v; });
+      else { var f = q.querySelector('input, textarea'); if (f) f.value = v; }
+      var o = q.querySelector('.pq-other'); if (o && data[q.dataset.entry + '.other']) o.value = data[q.dataset.entry + '.other'];
+    });
+  }
+  restore();
+
+  /* Arriving straight from payment: greet the buyer, fill in their email and start date. */
+  (function () {
+    var sid = new URLSearchParams(location.search).get('session_id');
+    if (!sid || !window.fetch) return;
+    fetch('/api/pi/session?session_id=' + encodeURIComponent(sid))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j || !j.paid) return;
+        var box = document.getElementById('pqBooked');
+        if (j.range) document.getElementById('pqBookedRun').textContent = ' for ' + j.range;
+        box.hidden = false;
+        var em = form.querySelector('input[name=emailAddress]');
+        if (em && !em.value && j.email) em.value = j.email;
+        if (j.startLabel) [].forEach.call(form.querySelectorAll('input[name="450404477"]'), function (i) { if (i.value === j.startLabel) i.checked = true; });
+        save();
+      })
+      .catch(function () {});
+    if (history.replaceState) history.replaceState(null, '', location.pathname);
+  })();
+  var t;
+  form.addEventListener('input', function (e) {
+    var q = e.target.closest('.pq-q');
+    if (e.target.classList.contains('pq-other') && e.target.value) { var r = q.querySelector('input[value="__other_option__"]'); if (r) r.checked = true; }
+    if (q && q.classList.contains('has-error')) check(q);
+    clearTimeout(t); t = setTimeout(save, 400);
+  });
+  form.addEventListener('change', function (e) { var q = e.target.closest('.pq-q'); if (q && q.classList.contains('has-error')) check(q); save(); });
+
+  form.addEventListener('click', function (e) {
+    if (e.target.closest('[data-next]')) { if (checkPage(current)) show(current + 1); }
+    if (e.target.closest('[data-back]')) show(current - 1);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!checkPage(current)) return;
+    if (form.website.value) return;
+    var answers = {}, other = {};
+    [].forEach.call(form.querySelectorAll('.pq-q'), function (q) {
+      var v = valueOf(q); if (v === '' || (Array.isArray(v) && !v.length)) return;
+      answers[q.dataset.entry] = v;
+      if (v === '__other_option__') other[q.dataset.entry] = q.querySelector('.pq-other').value.trim();
+    });
+    var btn = form.querySelector('[type=submit]'), fail = form.querySelector('.pq-fail');
+    btn.disabled = true; btn.textContent = 'Sending…'; fail.hidden = true;
+    fetch('/api/pi/questionnaire', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: answers, other: other }) })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function () {
+        try { localStorage.removeItem(KEY); } catch (e) {}
+        pages.forEach(function (p) { p.hidden = true; });
+        document.querySelector('.pq-steps').hidden = true;
+        title.textContent = 'Thank you';
+        var done = form.querySelector('.pq-done'); done.hidden = false; done.focus();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = 'Submit';
+        fail.textContent = 'That didn’t send. Your answers are saved on this device, so please try again in a moment. If it keeps happening, email {{ site.email }}.';
+        fail.hidden = false;
+      });
+  });
+})();
+</script>

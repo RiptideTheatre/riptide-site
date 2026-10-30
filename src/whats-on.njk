@@ -1,0 +1,75 @@
+---
+layout: base.njk
+title: What's on
+permalink: /whats-on/
+description: Riptides swelling, riptides forming, and riptides happening right now. Everything Riptide currently has on, with dates, prices and access details.
+---
+
+<section class="band band--flush band--waves">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">What's on</h1>
+    <p class="lede">Riptides swelling, riptides forming, and riptides happening right now.</p>
+    <nav class="filters" aria-label="Filter by kind">
+      <a href="/whats-on/" aria-current="true">All</a>
+      <a href="/whats-on/">In person</a>
+      <a href="/whats-on/">At home</a>
+      <a href="/whats-on/">One to one</a>
+      <a href="/whats-on/">Free</a>
+    </nav>
+  </div>
+</section>
+
+<section class="band band--flush" style="padding-top: 8px;">
+  <div class="wrap">
+
+    {% for show in collections.current %}
+    {% if loop.first %}
+    <article class="listing listing--featured">
+      <div class="listing__media"><img src="{{ show.data.image }}" alt="{{ show.data.imageAlt or show.data.title }}" width="1200" height="675"></div>
+      <div class="listing__body">
+        <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
+        <h2><a href="{{ show.url }}">{{ show.data.title }}</a></h2>
+        <p class="listing__tagline">{{ show.data.tagline }}</p>
+        <p style="color: var(--muted); margin: 14px 0 0;">{{ show.data.summary }}</p>
+        {% if show.data.facts %}
+        <dl class="facts">
+          {% for fact in show.data.facts | batch(4) | first %}<dt>{{ fact.label }}</dt><dd>{{ fact.value }}</dd>{% endfor %}
+        </dl>
+        {% endif %}
+        <div class="listing__actions">
+          <a class="btn btn--primary" href="{{ show.data.ticketUrl or show.data.ctaUrl or '/#newsletter' }}">{{ show.data.ctaLabel or (show.data.status | statusCta) }}</a>
+          <a href="{{ show.url }}">Full details</a>
+        </div>
+      </div>
+    </article>
+    {% else %}
+    <article class="listing listing--compact">
+      <div class="listing__media"><img src="{{ show.data.image }}" alt="{{ show.data.imageAlt or show.data.title }}" width="1200" height="675" loading="lazy"></div>
+      <div class="listing__body">
+        <div style="max-width: 62ch;">
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <h2><a href="{{ show.url }}">{{ show.data.title }}</a></h2>
+            <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
+          </div>
+          <p style="color: var(--muted); margin: 12px 0 0;">{{ show.data.summary }}</p>
+          <p style="color: var(--quiet); font-size: 14px; margin: 12px 0 0;">{{ show.data.cardMeta }}</p>
+        </div>
+        <a class="btn btn--ghost" href="{{ show.url }}">Details</a>
+      </div>
+    </article>
+    {% endif %}
+    {% endfor %}
+
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap split">
+    <div>
+      <h2 class="display" style="font-size: clamp(26px, 3vw, 36px); margin: 0;">Looking for something we've already made?</h2>
+      <p style="color: var(--muted); margin: 12px 0 0;">The Lucky Ones, An Odyssey and everything before them — with dates, venues, credits, images and press for each.</p>
+    </div>
+    <div><a class="btn btn--outline" href="/archive/">Browse past work</a></div>
+  </div>
+</section>

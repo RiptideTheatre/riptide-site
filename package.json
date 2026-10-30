@@ -1,0 +1,16 @@
+{
+  "name": "riptide-site",
+  "version": "1.0.0",
+  "description": "Riptide — immersive, interactive and digital experiences. Static site built with Eleventy.",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  },
+  "private": true
+}

@@ -1,0 +1,23 @@
+{#
+  Hero backdrop, in order of preference:
+    1. heroVideo  — real footage, looping, muted (poster shown first and on reduced motion)
+    2. heroImage  — a still photograph
+    3. the Riptide waves — the default, so every page sits on the same water
+  A scrim sits over whichever one is used, otherwise white type on moving water is unreadable.
+#}
+<div class="hero__art" aria-hidden="true">
+  {% if heroVideo %}
+    <video class="hero__media" autoplay muted loop playsinline preload="metadata"
+           {% if heroPoster %}poster="{{ heroPoster }}"{% endif %}>
+      {% if heroVideoWebm %}<source src="{{ heroVideoWebm }}" type="video/webm">{% endif %}
+      <source src="{{ heroVideo }}" type="video/mp4">
+    </video>
+  {% elif heroImage %}
+    <img class="hero__media" src="{{ heroImage }}" alt="">
+  {% else %}
+    <video class="hero__media" autoplay muted loop playsinline preload="metadata" poster="/assets/video/waves-poster.jpg">
+      <source src="/assets/video/waves.mp4" type="video/mp4">
+    </video>
+  {% endif %}
+  <div class="hero__scrim"></div>
+</div>

@@ -1,0 +1,5 @@
+node_modules/
+_site/
+_check/
+.DS_Store
+.wrangler/

@@ -1,0 +1,33 @@
+# Old Squarespace URLs → new ones, so existing links and search results keep working.
+/tickets            /whats-on/            301
+/current            /whats-on/            301
+/collab             /team/                301
+/projectintimacy    /project-intimacy/    301
+/sonder             /sonder/              301
+/intermission       /intermission/        301
+/the-directors-diary /directors-diary/    301
+/pi-faqs            /project-intimacy/    301
+/mission-statement  /about/               301
+# Reset: old Squarespace day pages → the members area (sign-in required)
+/reset/1            /reset/members/#day-1   301
+/reset/2            /reset/members/#day-2   301
+/reset/3            /reset/members/#day-3   301
+/reset/4            /reset/members/#day-4   301
+/reset/5            /reset/members/#day-5   301
+/reset/6            /reset/members/#day-6   301
+/reset/7            /reset/members/#day-7   301
+/reset/8            /reset/members/#day-8   301
+/reset/9            /reset/members/#day-9   301
+/reset/10           /reset/members/#day-10   301
+/reset/11           /reset/members/#day-11   301
+/reset/12           /reset/members/#day-12   301
+/reset/13           /reset/members/#day-13   301
+/reset/14           /reset/members/#day-14   301
+/reset/15           /reset/members/#day-15   301
+/reset/16           /reset/members/#day-16   301
+/reset/17           /reset/members/#day-17   301
+/reset/18           /reset/members/#day-18   301
+/reset/19           /reset/members/#day-19   301
+/reset/20           /reset/members/#day-20   301
+/reset/21           /reset/members/#day-21   301
+/reset/14f          /reset/members/#day-14   301

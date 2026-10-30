@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>RESET Retreat</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap">
+<style>
+/* Layout: a quiet retreat journal — one day at a time, text column + still aside, numbered day strip as the only navigation */
+:root{
+  --bg:#F1F2EF; --surface:#FAFAF8; --ink:#1E2431; --muted:#5D6573; --line:#D6D9D5;
+  --lake:#4E6178; --dusk:#9A7344; --note:#E4E8EC; --gap:#B4553F;
+  --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body:"Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12161D; --surface:#181D26; --ink:#E7E8E4; --muted:#9AA1AC; --line:#2B323D;
+  --lake:#A3B5CC; --dusk:#D2AC80; --note:#1E2531; --gap:#E58A72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161D; --surface:#181D26; --ink:#E7E8E4; --muted:#9AA1AC; --line:#2B323D;
+  --lake:#A3B5CC; --dusk:#D2AC80; --note:#1E2531; --gap:#E58A72; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:300;font-size:17px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:inherit}
+strong,b{font-weight:600}
+:focus-visible{outline:2px solid var(--lake);outline-offset:3px}
+
+/* masthead */
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-block:40px 28px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--display);font-weight:500;font-size:clamp(34px,6vw,52px);letter-spacing:.14em;line-height:1}
+.brand small{display:block;font-family:var(--body);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-top:12px;font-weight:400}
+.by{font-size:13px;color:var(--muted);letter-spacing:.06em;text-align:right}
+
+/* day strip */
+.strip{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:16px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.days::-webkit-scrollbar{display:none}
+.days button{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);
+  font:400 15px/1 var(--display);cursor:pointer;position:relative;transition:background .25s,color .25s,border-color .25s;font-variant-numeric:lining-nums}
+.days button:hover{border-color:var(--lake);color:var(--ink)}
+.days button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.days button.done::after{content:"";position:absolute;bottom:-5px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--dusk)}
+.days button.today{border-color:var(--dusk)}
+.days button.empty{opacity:.45}
+.strip-meta{display:flex;justify-content:space-between;gap:12px;margin-top:10px;font-size:13px;color:var(--muted);letter-spacing:.04em}
+
+/* day */
+article{padding-block:56px 40px;animation:fade .6s ease}
+@keyframes fade{from{opacity:.001;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){article{animation:none}}
+.day-head{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:end;margin-bottom:48px}
+.num{font-family:var(--display);font-size:clamp(84px,14vw,150px);line-height:.8;color:var(--lake);opacity:.35;font-variant-numeric:lining-nums}
+.eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--dusk);margin:0 0 10px;font-weight:500}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(36px,5.6vw,62px);line-height:1.05;margin:0;text-wrap:balance}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:64px;align-items:start}
+.main{max-width:64ch;min-width:0}
+.main p{margin:0 0 1.1em}
+.main h3,.after h3{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.2;margin:1.6em 0 .6em}
+.main ul,.after ul{padding-left:1.1em;margin:0 0 1.2em}
+.main li,.after li{margin-bottom:.5em}
+
+.contemplate{border-left:1px solid var(--dusk);padding:4px 0 4px 22px;margin-bottom:40px}
+.contemplate .label{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:8px}
+.contemplate p{margin:0;font-family:var(--display);font-style:italic;font-size:19px;line-height:1.6}
+.pull{font-family:var(--display);font-size:clamp(24px,3vw,32px);line-height:1.3;margin:0 0 36px;text-wrap:balance}
+.indent{margin:0 0 1.1em 1.6em;font-style:italic}
+
+aside{display:flex;flex-direction:column;gap:20px;position:sticky;top:120px;min-width:0}
+.media{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.media .screen{aspect-ratio:16/10;max-width:100%;display:grid;place-items:center;
+  background:radial-gradient(120% 90% at 30% 20%,color-mix(in srgb,var(--lake) 28%,transparent),transparent 60%),
+             radial-gradient(90% 80% at 80% 90%,color-mix(in srgb,var(--dusk) 26%,transparent),transparent 60%),var(--note)}
+.play{width:56px;height:56px;border-radius:50%;border:1px solid var(--ink);display:grid;place-items:center;opacity:.6}
+.play svg{width:16px;height:16px;fill:var(--ink);margin-left:3px}
+.media .screen.live{text-decoration:none;cursor:pointer}
+.media .screen.live .play{opacity:1;background:var(--surface);transition:transform .3s}
+.media .screen.live:hover .play{transform:scale(1.06)}
+.media.audio{padding:18px 20px}
+.ap{display:flex;gap:16px;align-items:center}
+.ap-btn{flex:none;width:52px;height:52px;border-radius:50%;border:1px solid var(--dusk);background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.ap-btn svg{width:15px;height:15px;fill:var(--ink);margin-left:3px}
+.ap-btn.on svg{margin-left:0}
+.ap-body{flex:1;min-width:0}
+.ap-t{font-family:var(--display);font-size:18px;line-height:1.3;margin-bottom:8px}
+.ap-bar{width:100%;accent-color:var(--dusk);margin:0}
+.ap-time{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:4px}
+.media .cap{padding:14px 18px;display:flex;justify-content:space-between;gap:10px;font-size:14px}
+.media .cap span{color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.note{background:var(--note);border-radius:18px;padding:24px 26px;font-size:16px}
+.note p{margin:0 0 .6em}.note p:last-child{margin:0}
+.note h3{font-family:var(--display);font-weight:400;font-size:24px;margin:0 0 .5em}
+.note.quote{font-family:var(--display);font-size:20px;line-height:1.5}
+
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:14px 0;font-family:var(--display);font-size:20px;display:flex;justify-content:space-between}
+summary::after{content:"+";font-family:var(--body);color:var(--muted)}
+details[open] summary::after{content:"–"}
+details p{font-size:15px;margin:0 0 .8em}
+.offers h4{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;font-weight:500}
+
+.res{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 24px}
+.chip{border:1px solid var(--ink);border-radius:999px;padding:10px 18px;font-size:14px;background:transparent;color:var(--ink)}
+a.chip{text-decoration:none;background:var(--ink);color:var(--bg)}
+.chip i{font-style:normal;color:var(--muted);font-size:12px;margin-left:6px}
+
+.after{margin-top:48px;min-width:0}
+.def{font-family:var(--display);font-size:clamp(48px,8vw,80px);letter-spacing:.08em;line-height:1;margin:0}
+.words{font-family:var(--display);font-style:italic;font-size:clamp(20px,2.6vw,26px);color:var(--lake);margin:24px 0;text-wrap:balance}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.cols h4{font-weight:600;font-size:15px;margin:1.2em 0 .3em}
+.gap{display:inline-block;color:var(--gap);border:1px dashed var(--gap);border-radius:6px;padding:0 8px;font-size:14px;font-style:normal}
+
+.accomp{margin-top:72px;padding-top:48px;border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:64px}
+.accomp h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,40px);margin:0 0 18px}
+.accomp .txt{max-width:58ch;min-width:0}
+.accomp .txt p{margin:0 0 1em}
+.track{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;align-self:start}
+.track .k{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.track .t{font-family:var(--display);font-size:24px;line-height:1.25;margin:10px 0 20px}
+.track .btns{display:flex;gap:8px;flex-wrap:wrap}
+.track a{flex:1 1 120px;text-align:center;text-decoration:none;padding:11px 14px;border-radius:999px;font-size:14px;border:1px solid var(--ink)}
+.track a:first-child{background:var(--ink);color:var(--bg)}
+
+.pager{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:72px;padding-top:28px;border-top:1px solid var(--line)}
+.pager button{font:inherit;cursor:pointer;background:none;border:0;color:var(--muted);font-size:15px;padding:8px 0}
+.pager .go{background:var(--ink);color:var(--bg);border-radius:999px;padding:14px 26px;font-weight:500}
+.pager button:disabled{visibility:hidden}
+
+.placeholder{padding:80px 0;text-align:center;color:var(--muted)}
+.placeholder p{font-family:var(--display);font-style:italic;font-size:22px;color:var(--ink)}
+
+/* hand-drawn nature layer */
+.day-head{grid-template-columns:auto 1fr auto}
+.num{color:var(--dusk);opacity:.5}
+.sprout{width:136px;height:170px;color:var(--dusk);flex:none}
+.sprout-wrap{text-align:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.plate{margin:0;border-radius:22px;aspect-ratio:1;max-width:100%;color:var(--dusk);
+  background:radial-gradient(90% 80% at 30% 25%,color-mix(in srgb,var(--dusk) 12%,transparent),transparent 70%),var(--surface);
+  border:1px solid var(--line);display:grid;place-items:center;overflow:hidden}
+.plate svg{width:82%;height:82%}
+.ink path,.ink circle,.ink ellipse,.ink line,.ink rect{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.ink .dot{fill:currentColor;stroke:none}
+.ink .soft{opacity:.45}
+.draw path,.draw circle,.draw ellipse,.draw line{stroke-dasharray:600;stroke-dashoffset:600;animation:ink 2.4s ease forwards}
+@keyframes ink{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.draw path,.draw circle,.draw ellipse,.draw line{animation:none;stroke-dashoffset:0}}
+.track .k{color:var(--dusk)}
+.days button[aria-selected="true"]{box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--dusk)}
+@media (max-width:520px){.day-head{grid-template-columns:1fr auto}.day-head .num{grid-column:1/-1}.sprout{width:96px;height:120px}}
+
+/* water masthead: deep night water, light drifting on the surface */
+.water{position:relative;overflow:hidden;color:#F2EFE8;
+  background:linear-gradient(180deg,#0A141D 0%,#10222F 50%,#173244 100%);
+  margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.water canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.water .mast{position:relative;border-bottom:0;padding-block:84px 60px}
+.water .brand{color:#F4F1EA;font-weight:400;letter-spacing:.2em}
+.water .brand small{color:#C9A672}
+.water .by{color:rgba(244,241,234,.66)}
+@media (max-width:520px){.water .mast{padding-block:56px 40px}}
+
+/* daily release */
+.days button.locked{opacity:.42;border-style:dashed}
+.sm-right{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.openall{font:inherit;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dusk);background:none;border:1px solid var(--dusk);border-radius:999px;padding:5px 12px;cursor:pointer}
+.openall[aria-pressed="true"]{background:var(--dusk);color:var(--bg)}
+.locked-panel{max-width:56ch;padding:24px 0 40px}
+.lp-when{font-family:var(--display);font-size:clamp(22px,3vw,28px);line-height:1.35;margin:0 0 16px}
+.locked-panel p{margin:0 0 1em}
+.lp-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.lp-actions button{font:inherit;font-size:15px;cursor:pointer;border-radius:999px;padding:13px 24px}
+.lp-actions .go{background:var(--ink);color:var(--bg);border:0;font-weight:500}
+.lp-actions .ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+.preview-bar{position:sticky;bottom:env(safe-area-inset-bottom,0px);z-index:6;margin-top:40px;background:var(--note);border-top:1px solid var(--line);
+  padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));font-size:13px;color:var(--muted);text-align:center}
+.preview-bar span{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--dusk);margin-right:8px;font-weight:500}
+.preview-bar select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:2px 6px;margin:0 4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.vframe{position:relative;aspect-ratio:16/9;max-width:100%;background:#000}
+.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lp-list{margin:0 0 1em;padding-left:1.1em}.lp-list li{margin-bottom:.4em}
+.welcome{position:relative;margin-top:28px;background:var(--note);border-radius:18px;padding:22px 56px 22px 26px}
+.welcome .w-h{font-family:var(--display);font-size:24px;margin:0 0 4px}
+.welcome p{margin:0}
+.w-x{position:absolute;top:12px;right:14px;width:36px;height:36px;border:0;background:none;font-size:22px;color:var(--muted);cursor:pointer}
+.account{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin-bottom:14px;color:var(--ink)}
+.account form{margin:0}
+.signout{font:inherit;font-size:13px;background:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--ink);cursor:pointer}
+footer a{color:var(--dusk)}
+footer{padding-block:40px 60px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:40px}
+
+@media (max-width:900px){
+  .grid,.accomp{grid-template-columns:1fr;gap:36px}
+  aside{position:static}
+  .cols{grid-template-columns:1fr;gap:8px}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .day-head{grid-template-columns:1fr;gap:4px}
+  .num{font-size:72px}
+  .mast{flex-direction:column;align-items:flex-start}
+  .by{text-align:left}
+}
+</style>
+
+<header class="water">
+  <canvas id="water" aria-hidden="true"></canvas>
+  <div class="wrap mast">
+    <div class="brand">RESET<small>A Regenerative Retreat</small></div>
+    <div class="by">Riptide · 21 days</div>
+  </div>
+</header>
+<nav class="strip" aria-label="Days">
+  <div class="wrap">
+    <div class="days" role="tablist" id="days"></div>
+    <div class="strip-meta"><span id="metaTitle"></span><span class="sm-right"><span id="metaProg"></span><button id="openAll" class="openall" aria-pressed="false">Open all days</button></span></div>
+  </div>
+</nav>
+<div class="wrap"><div class="welcome" id="welcome" role="status" hidden><p class="w-h">You're booked.</p><p id="welcomeText"></p><button type="button" class="w-x" aria-label="Close" onclick="this.parentNode.hidden=true">×</button></div></div>
+<main class="wrap" id="view"></main>
+<div class="preview-bar" id="previewBar" role="note" hidden><span>Preview</span> Viewing the page as it looks on <label for="pvDay" class="sr">Day of the run</label><select id="pvDay"></select> of a run. Buyers won’t see this bar.</div>
+<div class="wrap"><footer><div class="account" id="account" hidden><span>Signed in as <strong id="accountEmail"></strong>. Your access runs until <span id="accessEnds"></span>.</span>
+<form method="post" action="/api/reset/signout"><button type="submit" class="signout">Sign out</button></form></div>
+<div>RESET is made by <a href="/">Riptide</a> · Patrick Studios – East Street Arts · St Mary’s Lane · Leeds · LS9 7EH</div></footer></div>
+
+<script>
+const GAP = '<span class="gap">Text missing from screenshots – to add</span>';
+const WORDS = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen","Twenty","Twenty One"];
+const ACC1 = [
+  `As a creative team, we have curated an audio accompaniment to sit alongside each day’s activity. We recommend that everyone listens to the track as a marker of the finish of that day.`,
+  `Each audio track aims to illuminate an aspect of the day’s activity. They will cross genres and languages and are not about one’s <em>tastes</em>, but rather about tuning into your self-awareness.`
+];
+
+const DAYS = [
+{t:"The Beginning",
+ c:`”Go and open the door.<br>Maybe outside there’s<br>a tree, or a wood,<br>a garden,<br>or a magic city.” - Miroslav Holub`,
+ pull:`“This is a chance to replenish, rejuvenate, restore...release”`,
+ body:[`Welcome to Reset.<br>Here is a video to introduce you to our process and to get started.`,
+  `This first instalment is all about opening the door into our own internal landscape, and seeing what is <em>in here</em>, what is <em>out there</em>, and what is the lay of the land.`,
+  `Across the next 21 instalments, we will share tools, techniques and gifts with you - tiny works of art, music, poetry and reflection, to help you pour into your own reserves, refuel, and revitalise.`,
+  `The audio companion to Day 1 is Plantasia by Mort Garson. (There will be an audio track curated for each day of RESET with an explanation as to why it has been chosen.)`,
+  `Thank you for joining us in this first instalment. We look forward to seeing you tomorrow!`],
+ res:[["The Door - Miroslav Holub","https://medicine.st-andrews.ac.uk/poemsfordoctors/2018/11/29/the-door/"]],
+ media:[["RESET: Day 1 - The Beginning","Video",{vimeo:"1240878089",h:"4f981ec128"}]],
+ offers:[["RESET journal",[`We encourage you to start a new journal as you journey through these 21 days. We expect you to uncover many different types of learnings and these are easily lost.<br>As an offer, we invite you to noticing and note down, whatever shows up for you on each day. Looking back on this on day 21 and beyond could offer new wisdom.`]],
+  ["Seeding something new",[`We would like you to buy some seeds. These can be for plants that may produce flowers or fruit. We would like to mark the first few days with an intention to plant something new (and to nurture this).`,`As you plant your seed, we invite you to think about other things you may be thinking about seeding, other thoughts, habits or new ways of thinking.`]]],
+ acc:[...ACC1,`<strong>For today</strong>, listen to the track from start to finish, and allow yourself to imagine thinking about it as a seedling in spring might. What are the moments which stand out to you? What, if anything, is the song communicating?`],
+ track:"Plantasia - Mort Garson"},
+
+{t:"Letting go",
+ c:`”Everything rests on the point of our intention.” - Buddhist saying.`,
+ pull:`“Never cut a cherry tree before late July, unless you want the Sun to fall out of the Sky." - <em>The Tree and the Crane</em>.`,
+ body:[`<strong>Welcome to Day 2.</strong>`,
+  `You've already taken a significant step towards this wellness journey. Today, we focus on an essential aspect of personal growth: Resetting, Replacing, and Setting Intentions. If we don’t know where we would like to go, getting there is much harder.`,
+  `As we dive deeper into this transformative experience, it's crucial to take a moment to reflect on where you are and where you want to go. Today’s activities will guide you in letting go of old patterns and setting powerful intentions to cultivate the change you wish to see in your life. Before we can do this, we must first begin to let go.`,
+  `Today’s activity is an audio experience.`,
+  `We advise listening to this in a quiet and comfortable space. Some might find it useful to have a notebook nearby to write down any findings during or after listening. The audio will last around 10 minutes but please feel free to use time afterwards to see what feelings and thoughts emerge from it.`],
+ media:[["The Tree and the Crane","Audio",{src:"audio/day2-tree-and-crane.mp4"}]],
+ notes:[`<p>It is interesting to look at the definitions and etymology of the word reset to truly understand what we are doing over the next few weeks.<br>For more information, we have found <a href="https://www.etymonline.com/search?type=all&q=reset" target="_blank" rel="noopener">this website</a> helpful.</p>`],
+ after:`<p class="def">RESET</p>
+  <p><em>verb. /ˌriːˈsɛt/</em><br>1. to start again after a period of rest or change.<br>2. to place or replace (as in a gem) in a setting, from re- "back, again”.<br>3. to return a reading to zero (as in a meter).</p>
+  <p>Coming directly from Latin <em>re-</em> an inseparable prefix meaning "again; back; anew, against." it is interesting to contemplate how many of these “re” words we might consider for your journey through this experience. We have listed a few below to get you started.</p>
+  <p class="words">receive, recover, reduce, recreate, remain, request, require, rebel, rest, rewrite, refill, rebuild, reward, regard.</p>
+  <p><em>What might you <strong>receive</strong> during this experience for example? What might you <strong>regard</strong>? Do you need to <strong>reduce</strong> anything or maybe you need to <strong>rebuild</strong> something?</em></p>`,
+ acc:[`<strong>For today</strong>, listen to the track from start to finish, and allow yourself to start thinking about the things you may wish to let go?`],
+ track:"The Endel - C. Lindquist"},
+
+{t:"The GROW model",
+ c:`”The important thing is not to stop questioning. Curiosity has its own reason for existing” - Albert Einstein`,
+ pull:`“It’s not the answer that enlightens, it is the question.” - Eugene Ionesco`,
+ body:[`After the letting go, with the soil in the ground gently recomposing,<br>it’s time to think about what we might like to grow.`,
+  `This exercise is for calling forth those ideas, anything that might be within us that wants to come out, the blossoms inside the branches waiting for bud break.`,
+  `Listen to the exercise (below) with a pen and paper at the ready, you will be writing your answers under timed conditions!<br>But don’t worry, the timings are simply to ensure that we don’t overthink, and that we capture what is just below the surface, just behind the door, ready to break free.`,
+  `You can do the exercise as many times as you want, for as many different issues as you want, but this first time we invite you to call forth what your deep self is asking for. The exercise is confidential and your answers are your own.`],
+ media:[["The GROW model","Audio",{src:"audio/day3-grow-model.mp4"}]],
+ acc:[`This type of conjuring puts us in mind of a track by Lennie Hibbert called Rose Len.`,`However you are beginning to sow the seeds of whatever you would like to grow, we hope you enjoy these vibes, and the feeling of sunlight and oxygen that comes from asking questions and disturbing the soil.`],
+ track:"Rose Len - Lennie Hibbert"},
+
+{t:"Setting Intentions",
+ c:`”Be not the moon. Be not the finger pointing at the moon. But rather be the action of pointing at the moon.” - Zen Buddhist saying`,
+ pull:`“Out here time is infinite. Take a breath...”`,
+ body:[`Today we set our intentions more clearly with a guided meditation. This meditation is designed to be listened to while seated and while wearing headphones, but it can be done indoors or outside.`,
+  `We hope that your answers from yesterday and your thoughts from today work together to give you clarity and an intention of what you may want to work on in the coming days. Don’t worry if there is some uncertainty here, lean into this and try and be present to that.`],
+ media:[["Setting Intentions: A Journey to the Infinite","Audio",{src:"audio/day4-setting-intentions.mp4"}]],
+ acc:[`Today we have something that is close to our hearts. This is a track that has been central to much of Riptide’s creative endeavours. It has real layers and height to it, and an interesting moment of release and catharsis around the 6-minute mark.`,`We think this pairs really nicely with the guided meditation today, we hope you enjoy both.`],
+ track:"Says - Nils Frahm"},
+
+{t:"Centering",
+ c:`”Stay in the centre, and you will be ready to move in any direction.” - Alan Watts`,
+ pull:`“Sometimes in the pursuit of knowing where we are, it’s really useful to know where our centre is...”`,
+ body:[`The Strozzi Haeckler school of somatics puts forward the notion that because our posture and positioning in the body can affect our outlook and our mindset, so can a shift in the way we position our bodies invite in a shift in our behaviour and our thinking.`,
+  `You can straightforwardly listen to the exercise today, in a place where you have space to move (not much but you might like to hold your arms up) and space to plant feet into the floor.`,
+  `You can listen aloud or with headphones, only do ensure that your body is free of any weight - the phone is probably fine but if you are carrying a bag, feel free to set it down before starting.`,
+  `We will be in our bodies, standing still, standing straight with feet planted into the floor. Of course if you would prefer to sit or lie down, you are very welcome to do so. Wherever you find yourself most naturally centred - however if you can stand for a few minutes and are usually standing in daily life, this might be the better position for you.`,
+  `First listen to the introduction and then do the exercise. Take time to reflect afterwards - what was different in your mind or body or both, from being centred vs being uncentred? How much energy does it take to hold oneself at centre? You might like to journal some thoughts, or to make a note of anything you notice, and experiment with getting centred at other times during the week.`],
+ media:[["Centering: Introduction","Audio",{src:"audio/day5-centering-intro.mp4"}],["Centering: Activity","Audio",{src:"audio/day5-centering-activity.mp4"}]],
+ acc:[`This is a song for standing in your power.`,`This track makes me want to stand tall and hear the Mongolian throat singing with my full body, and I feel like I can see the movement of humans and horses across the steppe.`,`Full of movement and urgent pace, it grounds me into where I stand and what I stand for.`],
+ track:"Hoorai - Anda Union"},
+
+{t:"Stepping out",
+ c:`”Not all who wander are lost” - <em>All that is gold does not glitter</em>, J.R.R. Tolkien.`,
+ body:[`Today’s activity on the surface is very simple, but we have found the discoveries made to be quite profound. Today you will leave your home and trace an out-and-back route, with no other purpose other than to walk. We recommend, however tempting, to not tie this in with other errands or tasks of the day, ie. dog walking, shopping etc. Simply enjoy and stay present to the notion of walking.`,
+  {h:"The Dérive"},
+  `We are influenced today by the idea of the Dérive (The Drift)<br>[Guy Debord 1956, Paris].`,
+  `Essentially, it is about letting go of the usual reasons for walking – and being drawn by the affordances and attractions of the place. Walking for walking-sake rather than as a practical method of going somewhere specific. In this way you become a flâneur (a wanderer).`,
+  `<strong>*Please take precautions and be safe while you do this exercise. Be aware of traffic and other dangers while wandering*</strong>`],
+ acc:[`Today the task involved walking/wandering and there is also a connection with walking in Paris.`,`We are reminded of Erik Satie, a French composer known for his minimalist and often eccentric style. Satie reportedly composed while walking, particularly during his daily six-mile walks from Arcueil to Paris and back, stopping at cafes along the way to test out different parts of the music.`,`You may wish to pair this music with your activity and see what it is like to listen and walk at the same time.`],
+ track:"Gymnopédie No. 3 - Eric Satie"},
+
+{t:"Affirmations",
+ c:`”In order to rise from its own ashes, a Phoenix first must burn” - Octavia Butler.`,
+ body:[`Today’s exercise is a writing task which is the first look at the change or type of reset we want to see. We have spent time looking at what we have, now we glance at what we could be.`,
+  `This exercise also encourages you to change your space, by adding notes to visually disrupt your day-to-day with reminders of this change.`,
+  `Complete the sentences below on separate post it notes, and write from the perspective of already having achieved the change you desire. When done with intention, focus and belief, this exercise taps into the subconscious mind.`,
+  `When you have completed this, put the notes around your space in places that will gently interrupt your day. Some may choose to put these next to a mirror, in a cupboard or by the kettle. We are aiming for gentle daily reminders.`,
+  {h:"The Exercise."},
+  `I welcome...<br>I trust ...<br>I deserve...<br>I choose...<br>I have...<br>I know...<br>I feel...<br>I create...<br>I love...<br>I am...`,
+  `<em>You may wish to do this with words that have a negative connotation (see below):</em>`,
+  `I abandon...<br>I discard...<br>I let go of...<br>I dismantle...<br>I destroy...<br>I am not...<br>I question...`],
+ track:"Two - Corre"},
+
+{t:"Tiny Habits",
+ c:`”My actions are my only true belongings.” - Thich Nhat Hanh`,
+ body:[`Today is all about making small changes that will make a big difference in your day-to-day.`,
+  `It has been said that it takes 66 days to fully form a new habit, which can seem daunting and challenging. This method of building tiny habits helps bridge that gap. We are taking inspiration from Dr BJ Fogg’s method of <em>Tiny Habits.</em>`,
+  {h:"In essence..."},
+  `Take 10 minutes to write down as many small habits you would like to build. The key is to start small. Instead of writing “I want to run a marathon” you might instead write “I want to start running”.`,
+  `Once you have your list of habits you would like to build, link them with something else you do daily ie. brushing teeth, showering, making a morning tea/coffee.`,
+  `Your tiny habit might look something like this:`,
+  `<em>After I make my morning coffee, I practice gratitude for 5 minutes.</em>`,
+  `In this way, the act of making the morning coffee directly leads on to the habit you want to build. Some people find it useful to set a visual reminder wherever is useful (ie a note saying “what are you grateful for?” by the kettle).`,
+  `We have included some examples of <em>Tiny Habits</em> for reducing stress, increasing focus and better sleep. See the pdf below.`],
+ res:[["Tiny Habits: A Reset Companion (PDF)","reset-tiny-habits.pdf"]],
+ track:"Beginning and Ending - Max Richter"},
+
+{t:"The Story of the Two Monks",
+ c:`“I look up as I walk.<br>So the tears won’t fall”<br>- Kyu Sakamoto`,
+ body:[`At this point in the course, it can be nice to check in and see what we might like to set down, before we continue.`,
+  `Just before we cross the halfway point, we will take some time to survey the landscape and see if anything is with us, that we would like to offload.`,
+  `As we pour into ourselves time to think, work hard on focus, train our attention, it can be tempting to keep the head down, watching the feet make progress, step by step.`,
+  `Every now and again, taking time to stop, lift the head to survey the landscape and breathe the smell of the evening before continuing can be a meaningful way to notice the distance travelled.`],
+ media:[["The Story of the Two Monks","Audio",{src:"audio/day9-two-monks.mp4"}]],
+ acc:[`The song today is Sukiyaki by Kyu Sakamoto. Famous in Japan and originally called “Ue O Muite Arukou” the lyrics in this cheerful little number translate as`,`“I look up as I walk`,`So the tears won’t fall”`,`And the juxtaposition of sadness and happiness perfectly encapsulates that soon to be halfway feeling.`,`Here is the <strong><a href="https://smilenihongo.com/sukiyaki-song-lyrics" target="_blank" rel="noopener">full translation</a></strong>.`,`Wishing you a joyful evening, with an embrace of bittersweet nostalgia, as sweet as this tune.`],
+ track:"Sukiyaki - Kyu Sakamoto"},
+
+{t:"Constellations",
+ c:`”The stars we are given. The constellations we make. That is to say, stars exist in the cosmos, but constellations are the imaginary lines we draw between them, the readings we give the sky, the stories we tell.” - Rebecca Solnit`,
+ body:[`The video for today outlines how to complete your very own constellations.`,
+  `It is super brief and surface level, in order to save time learning, so you can get going with trying it yourself! You can take as much time, and go as deep as you like. Notice what you are noticing - notice what shows up with each object, and each positioning of each object - how the positioning affects your outlook on the wider landscape.`,
+  `You will need:`,
+  {ul:[`A handful of objects - one to represent each component part of a given issue or query.`,`A level playing field - a table, a patch of carpet on your bedroom floor, the patio steps outside your house - totally free reign on this one, and while I’m assuming the surface is flat - it definitely doesn’t have to be!`]},
+  `It can be really lovely to walk in nature to find object which speak to you, and bring them back indoors. It can also be great to use items which hold a certain amount of significance - however - daily life humdrum items like tubes of paint or half burned candles are also completely brilliant, and often have the most potent metaphors, since these are tools which populate our daily life.`],
+ media:[["Constellations","Video",{vimeo:"1240879984"}]],
+ notes:[`<p><strong>Maps</strong> are one of the oldest resources humans have used. Guiding us through physical landscapes and historical events. Here is your chance to create your own map, ecosystem, constellation.</p>`],
+ acc:[`The accompanying track for today is Deborah’s Theme.`,`I first heard this performed live, three floors up in a carpark in Peckham, by the London Contemporary Music Orchestra, and spent the time feeling extremely emotional, looking out at the London skyline and its attendant sunset. While the music is evocative of a metropolis, it also has a touch of the infinite about it, juxtaposed with the humanity of the daily lives occupying the buildings I was looking out at, in the early evening. Full of struggle, but redolent in hope, it is an absolute humdinger of a landscape painting that tingles the mind’s eye with all the purple colours, and nascent stars, of evening.`],
+ track:"Deborah's Theme - Ennio Morricone"},
+
+{t:"The Tea Ceremony",
+ c:`“I carried to my lips a spoonful of the tea in which I had let soften a bit of madeleine. But at the very instant when the mouthful of tea mixed with cake crumbs touched my palate, I quivered, attentive to the extraordinary thing that was happening inside me. A delicious pleasure had invaded me, isolated me, without my having any notion as to its cause. It had immediately rendered the vicissitudes of life unimportant to me, its disasters innocuous, its brevity illusory, acting in the same way that love acts, by filling me with a precious essence: or rather this essence was not merely inside me, it was me.”<br>— Marcel Proust, Swann's Way`,
+ pull:`“The mouthful of tea mixed with cake crumbs touched my palate, I quivered, attentive to the extraordinary thing that was happening inside me`,
+ body:[`Today we take time to sit, and drink our tea. An extremely simple practice, it allows us to slow down, and practice mindfulness.`,
+  {i:`What is mindfulness?`},
+  `The word mindfulness in Tibetan is “sati”, which means “to remember” or “to recollect”. A quite perfect translation, we can wonder why we would give such a complicated signifier in mindfulness! When I think about mindfulness as remembering, or recollection, I think not only is it about taking the time to collect myself, collect my thoughts and feelings and sit quietly - it is also about remembering to take time to do this!`,
+  {i:`When I take time to do this, I can now ask myself. Where am I? What am I doing?<br>Oh yes, I remember. I am here in my home, looking out at the garden.<br>I am drinking my tea.`},
+  `If I would like to remember even further why I am doing this, I can expand.`,
+  {i:`I am drinking my tea looking out at the garden because it is good for me to be hydrated, and looking at the garden gives me a feeling of peace.`},
+  `What am I doing right now, is a cornerstone of mindfulness practice. Here in the now, we can be fully present to the sensory delights around us. Tantalisingly simple, it can bring us back to ourselves, and in recollecting, it can also open us to the world around us.`,
+  `What is in your world that you would like to notice today? Anything you would like to shift or change? Allow the thought to pass, and in noticing it, know that you are listening to your inner voice considerately, recollecting what feels important, with no need to rush into action.`],
+ media:[["The Tea Ceremony","Audio",{src:"audio/day11-tea-ceremony.mp4"}]],
+ notes:[{q:`“Drink your tea slowly and reverently, as if it is the axis on which the world earth revolves - slowly, evenly, without rushing toward the future.”<br>- Thich Nhat Hanh`}],
+ acc:[`The accompaniment for today is Dusk Tempi by Field Works and Eluvium. Field Works is the music making vehicle of Steven Hyatt, a National Geographic Explorer. This track employs recordings of the endangered Indiana bat species, with echolocation sounds of the animals used as sonic source material.`],
+ track:"Dusk Tempi - Field Works and Eluvium"},
+
+{t:"Misogi",
+ c:`”In Misogi, you'll reach this edge where you are convinced you have nothing left, but you'll keep going anyway, and then you'll look back and you'll be way out beyond what you were certain was your edge.” - Marcus Elliott.`,
+ body:[`Today we are exploring the Japanese concept of <strong>Misogi</strong>.`,
+  `Misogi, meaning ‘water cleansing’, is an ancient Japanese practice involving purifying the mind, body, and spirit through physical and mental challenges.`,
+  `Here we are talking about year-defining activities. It is unlikely you will remember in great detail what you did 8 days ago, but with this Misogi you will certainly remember what you did this year.`,
+  {h:"About Misogis"},
+  {ul:[`<strong>They are challenging</strong><br>You’re supposed to only succeed in some of the Misogis you attempt. They should push the limit.<br><em>They say that if you’re crossing the finish line every time, you need to set the goalpost high enough. This is supposed to be challenging.</em> Whatever your misogi goal is, there should be a 50/50 chance that you will succeed. It shouldn’t be easy enough that you can fully expect to be successful. You need to enter the misogi with a sense of adventure, knowing that you may fail.`,
+   `<strong>A sense of adventure</strong><br>You need to enter the misogi with a sense of adventure, knowing that you may fail. There needs to be some risk involved. The whole point is to stretch yourself to tap into something you didn’t know for sure you were capable of`,
+   `<strong>Misogi should scare you a little bit.</strong><br>Tied to pushing your limits, whatever you choose for your misogi should create a little bit of fear. It should make you uncomfortable, and the thought of it should rattle your nerves a bit. From starting a business to getting married for a second time to running a marathon, each of those things created some unease and anxiety. The beauty is this… in each case, that fear broke down over time – once I chose to take the leap.`,
+   `<strong>Misogi is personal</strong><br>Misogis are for you, not anyone else. The whole point of the misogi experience is to learn something about yourself. The same as it was a traditional way to purify the mind and body in Japanese culture, which was very personal, the Misogi Challenge is an endeavor for you alone. Even if you do it alone with someone else or a group, the experience is still very private. If you’re doing it for someone else, you’ll miss the point.`,
+   `<strong>There is no set format for Misogi.</strong><br>Having a goal set and context will determine how to set your framework intentionally. Your actual Misogi should feel ceremonious. Something you only do once or twice a year. Below we have detailed the wide variety of possible Misogis (this is not an exhaustive list!)`]}],
+ notes:[{q:`<strong>Misogi</strong> (水清ぎ, "water cleansing")<br>A yearly <u>personal</u> challenge to build resilience and mental fortitude.<br><br><em>Challenging, Meaningful, Transformative</em>`}],
+ after:`<div class="cols"><div>
+  <h3>Examples of Physical Misogis</h3>
+  <h4>Extreme Endurance</h4><ul><li>Participate in a long run (10k, half or full marathon, or a multi-day hiking/cycling event.)<br>Climbing: Attempt to climb a challenging mountain or hill range (eg. 3 peaks.)</li></ul>
+  <h4>Climbing</h4><ul><li>Attempt to climb a challenging mountain or hill range (eg. 3 peaks.)</li></ul>
+  <h4>Travel</h4><ul><li>Embark on a solo backpacking trip to a remote or unfamiliar region, or a long-distance cycling trip.</li></ul>
+  <h4>Water Activities</h4><ul><li>Attempt a cold-water swim or learn a water sport.</li></ul>
+  <h4>Unique Challenges</h4><ul><li>Run all day for the longest day of the year, or run all night for the longest night of the year.<br><em>This doesn’t have to be running - input anything that speaks to you.</em></li></ul>
+ </div><div>
+  <h3>Examples of Mental Misogis</h3>
+  <h4>Creative Endeavors</h4><ul><li>Start that business idea, podcast, YouTube channel, or write a book.</li></ul>
+  <h4>Learning</h4><ul><li>Learn a new language, master a complex skill, or take on a challenging course.</li></ul>
+  <h4>Personal Growth</h4><ul><li>Undertake a period of intense self-reflection, mindfulness practice, or a spiritual or silent retreat.</li></ul>
+  <h4>Community Engagement</h4><ul><li>Organize a large-scale volunteer event, start that community initiative, or run for a political office.</li></ul>
+ </div></div>`,
+ acc:[`Here we have a piece of music which is both very modern but also tribal and ritualistic. It has a darkness and a weight to it but maintains a hopefulness which echoes the Misogi you are about to embark on.`,`<em>How will this year be defined for you? What challenge have you been putting off? This is your sign to start, to try - even if you might fail.</em>`],
+ track:"The Way - Zack Hemsey"},
+
+{t:"A Message on the Wind...",
+ c:`”A real love letter is made of insight, understanding, and compassion. Otherwise it's not a love letter. A true love letter can produce a transformation in the other person, and therefore in the world. But before it produces a transformation in the other person, it has to produce a transformation within us. Some letters may take the whole of our lifetime to write.” - Thich Nhat Hanh`,
+ pull:`A Message on the Wind...<br>A Beacon in the Dark...<br>A letter in time...`,
+ body:[`Today’s task requires some planning and organisation. Today’s actions will span across time and space.`,
+  `We hope the ripples you create today find their way back to you in a meaningful and transformative way.`,
+  `We would like you to write a letter today addressed to yourself, a year from now. The type of letter is completely up to you, it could be a diary entry, a love letter, a list of dreams and aspirations. We have some starting points below to help you.`,
+  `<strong>Here are some tips to try to write your own “future-self” letter:</strong>`,
+  {ul:[`Write down what you want to remember.`,`Write down what you don’t want to remember.`,`Write about your favourite things at the moment.`,`Jot down notes about how you’re feeling <em>right now.</em>`,`Scribble down the lessons you’ve learned in the last few months.`,`What habits do you want to start?`,`What habits do you hope you have stopped?`,`What habits do you wish to continue?`]},
+  `<strong>**Important**</strong>`,
+  {p:`Put this letter in an envelope, addressed to you. Write down the date you can read them again.<br>If possible give this to someone for safekeeping and ask them to deliver it on that day.`},
+  {p:`If you are keeping it yourself, set a calendar event so you are reminded (put where the letter is on this so you don’t lose the letter!)`}],
+ notes:[{q:`Your future self is dependent on your actions today.`}],
+ acc:[`A change of pace for the musical companion today. We have selected Tamalla by Vieux Farka Touré and Khruangbin. We wanted to highlight where messages from the past are used in other contexts and cultures. We look to Mali, to the tradition of Griots to tell stories and teachings, often in song form.`,`The whole album is a tribute to Vieux Farka Touré’s father, all the songs are written by him, he’s from Mali and the lyrics are in Songhoi.`,`“<em>[The song is] sung from the point of view of a griot*. The griot is asking for mercy for the people, to a Songhoi warrior</em>” - Vieux Farka Touré. Hence “Tamalla”, which means mercy. ]`,`*A Griot is a kind of historian in western african culture, he/she has the vocation of telling stories, legends and myths from his people/folk, some of them do so by singing songs. Another kind of message on the wind...This oral tradition of sharing stories is ever present today in Mali.`],
+ track:"Tamalla - Vieux Farka Touré & Khruangbin"},
+
+{t:"The Artist's Date: Part One",
+ c:`“An artist date is a block of time, perhaps two hours weekly, especially set aside and committed to nurturing your creative consciousness, you inner artist. In its most primary form, the artist date is an excursion, a play date that you preplan and defend against interlopers. You do not take anyone on this artist date but you and your inner artist, a.k.a. your creative child.”<br>— Julia Cameron, the Artist’s Way`,
+ body:[`This evening we are looking at the process of filling our own tank.`,
+  `Listen to the recording with a journal beside you, jotting down any ideas that come to you as you listen, allowing your mind to truly wander. You might like to listen to the song for the day beforehand, to allow your mind to open and flourish, in the lengthy easefulness and downriver tempo of the notes.`,
+  {h:"The Artist’s Date, Part One."},
+  `We all have different sides of the brain. One side is devoted to Getting Things Done. This is often described as the “Left Brain” - associated with sequential thinking, language, logic and critical thinking, it is the one that keeps us ticking over, knocking things down off the To-Do List, and constantly problem solving. It is satisfying, somewhat addictive, and can be a bit of a steamroller. Also described as the ‘masculine’ side, or ‘ratio’ thinking, it is the one that can stake a claim in things - like time - plant a flag in the ground, and take up space.`,
+  `This is what we are asking you to do for The Artist’s Date, Part One. To stake a claim in your time, to carve out space, and to plot and plan an activity that you can complete. Perhaps even this weekend - maybe for an hour - or if not even half an hour - and allow yourself to welcome in luxuriating in Your Own Time.`,
+  `Possible activities might include:`,
+  {ul:[`Visiting a gallery or museum, walking around with headphones, or simply listening to the quiet steps of the people around, noticing unexpected moments in the exhibits.`,`A long bath, perhaps with music or something to read. If you can, try to avoid a podcast, though a bedtime story might do the trick. Don’t forget a big glass of water so you stay hydrated.`,`A walk up a hill and a stare at the horizon.`]},
+  `Whatever you come up with, choose something that you know will nourish you. If you don’t have time, or can’t find time - don’t under any circumstances give yourself a hard time - just notice that now is busy, and cast your eye to later down the path, when you can squeeze something in.`,
+  `Wishing you a beautiful evening, concocting your plan.`],
+ media:[["The Artist's Date: Part One","Audio",{src:"audio/day14-artists-date-1.mp4"}]],
+ acc:[`The accompaniment for this evening is Clair De Lune by Kamasi Washington. Having lived a long and varied life, I don’t know if I know of a more impactful vibe reset than this agonisingly elegant jazz rendition of Debussy’s classical original.`,`Listen to it twice!`],
+ track:"Clair De Lune - Kamasi Washington"},
+
+{t:"The Artist's Date: Part Two",
+ c:`“But do you know how old I will be by the time I learn to really play the piano / act / paint / write a decent play?”<br>Yes . . . the same age you will be if you don’t.”<br>— Julia Cameron, the Artist’s Way`,
+ body:[{h:"The Artist’s Date: Part Two"},
+  `This second part of The Artist Date looks at making space, taking up space, and stepping into space, by creating a space where we can be ourselves.`,
+  `This might be a tiny corner of where you live, it might outdoors in the nature, it might be in a cafe (though this might be more difficult in a cafe, sometimes the perfect space to feel quiet and able to step into yourself is among others). Wherever you are, wherever you are planning to be, we will bring some things with us of the journey so far to be with us in this space.`,
+  `This could be anything from your own life journey. The idea is that it feels like an offering.`,
+  `It might be a length of brightly coloured fabric to set your notebook down on. It might be a candle that contains a favourite scent. Perhaps it is a treasured item, a stone or shell, an ornament or small item of jewellery. Perhaps the item was given to you by someone meaningful. Whatever talismans and icons you bring into this space, they should feel like cheerleaders.`,
+  `A leaf from the walk on the way to the cafe.`,
+  `During the recording, there will be time set aside for you to get comfortable, and to arrange these things, but if one of your items is a cup of tea, you might like to get that ready before you enter your designated space.`,
+  `It might be that you feel like you don’t have access to any space where you can simply be, in which case, use this session to think about planning how and when you would like to find some.`,
+  `Step by step.`],
+ media:[["The Artist's Date: Part Two","Audio",{src:"audio/day15-artists-date-2.mp4"}]],
+ acc:[`The offering today is Hana by Asa Chang and Jun Ray. It uses the human voice as percussion, and employs melancholy chord progressions that are as peaceful as they are beguiling, giving the whole piece a sense of intrigue and curiosity. What is the message which is being conveyed here? If someone asked you to write about it, what would you write?`],
+ track:"Hana - ASA-CHANG & JUNRAY"},
+
+{t:"A Clearer Mind",
+ c:`”The true miracle is not walking on water or walking in air, but simply walking on this earth.” — Thich Nhat Hanh`,
+ body:[{h:"A Clearer Mind"},
+  `Today’s meditation acknowledges the difficulty of doing this work, when we are connected to so much in daily life, when we care so much for others, and when our attention is taken from us, by the fast moving tirade of endless information that we are surrounded by!`,
+  `If the past two days have felt at all difficult for you, you are not alone! Doing this work is deep and difficult, and the deprioritisation of ourselves is sometimes the easiest way to fit everything into a long day of work!`,
+  `It’s easier to care for others, we are socialised to be caring, hard-working people, and the idea of taking alone time can be seen as ‘selfish’ or something we don’t have permission to do.`,
+  `If that’s at all the case, this meditation can be a way to clear space, and to relinquish some of the energies we are carrying - however unconsciously.`,
+  `The meditation involves some speaking aloud, so do make sure you are in a private space for this one.`],
+ media:[["A Clearer Mind Meditation","Audio",{src:"audio/day16-clearer-mind.mp4"}]],
+ acc:[`The offering for today is The Lang Toun by James Yorkston and Fourtet.`,`Full of unintelligible voices, it represents the cacophony of noise, the layers of needs that are out there in the world that compete for our attention!`,`We also hope that its rhythm and urgency help it captures some of the restlessness, some of the impatience to get going that might be felt in the deep self, as we clear space for sunlight to pour through, for new things to grow.`],
+ track:"The Lang Toun - James Yorkston and Fourtet."},
+
+{t:"The Story of the Big Black and White Bird",
+ c:`“‘Hope’ is the thing with feathers –<br>That perches in the soul –”<br>- Emily Dickinson`,
+ body:[`Today we bring you the most esoteric of our stories; a visualisation that talks about our search for the infinite, with credit to Michael Meade.`,
+  `When we are engrossed in the work, transfixed by an outcome or the idea of progress, the mysterious, ephemeral and ethereal can be evasive.`,
+  `Is it possible to allow ourselves to stop striving for even a moment, as we seek out interactions with the idea-space?`,
+  `The story gives us a point of reflection from which to consider the typical ‘hero’s story’. Is it true that we must always complete a quest and return with something tangible?`,
+  `Consider some of the symbols in the story. What stays in the mind, after the story has ended? What is lingering in the synapses, in the nervous system, once we have reached the ending? Is the ending satisfying?`,
+  `What is in echo? What is still reverberating after the sound has stopped?`,
+  `Is there such a thing as endings?`,
+  `We will leave you to daydream and journal, with an offering for the day.`],
+ media:[["The Story of the Big Black and White Bird","Audio",{src:"audio/day17-big-bird.mp4"}]],
+ acc:[`This song by Ladysmith Black Mambazo is about hope disappearing and returning. It has something of a sense of humour amidst the soaring and swooping singing - which reminds us of the soaring and swooping bird - flying high on the thermals of waxing and waning hope, and the human will towards infinity.`],
+ track:"Unomathemba - Ladysmith Black Mambazo"},
+{t:"Moving to Higher Ground",
+ c:`”It’s not the way that broadens humans, it’s humans that broaden the way.” - Confucius.`,
+ body:[`Today is a day of <strong>action</strong>.`,
+  `Like the man in the story yesterday we are climbing our own mountain in pursuit of something.`,
+  `Today we would like you to take some practical steps towards your goal. We invite you to think about how you might go about this.`,
+  {ul:[`<strong>Change your environment</strong><br><em>How can you begin to change your surroundings? If your goal is calm or better sleep does this mean moving where you charge your phone, or moving your bedroom around?<br>If your goal is productivity or creativity this may mean physically moving where you work. Your subconscious mind is constantly absorbing information from outside sources and using that information to form beliefs that shape how you think and behave. Negativity from the daily news, toxic people and social media can have a profound effect on your subconscious mind without you even knowing it.</em>`,
+   `<strong>Change your state</strong><br><em>Your state dictates your mood and how we act towards the world. Research has shown that by standing in a particular pose (hands on hips) for 3 minutes can improve confidence, and smiling to yourself increases a sense of happiness. This is called Biohacking. How can you do this before you work on your goal. What state do you need yourself to be in for best results?</em>`,
+   `<strong>Change your beliefs</strong><br><em>This is more complex but important to have an awareness of. What are some limiting beliefs that you may be carrying around with you? Limiting beliefs hold us back from what we want in life. They can be based on past results, negative events you’ve experienced or a flawed vision of your future. When you address these beliefs and challenge their accuracy, you can replace them with empowering beliefs to live by. What does this look like? It could be replacing “My parents were divorced, so it’s in my genetic code to not have a happy relationship,” to “I deserve a healthy relationship with someone I love.” When you change your self-talk, you change your world.</em>`]}],
+ notes:[`<h3>Secondary Task</h3><p>Alongside the actions you will take to move towards your goal we would like to invite you to practice gratitude.</p><p>Please set 20 minutes aside and have your journal with you, we would like you to use this time in a distraction-free setting, and write about what you are grateful for. This can be in reference to findings you have made in these 21 days but also in a wider context.</p><p>Remind yourself of the gifts, graces, benefits, and good things you enjoy. Recall moments of gratitude associated with ordinary events, and valued people in your life. Give thanks to these in this moment.</p>`],
+ acc:[`Here we have a piece of music which is titled <em>A Walk</em>, it has movement and action which we like. We have been listening to this as we have been making, dreaming and finalising RESET.`],
+ track:"A Walk - Tycho"},
+
+{t:"Impermanence",
+ c:`”It is not impermanence that makes us suffer. What makes us suffer is wanting things to be permanent when they are not.” - <em>Nhat Hanh</em>`,
+ body:[{h:"A meditation for Impermanence"},
+  `Today’s meditation is very simple.`,
+  `On impermanence and interbeing, we ask you to walk outside in the nature if you can, but if you prefer you can also stay home, and lie down.`,
+  `Prepare yourself with some tea or breathing, and allow yourself to relax. If walking, maybe begin the recording when you are away from the roads, somewhere you can already feel your nervous system settling down.`,
+  `If lying down or sitting up, allow yourself to drift and breathe and think before hitting Go. Let relaxation come into your being before we start.`,
+  `After the meditation feel free to journal anything which came up, taking note of how ideas and concepts landed with you.`],
+ media:[["Impermanence","Audio",{src:"audio/day19-impermanence.mp4"}]],
+ acc:[`The offering for today is Alice Coltrane.`,`Listen to every edge of the sound as it arrives into your ears, trying to pick out how many and what kind of instruments are interacting with each other and your own consciousness.`],
+ track:"Journey in Satchidananda - Alice Coltrane"},
+
+{t:"The Quest",
+ c:`“Say it, reader. Say the word 'quest' out loud. It is an extraordinary word, isn't it?<br>So small and yet so full of wonder, so full of hope.”<br>— Kate DiCamillo, The Tale of Despereaux.`,
+ body:[{h:"The Quest"},
+  `Today we train our ears on a story that is as old as the hills. No one seems clear on its origin, and it has many counterparts cross culturally, so we can know it is one of those stories that is so old, that it has a different version almost everywhere.`,
+  `Continuing our theme of impermanence, change and interbeing, what are the striking moments of the story to you? Which colours and symbols, sights and sounds continue to resonate after the story is finished?`,
+  `How about the ending - what was the lasting feeling once the story had concluded?`,
+  `And - if the journey is the journey - how did the ending sit with you - was it “worth” it? Or did you prefer the process leading up to it more?`,
+  `Awareness and choice are key in the story. Listen out for any moments in which you hear them appear. It might appear that the main character has little choice. Is that true? To what extent are we determined by fate, or by free will?`,
+  `If you have time to journal once the story is concluded, we have an offering for you to accompany that process.`],
+ media:[["The Quest","Audio",{src:"audio/day20-the-quest.mp4"}]],
+ acc:[`Iyat Idounia Ayasahen by Omara Moctar “Bombino” is a journey through space and time that reminds us of the desert from the story. You can feel a sense of traveling in the music - of searching for something.`,`This is one of the first songs Bombino wrote. It focuses on friendship and the difficulty of maintaining relationships with old friends in the midst of monetary wealth. He warns that materialism can destroy the simple life where values of friendship, honour and dignity are cherished.`],
+ track:"Iyat Idounia Ayasahen (Another Life) - Bombino"},
+
+{t:"The End Is Not The End",
+ c:`“Afoot and light-hearted I take to the open road,<br>Healthy, free, the world before me”<br>- Walt Whitman, Song of the Open Road`,
+ body:[{h:"The End Is Not The End"},
+  `<strong>Welcome to Day 21.</strong>`,
+  `We want to thank you for joining us on this RESET experience. It’s been a journey, and an amazing chance for us to share with you, some of the tools, techniques, sensations and stories we’ve gathered over the past few years which have inspired us and helped us shaped our own creative recoveries.`,
+  `We hope that you have taken from these anything you needed to take, and that you have perhaps even been able to notice a shift in awareness coming in, through the door that you opened a little under a month ago.`,
+  `In the future, we would love to make these courses more immersive, interactive and inspiring and so we would welcome any feedback you would be prepared to share - we will send a form around at the close of this course, and we would love to check in on your experience.`,
+  `We are also thinking about running a Live Session to close the experience - if this is something you would be interested in, you can indicate at the end of the <a href="https://docs.google.com/forms/d/e/1FAIpQLSchKMuoI9rainhIRiWTq-XFjOV_K_yGT3Y3u_Y_6AyZ6dEcyQ/viewform?usp=send_form" target="_blank" rel="noopener">feedback form</a>.`,
+  `But for now, to the business of endings - though we know clearly, that the end is not the end.`,
+  `Because the horizon moves with you.`,
+  `Even where it begins with a walk around the block, or to the end of the garden and back, the awareness has now potentially shifted, just like the horizon. And with awareness, comes more choice.`,
+  `This course has been an attempt to highlight the practice needed in participating. It’s all very well saying we believe - if we don’t go to church, it will be hard for us to have a practice.`,
+  `And so, as we say - increasing the interaction, the collaboration, the community, is a key wish for future iterations of this course. For now - in the mind of the individual experience, we ask you:`,
+  {ul:[`What has shifted at this stage in the journey?`,`This far up the mountain, we turn around, see that we are above the tree line - and what else are you able to see, feel, hear?`,`Where do you want to go next?`,`What artist’s prayer, spell, offering do you want to make, begin, start, complete, undergo, investigate or explore further, now that you are here? This is your goal today. The choice is yours.`]}],
+ media:[["The End Is Not The End Meditation","Audio",{src:"audio/day21-end-is-not-the-end.mp4"}]],
+ res:[["Feedback form","https://docs.google.com/forms/d/e/1FAIpQLSchKMuoI9rainhIRiWTq-XFjOV_K_yGT3Y3u_Y_6AyZ6dEcyQ/viewform?usp=send_form"]],
+ acc:[`We accompany this day with a short meditation, flying over the expanse of the distance travelled, and looking from the peak at the horizon, for where we will go next.`,`The song for today is Oscar Peterson’s Hymn for Freedom. In many ways, this is the song which started this course, though we haven’t published it yet. If any of the music has touched you during these past few weeks, we would love to hear about it.`],
+ track:"Hymn for Freedom - Oscar Peterson"}
+];
+
+/* ---- hand-drawn illustrations: one per lesson (viewBox 0 0 200 200) ---- */
+const MOTIF = [
+ /*1 door*/ `<path d="M30 170H170"/><path d="M62 170V40H138V170"/><path d="M62 40L94 54V158L62 170"/><circle cx="88" cy="108" r="2.5"/><path d="M118 168C117 150 119 138 118 126"/><path d="M118 128C102 128 98 108 110 102C108 90 128 88 130 100C142 102 140 124 118 128"/><path class="soft" d="M70 182C90 178 110 184 130 180"/>`,
+ /*2 cherry*/ `<path d="M24 66C70 74 112 52 176 40"/><path d="M96 62C108 74 116 84 132 90"/><path d="M60 70C62 82 70 88 78 92"/>${[[132,90],[78,92],[150,46],[110,58]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5"/><circle class="dot" cx="${x}" cy="${y}" r="1.4"/>`).join("")}<path class="soft" d="M98 118c4-3 8-2 9 2"/><path class="soft" d="M120 142c4-3 8-1 8 3"/><path class="soft" d="M84 160c4-3 8-2 9 2"/><path d="M40 150C70 130 90 132 110 150M70 136L64 120"/>`,
+ /*3 hourglass*/ `<path d="M66 38H134M66 162H134"/><path d="M78 38C78 80 98 92 98 100C98 108 78 120 78 162"/><path d="M122 38C122 80 102 92 102 100C102 108 122 120 122 162"/><path d="M88 66H112"/><path d="M86 154Q100 134 114 154"/><path class="soft" d="M100 104V140"/><path d="M100 38C100 28 92 22 86 22M100 30C104 24 112 22 116 24"/>`,
+ /*4 moon*/ `<path d="M128 44A36 36 0 1 0 156 108A28 28 0 1 1 128 44"/>${[[48,52],[70,34],[40,96],[160,150],[96,70]].map(([x,y])=>`<circle class="dot" cx="${x}" cy="${y}" r="1.8"/>`).join("")}<path class="soft" d="M40 168L118 96" stroke-dasharray="4 7"/><path d="M30 176C40 170 52 170 58 176"/>`,
+ /*5 cairn*/ `<path d="M28 168H172"/><ellipse cx="100" cy="152" rx="40" ry="14"/><ellipse cx="100" cy="124" rx="30" ry="11"/><ellipse cx="100" cy="102" rx="21" ry="9"/><ellipse cx="100" cy="85" rx="13" ry="7"/><path class="soft" d="M100 40V70" stroke-dasharray="3 6"/><circle cx="100" cy="36" r="4"/>`,
+ /*6 path*/ `<path d="M40 176C84 146 58 116 100 98C142 82 118 52 164 30" stroke-dasharray="2 9"/>${[[62,152,-30],[76,140,-20],[82,116,10],[104,98,-10],[122,86,-40],[130,62,0],[146,46,-30]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="3" ry="5.5" transform="rotate(${r} ${x} ${y})"/>`).join("")}<path class="soft" d="M20 120C40 110 50 112 60 118M150 160C160 150 176 150 184 156"/>`,
+ /*7 feather*/ `<path d="M58 166C86 128 116 78 150 36"/><path d="M150 36C126 52 104 84 92 118C86 132 76 146 68 156"/><path d="M150 36C150 64 136 98 112 124C100 136 86 146 72 154"/><path class="soft" d="M128 60L118 70M118 78L106 86M110 96L96 104M100 112L88 120M124 82L114 92M134 70L126 80"/>`,
+ /*8 cup*/ `<path d="M62 106H138V128C138 156 62 156 62 128Z"/><path d="M138 114C160 114 160 140 136 140"/><path d="M44 164H156"/><path class="soft" d="M88 94C78 82 98 76 88 62M110 94C100 82 120 76 110 62"/><path d="M100 52V40M100 46C94 40 88 40 84 42M100 44C106 38 112 38 116 40"/>`,
+ /*9 river & two monks*/ `<path d="M20 120C60 108 80 132 120 120C150 112 170 118 184 116"/><path d="M20 146C60 134 84 158 124 146C150 138 168 142 184 140"/><ellipse class="soft" cx="70" cy="132" rx="10" ry="4"/><ellipse class="soft" cx="120" cy="134" rx="9" ry="4"/><circle cx="64" cy="70" r="6"/><path d="M64 76L54 106H74Z"/><circle cx="96" cy="72" r="6"/><path d="M96 78L86 106H106Z"/>`,
+ /*10 constellation*/ `${[[60,140],[80,108],[104,96],[98,60],[132,48],[126,128]].map(([x,y],i)=>`<circle class="dot" cx="${x}" cy="${y}" r="${i%2?2.6:3.4}"/>`).join("")}<path d="M60 140L80 108L104 96L98 60L132 48M104 96L126 128L60 140"/>${[[40,40],[160,90],[150,160],[36,90],[170,30]].map(([x,y])=>`<circle class="dot soft" cx="${x}" cy="${y}" r="1.4"/>`).join("")}`,
+ /*11 tea bowl*/ `<path d="M56 112C56 162 144 162 144 112"/><ellipse cx="100" cy="112" rx="44" ry="10"/><path d="M84 156H116"/><path class="soft" d="M90 98C80 86 100 80 90 66M112 98C102 86 122 80 112 66"/><path d="M150 70C164 60 176 64 178 76C166 84 154 82 150 70Z"/><path d="M150 70L178 76"/>`,
+ /*12 waterfall*/ `<path d="M30 60H86C90 60 92 64 92 68V168"/><path d="M170 60H118C114 60 112 64 112 68V168"/><path d="M98 64V150M106 64V156M102 64V160" class="soft"/><path d="M76 170C86 160 94 166 100 160C106 166 114 160 124 170"/><path d="M24 176H176"/>`,
+ /*13 lighthouse*/ `<path d="M88 168L94 82H112L118 168"/><path d="M90 82H116L112 66H94Z"/><path d="M103 66V58"/><path d="M92 118H114M90 142H116" class="soft"/><path d="M116 72L176 54M116 76L176 92" class="soft"/><path d="M40 176C60 166 80 170 90 168M118 168C140 170 160 164 176 172"/>${[[40,40],[62,30],[50,70]].map(([x,y])=>`<circle class="dot" cx="${x}" cy="${y}" r="1.6"/>`).join("")}`,
+ /*14 lotus*/ `<path d="M100 66C86 86 86 114 100 132C114 114 114 86 100 66"/><path d="M100 132C82 126 64 108 62 86C80 92 94 108 100 132"/><path d="M100 132C118 126 136 108 138 86C120 92 106 108 100 132"/><path d="M100 132C78 136 54 128 42 112M100 132C122 136 146 128 158 112"/><path class="soft" d="M40 152C70 146 130 146 160 152"/><path class="soft" d="M60 166C80 162 120 162 140 166"/>`,
+ /*15 lily pad & candle*/ `<path d="M40 140C40 116 72 104 100 104C128 104 160 116 160 140C160 162 128 170 100 170C72 170 40 162 40 140Z"/><path d="M100 136L100 104M100 136L124 108"/><rect x="88" y="66" width="24" height="44" rx="2"/><path d="M100 66V58"/><path d="M100 58C94 50 98 40 100 34C102 40 106 50 100 58Z"/>`,
+ /*16 window & curtain*/ `<rect x="52" y="34" width="96" height="132" rx="2"/><path d="M100 34V166M52 100H148" class="soft"/><path d="M52 34C70 70 60 120 74 166"/><path d="M60 34C76 70 68 120 82 166" class="soft"/><circle cx="124" cy="68" r="10"/><path d="M30 166H170"/>`,
+ /*17 bird*/ `<path d="M40 86C62 70 82 72 100 92C118 72 140 70 162 86"/><path d="M92 92C96 98 104 98 108 92"/><path d="M100 96V104"/><path class="soft" d="M20 160C50 132 76 140 96 152C120 132 150 128 182 156"/><path d="M28 172H174"/>`,
+ /*18 mountain*/ `<path d="M20 168L74 84L100 118L128 64L182 168"/><path class="soft" d="M128 64L120 84L132 80L138 92"/><path d="M74 168C86 150 94 146 104 132C112 120 120 110 124 98" stroke-dasharray="2 7"/><circle cx="118" cy="108" r="2.6"/><path d="M118 111V118"/><circle cx="126" cy="100" r="2.6"/><path d="M126 103V110"/>`,
+ /*19 hyacinth*/ `<path d="M100 176C98 140 102 100 98 52"/>${[60,72,84,96,108,120].map((y,i)=>`<path d="M${i%2?100:98} ${y}C${i%2?112:86} ${y-2} ${i%2?118:80} ${y+6} ${i%2?114:84} ${y+12}"/>`).join("")}<path class="soft" d="M138 104c4 -2 7 0 6 4M150 140c4-2 7 0 6 4M128 160c4-2 7 0 6 4"/><path d="M100 176C88 160 78 150 68 146M100 176C110 158 120 150 132 148"/>`,
+ /*20 dunes*/ `<circle cx="144" cy="58" r="16"/><path d="M18 140C54 112 86 116 114 138C140 120 166 118 186 130"/><path d="M18 168C60 150 110 152 186 166" class="soft"/><circle cx="74" cy="114" r="3.4"/><path d="M74 118V132M74 124L68 130M70 140L74 132L78 140"/>`,
+ /*21 horizon*/ `<path d="M20 120H180"/><path d="M64 120A36 36 0 0 1 136 120"/><path class="soft" d="M100 70V58M64 82L56 74M136 82L144 74M48 106L38 104M152 106L162 104"/><path d="M100 176C96 160 104 148 100 132" stroke-dasharray="2 7"/><path d="M72 176L94 124M128 176L106 124" class="soft"/>`
+];
+const SKETCH = `<filter id="sk"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter>`;
+function plate(n){ return `<figure class="plate" aria-hidden="true"><svg class="ink draw" viewBox="0 0 200 200"><defs>${SKETCH}</defs><g filter="url(#sk)">${MOTIF[n-1]}</g></svg></figure>`; }
+
+/* the seed that grows into a tree across 21 days, and the stars come out at the end */
+function sprout(n){
+  const g=[], B=182, X=80, f=v=>v.toFixed(1);
+  g.push(`<path class="soft" d="M10 ${B}C50 ${B-3} 110 ${B+3} 150 ${B-1}"/>`);
+  if(n<=7) g.push(`<ellipse cx="${X}" cy="${B+7}" rx="6" ry="4"${n>4?' class="soft"':''}/>`);
+  if(n>=2){ const r=Math.min(1,(n-1)/12);
+    g.push(`<path class="soft" d="M${X-2} ${B+8}C${X-8} ${B+12} ${f(X-14-20*r)} ${f(B+14+2*r)} ${f(X-18-26*r)} ${B+16}M${X+2} ${B+8}C${X+8} ${B+13} ${f(X+14+20*r)} ${f(B+14+2*r)} ${f(X+18+26*r)} ${B+16}M${X} ${B+10}V${f(B+12+4*r)}"/>`); }
+  if(n<3) return wrap(g,n);
+  const t=(n-3)/18, H=14+106*Math.pow(t,.85), top=B-H;
+  // trunk
+  if(n<7) g.push(`<path d="M${X} ${B+4}C${X-3} ${f(B-H*.4)} ${X+3} ${f(B-H*.7)} ${X} ${f(top)}"/>`);
+  else { const w=1.5+(n-7)*0.45;
+    g.push(`<path d="M${f(X-w)} ${B}C${f(X-w)} ${f(B-H*.45)} ${f(X-w*.4)} ${f(B-H*.8)} ${X} ${f(top)}"/>`);
+    g.push(`<path d="M${f(X+w)} ${B}C${f(X+w)} ${f(B-H*.45)} ${f(X+w*.4)} ${f(B-H*.8)} ${X} ${f(top)}"/>`);
+    g.push(`<path class="soft" d="M${f(X-w-4)} ${B}C${f(X-w)} ${B-3} ${f(X-w)} ${B-6} ${f(X-w)} ${B-8}M${f(X+w+4)} ${B}C${f(X+w)} ${B-3} ${f(X+w)} ${B-6} ${f(X+w)} ${B-8}"/>`); }
+  // first leaves
+  if(n<=8){ const s=Math.min(1,(n-2)/4);
+    g.push(`<path d="M${X} ${f(top)}C${f(X-8*s)} ${f(top-2)} ${f(X-14*s)} ${f(top-8*s)} ${f(X-18*s)} ${f(top-14*s)}C${f(X-8*s)} ${f(top-14*s)} ${f(X-3*s)} ${f(top-7*s)} ${X} ${f(top)}"/>`);
+    g.push(`<path d="M${X} ${f(top)}C${f(X+8*s)} ${f(top-2)} ${f(X+14*s)} ${f(top-8*s)} ${f(X+18*s)} ${f(top-14*s)}C${f(X+8*s)} ${f(top-14*s)} ${f(X+3*s)} ${f(top-7*s)} ${X} ${f(top)}"/>`); }
+  // branches
+  const BR=[[.42,-1,34,8],[.52,1,38,9],[.64,-1,30,10],[.72,1,30,11],[.82,-1,22,12],[.86,1,22,13]];
+  BR.forEach(([p,d,L,from])=>{ if(n<from) return; const k=Math.min(1,(n-from+1)/5), len=L*k*(0.7+0.3*t);
+    const y0=B-H*p, x1=X+d*len*.9, y1=y0-len*.6;
+    g.push(`<path d="M${X} ${f(y0)}C${f(X+d*len*.35)} ${f(y0-2)} ${f(X+d*len*.65)} ${f(y0-len*.25)} ${f(x1)} ${f(y1)}"/>`);
+    if(n<14) g.push(`<path d="M${f(x1)} ${f(y1)}c${d*6} -1 ${d*10} -5 ${d*12} -10c${d*-6} 0 ${d*-10} 4 ${d*-12} 10"/>`);
+  });
+  // canopy: a scalloped crown that fills out
+  if(n>=14){ const rx=20+(n-14)*4.8, ry=rx*.78, cx=X, cy=top+ry*.3, N=10+Math.round((n-14)*.7);
+    let d="", px=0, py=0; for(let i=0;i<=N;i++){ const th=(195-210*i/N)*Math.PI/180, th2=(195-210*(i-.5)/N)*Math.PI/180;
+      const x=cx+Math.cos(th)*rx, y=cy-Math.sin(th)*ry, bx=cx+Math.cos(th2)*rx*1.15, by=cy-Math.sin(th2)*ry*1.15;
+      d+= i===0?`M${f(x)} ${f(y)}`:`Q${f(bx)} ${f(by)} ${f(x)} ${f(y)}`; }
+    // close the underside with a gentle line
+    g.push(`<path d="${d}"/>`);
+    g.push(`<path class="soft" d="M${f(cx-rx*.92)} ${f(cy+ry*.35)}C${f(cx-rx*.4)} ${f(cy+ry*.7)} ${f(cx+rx*.4)} ${f(cy+ry*.7)} ${f(cx+rx*.92)} ${f(cy+ry*.35)}"/>`);
+    [[-.4,-.2],[.35,-.35],[0,.15],[-.15,-.55],[.5,.1]].slice(0,Math.min(5,n-13)).forEach(([a,b])=>g.push(`<path class="soft" d="M${f(cx+a*rx)} ${f(cy+b*ry)}q4 -3 8 0"/>`));
+  }
+  // night falls: stars come out
+  const STARS=[[14,22,20],[150,64,20],[8,62,21],[56,8,21],[106,6,21],[152,104,21],[20,104,21]];
+  STARS.forEach(([x,y,from])=>{ if(n<from) return;
+    g.push(`<path d="M${x} ${y-5}V${y+5}M${x-5} ${y}H${x+5}"/><circle class="dot" cx="${x}" cy="${y}" r="1.4"/>`); });
+  if(n===21) g.push(`<path d="M136 14A10 10 0 1 0 148 28A8 8 0 1 1 136 14"/>`);
+  return wrap(g,n);
+}
+function wrap(g,n){ return `<div class="sprout-wrap" aria-label="Your tree, day ${n} of 21"><svg class="ink sprout" viewBox="0 0 160 200"><defs>${SKETCH}</defs><g filter="url(#sk)">${g.join("")}</g></svg><div>Day ${n} / 21</div></div>`; }
+
+const $ = s=>document.querySelector(s);
+let DONE_KEY="reset-done";
+const store = { get(){try{return JSON.parse(localStorage.getItem(DONE_KEY)||"[]")}catch(e){return[]}}, set(v){try{localStorage.setItem(DONE_KEY,JSON.stringify(v))}catch(e){}} };
+let done = store.get();
+/* Days open on their own date. On the live site RUN_START comes from the buyer's booking;
+   in this preview it is the 1st of this month and the preview bar sets which day it is. */
+const kv={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const now=new Date();
+let LIVE=false, RUN_START=new Date(now.getFullYear(),now.getMonth(),1);
+let runDay = kv.get("reset-preview-day",5);
+let openAll = kv.get("reset-open-all",false);
+const unlocked = n => openAll || n<=runDay;
+const fmtDate = d => d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+const opensOn = n => fmtDate(new Date(RUN_START.getFullYear(),RUN_START.getMonth(),RUN_START.getDate()+n-1));
+const todayDay = () => Math.min(21,Math.max(1,runDay));
+
+function blocks(arr){return (arr||[]).map(b=>{
+  if(typeof b==="string") return `<p>${b}</p>`;
+  if(b.h) return `<h3>${b.h}</h3>`;
+  if(b.ul) return `<ul>${b.ul.map(i=>`<li>${i}</li>`).join("")}</ul>`;
+  if(b.i) return `<p class="indent">${b.i}</p>`;
+  if(b.p) return `<p class="indent" style="font-style:normal">${b.p}</p>`;
+  return "";}).join("")}
+const play = `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 1l13 7-13 7z"/></svg>`;
+const enc = encodeURIComponent;
+
+
+/* ---- audio players ---- */
+const PAUSE=`<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z"/></svg>`;
+const fmt=x=>isFinite(x)?`${Math.floor(x/60)}:${String(Math.floor(x%60)).padStart(2,"0")}`:"–";
+function wireAudio(){
+  document.querySelectorAll("figure.audio").forEach(f=>{
+    const a=f.querySelector("audio"),b=f.querySelector(".ap-btn"),bar=f.querySelector(".ap-bar"),cur=f.querySelector(".ap-cur"),dur=f.querySelector(".ap-dur");
+    const playIcon=b.innerHTML;
+    a.addEventListener("loadedmetadata",()=>dur.textContent=fmt(a.duration));
+    a.addEventListener("timeupdate",()=>{cur.textContent=fmt(a.currentTime);if(a.duration)bar.value=Math.round(a.currentTime/a.duration*1000)});
+    a.addEventListener("ended",()=>{b.innerHTML=playIcon;b.classList.remove("on")});
+    b.addEventListener("click",()=>{ if(a.paused){document.querySelectorAll("audio").forEach(o=>o!==a&&o.pause());a.play().catch(()=>{});b.innerHTML=PAUSE;b.classList.add("on");b.setAttribute("aria-label","Pause")}
+      else{a.pause();b.innerHTML=playIcon;b.classList.remove("on");b.setAttribute("aria-label","Play")} });
+    bar.addEventListener("input",()=>{if(a.duration)a.currentTime=bar.value/1000*a.duration});
+  });
+}
+function render(n){
+  const d = DAYS[n-1];
+  [...document.querySelectorAll(".days button")].forEach((b,i)=>{b.setAttribute("aria-selected",i===n-1);b.classList.toggle("done",done.includes(i+1));b.classList.toggle("locked",!unlocked(i+1));b.classList.toggle("today",i+1===runDay&&runDay<=21)});
+  $("#openAll").textContent = openAll ? "Follow the daily rhythm" : "Open all days";
+  $("#openAll").setAttribute("aria-pressed",openAll);
+  const sel=document.querySelector(`.days button[data-n="${n}"]`); sel&&sel.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  $("#metaTitle").textContent = d.t ? `Day ${n} · ${d.t}` : `Day ${n}`;
+  $("#metaProg").textContent = `${done.length} of 21 complete`;
+  const nav = `<div class="pager"><button id="prev" ${n===1?"disabled":""}>← Day ${n-1}</button>
+     <button class="go" id="next">${n===21?"Complete Reset":"Complete & continue →"}</button></div>`;
+  if(!unlocked(n)){
+    const before = runDay<1;
+    $("#view").innerHTML = `<article><header class="day-head"><span class="num">${String(n).padStart(2,"0")}</span><div><p class="eyebrow">Day ${WORDS[n-1]}</p><h1>${d.t}</h1></div>${sprout(n)}</header>
+      <div class="locked-panel">${before
+        ? `<p class="lp-when">Your Reset begins on ${opensOn(1)}.</p>
+           <p>Day 1 opens that morning, and each day after opens on its own date. Until then, a few things to have ready:</p>
+           <ul class="lp-list"><li>A notebook. This will be your RESET journal.</li><li>A packet of seeds. Day 1 asks you to plant something.</li><li>Twenty minutes of your day that belong to Reset.</li></ul>
+           <div class="lp-actions"><button class="go" id="lpOpen">Open all days now</button></div>`
+        : `<p class="lp-when">This day opens on ${opensOn(n)}.</p>
+           <p>Each day of Reset opens on its own date, so there is time to sit with what you have done so far. If you are in a flow and would like to go ahead, you can open every day now.</p>
+           <div class="lp-actions"><button class="go" id="lpOpen">Open all days</button><button class="ghost" id="lpBack">Return to today, Day ${todayDay()}</button></div>`}</div></article>`;
+    $("#lpOpen").onclick=()=>{openAll=true;kv.set("reset-open-all",true);render(n)};
+    const lb=$("#lpBack"); if(lb) lb.onclick=()=>go(todayDay());
+    return;
+  }
+  if(!d.t){
+    $("#view").innerHTML = `<article><header class="day-head"><span class="num">${String(n).padStart(2,"0")}</span><div><p class="eyebrow">Day ${WORDS[n-1]}</p><h1>Coming soon</h1></div></header>
+      <div class="placeholder"><p>This day’s text is still to be added.</p>Send the screenshots for Day ${n} and it will be copied in word for word.</div>${nav}</article>`;
+  } else {
+    const media = (d.media||[]).map(([t,k,v])=> v&&v.vimeo&&LIVE
+      ? `<figure class="media video" style="margin:0"><div class="vframe"><iframe src="https://player.vimeo.com/video/${v.vimeo}?${v.h?"h="+v.h+"&":""}badge=0&autopause=0&dnt=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" title="${t}" loading="lazy"></iframe></div><figcaption class="cap">${t}<span>${k}</span></figcaption></figure>`
+      : v&&v.vimeo
+      ? `<figure class="media" style="margin:0"><a class="screen live" href="https://vimeo.com/${v.vimeo}${v.h?"/"+v.h:""}" target="_blank" rel="noopener" aria-label="Play ${t}" data-vimeo="${v.vimeo}" data-h="${v.h||""}"><span class="play">${play}</span></a><figcaption class="cap">${t}<span>${k}</span></figcaption></figure>`
+      : v&&v.src
+      ? `<figure class="media audio" style="margin:0"><audio preload="metadata" src="${v.src}"></audio>
+          <div class="ap"><button class="ap-btn" aria-label="Play ${t}">${play}</button>
+          <div class="ap-body"><div class="ap-t">${t}</div>
+          <input class="ap-bar" type="range" min="0" max="1000" value="0" aria-label="Position in ${t}">
+          <div class="ap-time"><span class="ap-cur">0:00</span><span class="ap-dur">–</span></div></div></div></figure>`
+      : `<figure class="media" style="margin:0"><div class="screen"><span class="play">${play}</span></div><figcaption class="cap">${t}<span>${k} to add</span></figcaption></figure>`).join("");
+    const notes = (d.notes||[]).map(x=>typeof x==="string"?`<div class="note">${x}</div>`:`<div class="note quote"><p>${x.q}</p></div>`).join("");
+    const offers = d.offers?`<div class="offers"><h4>Additional Offers</h4>${d.offers.map(([h,ps])=>`<details><summary>${h}</summary>${ps.map(p=>`<p>${p}</p>`).join("")}</details>`).join("")}</div>`:"";
+    const res = d.res?`<div class="res">${d.res.map(r=>Array.isArray(r)?`<a class="chip" href="${r[1]}" target="_blank" rel="noopener">${r[0]} →</a>`:`<span class="chip">${r}<i>link to add</i></span>`).join("")}</div>`:"";
+    $("#view").innerHTML = `<article>
+      <header class="day-head"><span class="num">${String(n).padStart(2,"0")}</span><div><p class="eyebrow">Day ${WORDS[n-1]}</p><h1>${d.t}</h1></div>${sprout(n)}</header>
+      <div class="grid"><div class="main">
+        <div class="contemplate"><div class="label">Contemplation for the day</div><p>${d.c}</p></div>
+        ${d.pull?`<p class="pull">${d.pull}</p>`:""}
+        ${blocks(d.body)}${res}
+      </div><aside>${media}${notes}${offers}</aside></div>
+      ${d.after?`<section class="after">${d.after}</section>`:""}
+      <section class="accomp"><div class="txt"><h2>Accompaniment</h2>${blocks(d.acc)}</div>
+        <div class="track"><div class="k">Day ${n} · Today’s track</div><div class="t">${d.track}</div>
+        <div class="btns"><a href="https://open.spotify.com/search/${enc(d.track)}" target="_blank" rel="noopener">Spotify</a><a href="https://music.apple.com/gb/search?term=${enc(d.track)}" target="_blank" rel="noopener">Apple Music</a></div></div>
+      </section>${nav}</article>`;
+  }
+  wireAudio();
+  $("#prev").onclick=()=>go(n-1);
+  $("#next").onclick=()=>{ if(!done.includes(n)){done.push(n);store.set(done)} n<21?go(n+1):render(n) };
+}
+function go(n){ document.querySelectorAll("audio").forEach(a=>a.pause()); location.hash = "day-"+n; window.scrollTo({top:0}); }
+function current(){ const m=location.hash.match(/day-(\d+)/); let n=m?+m[1]:(runDay>21?(Array.from({length:21},(_,i)=>i+1).find(x=>!done.includes(x))||1):runDay); return Math.min(21,Math.max(1,n)); }
+
+$("#days").innerHTML = DAYS.map((d,i)=>`<button role="tab" data-n="${i+1}" class="${d.t?"":"empty"}" title="${d.t?`Day ${i+1}: ${d.t.replace(/"/g,"")}`:`Day ${i+1}`}" aria-label="Day ${i+1}">${i+1}</button>`).join("");
+$("#days").addEventListener("click",e=>{const b=e.target.closest("button");b&&go(+b.dataset.n)});
+$("#openAll").addEventListener("click",()=>{openAll=!openAll;kv.set("reset-open-all",openAll);render(current())});
+window.addEventListener("hashchange",()=>render(current()));
+
+/* Live site: the signed-in buyer's own run. Preview (no server): a day picker. */
+function startPreview(){
+  const bar=$("#previewBar"); bar.hidden=false;
+  const pv=$("#pvDay"); pv.innerHTML=Array.from({length:21},(_,i)=>`<option value="${i+1}">Day ${i+1}</option>`).join(""); pv.value=runDay;
+  pv.addEventListener("change",()=>{runDay=+pv.value;kv.set("reset-preview-day",runDay);go(runDay);render(runDay)});
+  render(current());
+}
+(async function boot(){
+  let me=null;
+  try{ const r=await fetch("/api/reset/me",{credentials:"same-origin",headers:{Accept:"application/json"}}); if(r.ok) me=await r.json(); }catch(e){}
+  if(!me||!me.signedIn) return startPreview();
+  LIVE=true;
+  const [y,m,dd]=me.runStart.split("-").map(Number);
+  RUN_START=new Date(y,m-1,dd);
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  runDay=Math.floor((today-RUN_START)/86400000)+1;
+  openAll=kv.get("reset-open-all-"+me.runStart,false);
+  DONE_KEY="reset-done-"+me.runStart; done=store.get();
+  $("#openAll").onclick=null;
+  const oa=$("#openAll").cloneNode(true); $("#openAll").replaceWith(oa);
+  oa.addEventListener("click",()=>{openAll=!openAll;kv.set("reset-open-all-"+me.runStart,openAll);render(current())});
+  $("#account").hidden=false; $("#accountEmail").textContent=me.email;
+  $("#accessEnds").textContent=new Date(me.expires).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  if(new URLSearchParams(location.search).get("welcome")){
+    const w=$("#welcome"); w.hidden=false;
+    $("#welcomeText").textContent = runDay<1 ? `Your 21 days begin on ${opensOn(1)}. We've emailed you the details.` : `You're on Day ${todayDay()}. We've emailed you the details.`;
+    history.replaceState(null,"",location.pathname+location.hash);
+  }
+  if(runDay<1 && !openAll && !location.hash) location.hash="day-1";
+  render(current());
+})();
+
+/* ---- water ---- */
+(function(){
+  const cv=document.getElementById("water"); if(!cv||!cv.getContext) return;
+  const ctx=cv.getContext("2d"); let W=0,H=0,t=0,ripples=[],last=0,raf=0;
+  const still=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function size(){const r=cv.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);W=r.width;H=r.height;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);}
+  function frame(ts){
+    t=ts/1000; ctx.clearRect(0,0,W,H);
+    const rows=30, glint=W*0.74;
+    for(let i=0;i<rows;i++){
+      const p=i/(rows-1), y0=H*(0.12+0.88*Math.pow(p,1.6)), amp=0.6+p*2.6, k=0.012-p*0.006, sp=0.25+p*0.35;
+      ctx.beginPath();
+      for(let x=0;x<=W;x+=6){
+        const y=y0+Math.sin(x*k+t*sp+i*1.7)*amp+Math.sin(x*k*2.3-t*sp*.7+i)*amp*.4;
+        x?ctx.lineTo(x,y):ctx.moveTo(x,y);
+      }
+      const g=ctx.createLinearGradient(0,0,W,0), base=0.05+p*0.10, hi=base+0.22*(1-Math.abs(p-0.55));
+      g.addColorStop(0,`rgba(214,196,160,${base*.5})`);g.addColorStop(Math.max(0,(glint-140)/W),`rgba(214,196,160,${base})`);
+      g.addColorStop(glint/W,`rgba(236,222,192,${hi})`);g.addColorStop(Math.min(1,(glint+140)/W),`rgba(214,196,160,${base})`);g.addColorStop(1,`rgba(214,196,160,${base*.5})`);
+      ctx.strokeStyle=g; ctx.lineWidth=0.8+p*0.6; ctx.stroke();
+    }
+    if(!still){
+      if(ts-last>5200){last=ts;ripples.push({x:W*(0.15+Math.random()*0.7),y:H*(0.55+Math.random()*0.35),b:ts});}
+      ripples=ripples.filter(r=>ts-r.b<6000);
+      ripples.forEach(r=>{const a=(ts-r.b)/6000;for(let j=0;j<3;j++){const q=a-j*0.08;if(q<=0)continue;
+        const rr=12+q*150;ctx.beginPath();ctx.ellipse(r.x,r.y,rr,rr*0.22,0,0,Math.PI*2);
+        ctx.strokeStyle=`rgba(236,222,192,${(1-q)*0.32})`;ctx.lineWidth=1;ctx.stroke();}});
+    }
+  }
+  function loop(ts){frame(ts);raf=requestAnimationFrame(loop);}
+  size(); window.addEventListener("resize",()=>{size();if(still)frame(4000);});
+  if(still){frame(4000);return;}
+  raf=requestAnimationFrame(loop);
+  document.addEventListener("visibilitychange",()=>{cancelAnimationFrame(raf);if(!document.hidden)raf=requestAnimationFrame(loop);});
+})();
+</script>
+
+</body>
+</html>
