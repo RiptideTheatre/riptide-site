@@ -134,7 +134,9 @@
     var deg = (Math.atan2(y, x) / r + 360) % 360;
     return ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"][Math.round(deg / 45) % 8];
   }
+  function hasPoint(p) { return p && typeof p.lat === "number" && typeof p.lng === "number"; }
   function distText(target) {
+    if (!hasPoint(target)) return "Tap I'm here when you arrive";
     if (!here) return "Finding you…";
     var d = metres(here, target);
     if (d < 15) return "You're here";
@@ -157,7 +159,7 @@
       if (playing < 0 && s) {
         $("nextDist").textContent = distText(s);
         var r = (s.radius || walk.radius || 25) + Math.min(here.acc || 0, 30);
-        if (state.started && metres(here, s) <= r) playScene(state.next);
+        if (state.started && hasPoint(s) && metres(here, s) <= r) playScene(state.next);
       }
     }
     Object.keys(maps).forEach(function (k) { if (maps[k].me) maps[k].me.setLatLng([here.lat, here.lng]); else if (window.L) maps[k].me = L.circleMarker([here.lat, here.lng], { radius: 7, color: "#f4f1e9", weight: 2, fillColor: "#6fc4b8", fillOpacity: 1 }).addTo(maps[k].map); });
@@ -173,14 +175,17 @@
   /* ---------- maps ---------- */
   function makeMap(id) {
     if (maps[id] || !window.L) return;
-    var el = $(id), pts = walk.scenes.map(function (s) { return [s.lat, s.lng]; });
+    var el = $(id), pts = walk.scenes.filter(hasPoint).map(function (s) { return [s.lat, s.lng]; });
+    var all = pts.concat(hasPoint(walk.start) ? [[walk.start.lat, walk.start.lng]] : []);
+    if (!all.length) { el.hidden = true; return; }
     var map = L.map(el, { zoomControl: false, attributionControl: true });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(map);
-    L.polyline(pts, { color: "#6fc4b8", weight: 3, opacity: .8, dashArray: "6 6" }).addTo(map);
-    walk.scenes.forEach(function (s) {
+    if (pts.length > 1) L.polyline(pts, { color: "#6fc4b8", weight: 3, opacity: .8, dashArray: "6 6" }).addTo(map);
+    walk.scenes.filter(hasPoint).forEach(function (s) {
       L.marker([s.lat, s.lng], { icon: L.divIcon({ className: "sw__pin", html: "<span>" + s.n + "</span>", iconSize: [26, 26] }) }).addTo(map);
     });
-    map.fitBounds(L.latLngBounds(pts.concat([[walk.start.lat, walk.start.lng]])), { padding: [30, 30] });
+    if (!pts.length && hasPoint(walk.start)) L.marker(all[0], { icon: L.divIcon({ className: "sw__pin", html: "<span>1</span>", iconSize: [26, 26] }) }).addTo(map);
+    if (all.length > 1) map.fitBounds(L.latLngBounds(all), { padding: [30, 30] }); else map.setView(all[0], 17);
     maps[id] = { map: map };
     if (here) onMove();
   }
@@ -199,7 +204,8 @@
     keepAwake(); watch();
     state.started = true; if (state.next == null) state.next = 0; save();
     show("walk");
-    if (!here || metres(here, walk.scenes[state.next]) <= ((walk.scenes[state.next].radius || walk.radius || 25) + 30)) playScene(state.next);
+    var first = walk.scenes[state.next];
+    if (!here || !hasPoint(first) || metres(here, first) <= ((first.radius || walk.radius || 25) + 30)) playScene(state.next);
   });
 
   /* ---------- the walk ---------- */
@@ -252,9 +258,10 @@
     if (playing < 0 || !player.duration) return;
     $("playBar").style.width = (player.currentTime / player.duration * 100) + "%";
     (walk.scenes[playing].photos || []).forEach(function (ph, k) {
-      var t = player.currentTime, on = t >= ph.at && t < ph.at + (ph.for || 10);
+      var at = typeof ph.at === "object" ? (ph.at[state.narrator] != null ? ph.at[state.narrator] : ph.at[Object.keys(ph.at)[0]]) : ph.at;
+      var t = player.currentTime, on = t >= at && t < at + (ph.for || 10);
       if (on && !photoShown[k]) { photoShown[k] = true; showPhoto(ph); }
-      if (!on && photoShown[k] === true && t >= ph.at + (ph.for || 10)) { photoShown[k] = "done"; hidePhoto(); }
+      if (!on && photoShown[k] === true && t >= at + (ph.for || 10)) { photoShown[k] = "done"; hidePhoto(); }
     });
   });
   $("playBtn").addEventListener("click", function () {
@@ -297,6 +304,7 @@
     .then(function (data) {
       walk = data;
       if (walk.draft) $("draftNote").hidden = false;
+      if (!walk.scenes.some(hasPoint)) $("mapBtn").hidden = true;
       if ("caches" in window) caches.open(CACHE).then(function (c) { c.put("/sonder/media/walk.json", new Response(JSON.stringify(walk), { headers: { "Content-Type": "application/json" } })); });
       if (location.search.indexOf("welcome=1") > -1) { $("welcomeEyebrow").textContent = "Thank you. Your ticket is ready"; history.replaceState(null, "", location.pathname); }
       fetch("/api/sonder/me", { credentials: "same-origin" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (me) {
