@@ -13,13 +13,13 @@
   "question": "Who are you?",
   "options": [
    {
-    "id": "man",
-    "label": "I'm a man",
+    "id": "a",
+    "label": "A man",
     "line": ""
    },
    {
-    "id": "woman",
-    "label": "I'm a woman",
+    "id": "b",
+    "label": "A woman",
     "line": ""
    }
   ]
@@ -28,14 +28,14 @@
   "question": "Who would you like to walk with?",
   "options": [
    {
-    "id": "female",
-    "label": "A woman's voice",
-    "line": "Sophie"
+    "id": "sophie",
+    "label": "Sophie",
+    "line": "A woman's voice"
    },
    {
-    "id": "male",
-    "label": "A man's voice",
-    "line": "Ryan"
+    "id": "ryan",
+    "label": "Ryan",
+    "line": "A man's voice"
    }
   ]
  },
