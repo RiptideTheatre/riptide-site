@@ -1,6 +1,7 @@
 ---
 layout: base.njk
 ---
+<div class="show{% if accent %} show--{{ accent }}{% endif %}">
 
 <section class="hero">
   {% include "hero-art.njk" %}
@@ -218,3 +219,4 @@ document.addEventListener("DOMContentLoaded",function(){
   </div>
 </section>
 {% endif %}
+</div>

@@ -9,6 +9,16 @@ subtitle: For anyone who used to make things and stopped.
 description: Reset is a 21-day creative retreat from Riptide, done at home. One door a day — audio guides, small practices and a piece of music — beginning on the 1st of each month. £45.
 status: on-sale
 bookable: true
+bigListing: true
+facts:
+  - label: Runs
+    value: 1st of every month
+  - label: Where
+    value: Wherever you are — a digital and remote experience
+  - label: Time
+    value: Flexible. Made to fit around your day.
+  - label: Age
+    value: 16+
 featured: true
 order: 2
 summary: A 21-day creative retreat, done at home, for anyone who used to make things and stopped. One door a day, beginning on the 1st of each month.

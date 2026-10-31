@@ -910,3 +910,20 @@ input::placeholder { color: var(--quiet); }
 
 a.card__media, a.listing__media { display: block; cursor: pointer; }
 .listing__btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+/* ---------- gold-accent show pages (Leeds Actors Studio) ---------- */
+.show--gold h1, .show--gold h2, .show--gold h3, .show--gold .section-head h2, .show--gold .eyebrow { color: var(--amber); }
+.show--gold .hero__hook { color: var(--ivory) !important; }
+.las { margin-top: clamp(28px, 4vw, 44px); }
+.las .las__kicker { font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--amber); font-weight: 500; margin: 0 0 12px; }
+.las .las__lede { font-family: var(--display); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.25; color: var(--ivory); margin: 0 0 28px; }
+.las__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; margin: 0 0 clamp(40px, 6vw, 64px); padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.las__facts dt { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
+.las__facts dd { margin: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; color: var(--ivory); }
+.las .las__label { font-size: 13px; letter-spacing: .26em; text-transform: uppercase; color: var(--amber); margin: 0 0 10px; }
+.prose .las__title { margin-top: 0; }
+.las__two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin: 8px 0 28px; }
+.las__two h3 { font-family: var(--display); font-weight: 400; font-size: clamp(22px, 2.2vw, 26px); margin: 0 0 8px; }
+.las__two p { color: var(--muted); margin: 0; }
+@media (max-width: 640px) { .las__facts, .las__two { grid-template-columns: 1fr; } }
+.prose .las__title { line-height: 1.12; }

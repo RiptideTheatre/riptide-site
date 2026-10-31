@@ -19,12 +19,14 @@ facts:
   - label: Where
     value: Apple Podcasts, Spotify and SoundCloud
   - label: Episodes
-    value: "[NUMBER] so far"
+    value: 33 so far
   - label: Length
-    value: Around [LENGTH] each
+    value: Around 30min each
 closing: Listen wherever you get your podcasts.
 ---
 
-Making theatre is mostly the parts nobody writes down: the funding that fell through, the idea that did not survive the room, the thing that only worked on the last night.
+This podcast is simple, every week I’m going to share my personal diary with you. I want to give you an open-source insight into what it’s like to make work as an artist, as a director - what it is really like.
 
-The Director's Diary is a series of conversations about those parts, with people who make work for a living.
+This is not scripted, this is direct from my diary. I have no agenda. I am not selling anything. This is about being open and honest and sharing my struggles and the difficulties I face on a day-to-day basis and how I look to overcome them.
+
+My name is Alex Palmer, this is the Director’s Diary. It’s no one’s intention to share a diary, so if you’re listening to this keep it close and use it well.

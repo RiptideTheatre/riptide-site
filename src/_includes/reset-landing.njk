@@ -232,7 +232,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
     <ol class="days">
       {% for t in reset.titles %}{% if loop.index in reset.taster %}<li><span class="n">{{ loop.index }}</span><span class="t">{{ t }}</span></li>{% else %}<li class="is-hidden"><span class="n">{{ loop.index }}</span><span class="t" aria-label="Day {{ loop.index }}, yet to be discovered"><span class="door" aria-hidden="true"></span></span></li>{% endif %}{% endfor %}
     </ol>
-    <p class="days-more">Fifteen more doors to be opened, <em>fifteen more days to be discovered.</em></p>
+    <p class="days-more">Fifteen more doors to be opened. <em>Fifteen more days to be discovered.</em></p>
     <div class="book-cta"><a class="btn btn--ink" href="#book">Book your place — {{ price }}</a></div>
   </div>
 </section>

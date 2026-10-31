@@ -24,7 +24,7 @@ description: Riptides swelling, riptides forming, and riptides happening right n
   <div class="wrap">
 
     {% for show in collections.current %}
-    {% if loop.first %}
+    {% if loop.first or show.data.bigListing %}
     <article class="listing listing--featured">
       <a class="listing__media" href="{{ show.url }}" tabindex="-1" aria-hidden="true"><img src="{{ show.data.image }}" alt="" width="1200" height="675"></a>
       <div class="listing__body">
