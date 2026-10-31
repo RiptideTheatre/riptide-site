@@ -875,3 +875,10 @@ input::placeholder { color: var(--quiet); }
 }
 @media (max-width: 560px) { .gc { aspect-ratio: auto; min-height: 260px; gap: 14px; } }
 @media print { .gc { aspect-ratio: 8 / 5; } }
+
+/* ---------- partner logo wall ---------- */
+.logos { list-style: none; margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: clamp(28px, 4vw, 48px) clamp(36px, 5vw, 64px); }
+.logos li { display: flex; align-items: center; }
+.logos img { display: block; height: var(--h); width: auto; max-width: 160px; object-fit: contain; opacity: .72; transition: opacity .3s ease; }
+.logos li:hover img { opacity: 1; }
+@media (max-width: 640px) { .logos { gap: 26px 32px; } .logos img { height: calc(var(--h) * .8); } }

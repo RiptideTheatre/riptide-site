@@ -1,0 +1,5 @@
+{# Logo wall. Logos live in src/assets/img/partners/, all redrawn in one colour; sizes in src/_data/partners.json. #}
+<ul class="logos" role="list">
+  {% for p in partners %}<li><img src="{{ p.file }}" alt="{% if p.name | isFilled %}{{ p.name }}{% endif %}" width="{{ p.w }}" height="{{ p.h }}" style="--h: {{ p.h }}px" loading="lazy" decoding="async"></li>
+  {% endfor %}
+</ul>
