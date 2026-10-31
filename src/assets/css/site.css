@@ -963,8 +963,6 @@ a.card__media, a.listing__media { display: block; cursor: pointer; }
 .tide--live .tide__panel { position: absolute; inset: 0; padding: 0; }
 .tide--live .tide__foam { display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; opacity: 0; }
 .tide__foam path { fill: none; stroke: var(--ivory); vector-effect: non-scaling-stroke; }
-.tide__foam-a { stroke-width: 1.5; stroke-opacity: .75; }
-.tide__foam-b { stroke-width: 1; stroke-opacity: .3; }
 .tide--live .tide__dots { display: flex; flex-direction: column; gap: 14px; position: absolute; right: calc(var(--gutter) / 2.4); top: 50%; transform: translateY(-50%); z-index: 6; list-style: none; margin: 0; padding: 0; }
 .tide__dots button { display: block; width: 10px; height: 10px; padding: 0; border-radius: 50%; border: 1px solid rgba(244,241,233,.75); background: transparent; cursor: pointer; transition: transform .3s, background .3s; mix-blend-mode: difference; }
 .tide__dots button[aria-current="true"] { background: var(--ivory); transform: scale(1.3); }

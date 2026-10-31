@@ -22,7 +22,7 @@
       </div>
     </article>
     {% endfor %}
-    <svg class="tide__foam" aria-hidden="true" preserveAspectRatio="none"><path class="tide__foam-a"/><path class="tide__foam-b"/></svg>
+    <svg class="tide__foam" aria-hidden="true" preserveAspectRatio="none"></svg>
     <ol class="tide__dots" aria-label="Jump to an experience">
       {% for show in shows %}
       <li><button type="button" data-go="{{ loop.index0 }}" aria-label="{{ show.data.title }}"></button></li>

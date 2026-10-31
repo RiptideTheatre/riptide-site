@@ -9,7 +9,7 @@ bookable: true
 order: 2
 year: 2023
 summary: Download it, put your headphones in, and walk — 360 sound, GPS and theatre laid over the streets you already know.
-cardMeta: Leeds · 50 mins · Free
+cardMeta: Leeds · 50 mins · £10
 image: /assets/img/sonder.jpg
 imageAlt: "Sonder, written over moving water"
 portrait: /assets/img/sonder-portrait.jpg
@@ -17,7 +17,7 @@ aboutImage: /assets/img/sonder-about.jpg
 aboutAlt: "Sonder: an audience member on a bridge over the river in Leeds, headphones on, following a map on her phone"
 ctaLabel: Download the app
 ctaUrl: "#"
-price: Free
+price: £10
 facts:
   - label: Where
     value: Starts in Leeds city centre — exact point in the app
@@ -26,11 +26,11 @@ facts:
   - label: When
     value: Whenever you like. Daylight is better for a first walk.
   - label: Price
-    value: Free
+    value: £10, or £14 for a pair
   - label: You'll need
     value: A smartphone, headphones, and shoes you can walk in
   - label: Access
-    value: "[ROUTE ACCESSIBILITY — step-free? seating? a shorter option?]"
+    value: Step-free and wheelchair accessible
 needs:
   - A smartphone with the app installed and downloaded before you set off
   - Headphones — over-ear or in-ear both work, but not a speaker

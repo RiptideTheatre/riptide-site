@@ -1,4 +1,4 @@
-// Our work: each experience washes in over the last on a rolling wave edge as you scroll.
+// Our work: each experience rises over the last on a rolling tide line as you scroll.
 (function () {
   var root = document.querySelector('[data-tide]');
   if (!root) return;
@@ -7,9 +7,25 @@
   var stage = root.querySelector('.tide__stage');
   var panels = [].slice.call(root.querySelectorAll('.tide__panel'));
   var dots = [].slice.call(root.querySelectorAll('.tide__dots button'));
-  var foamA = root.querySelector('.tide__foam-a');
-  var foamB = root.querySelector('.tide__foam-b');
   var foam = root.querySelector('.tide__foam');
+  // the crest, a little spray ahead of it, and swells rolling in behind
+  var LINES = [
+    { off: -0.03, amp: 0.45, ph: 0.9, op: 0.22, sw: 1 },
+    { off: 0, amp: 1, ph: 0, op: 0.85, sw: 1.6 },
+    { off: 0.035, amp: 0.92, ph: -0.45, op: 0.5, sw: 1.2 },
+    { off: 0.08, amp: 0.8, ph: -1.0, op: 0.34, sw: 1 },
+    { off: 0.14, amp: 0.66, ph: -1.6, op: 0.24, sw: 1 },
+    { off: 0.22, amp: 0.52, ph: -2.3, op: 0.16, sw: 1 },
+    { off: 0.32, amp: 0.4, ph: -3.0, op: 0.1, sw: 1 }
+  ];
+  foam.innerHTML = '';
+  var paths = LINES.map(function (l) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    el.setAttribute('stroke-opacity', l.op);
+    el.setAttribute('stroke-width', l.sw);
+    foam.appendChild(el);
+    return el;
+  });
   var n = panels.length;
   if (n < 2) return;
 
@@ -33,25 +49,29 @@
     update();
   }
 
-  // x position of the wave edge at height y
-  function edgeX(e, amp, phase, y) {
-    return e + amp * Math.sin((y / H) * Math.PI * 2 * 0.8 + phase) + amp * 0.35 * Math.sin((y / H) * Math.PI * 2 * 2.1 - phase * 1.7);
+  // y position of the wave line at x: a long swell with a shorter chop on top
+  function edgeY(e, amp, phase, x) {
+    return e + amp * Math.sin((x / W) * Math.PI * 2 * 0.9 + phase) + amp * 0.35 * Math.sin((x / W) * Math.PI * 2 * 2.3 - phase * 1.7);
   }
 
   function edge(t, i) {
-    var a0 = W * 0.012, a1 = W * 0.085, amax = a0 + a1 * 1.35;
+    var a0 = H * 0.015, a1 = H * 0.07, amax = a0 + a1 * 1.35;
     var amp = a0 + a1 * Math.sin(Math.PI * t);
-    var e = W + amax - t * (W + 2 * amax);
+    var e = H + amax - t * (H + 2 * amax);
     return { e: e, amp: amp, phase: t * Math.PI * 1.6 + i * 1.3 };
   }
 
-  function points(w, offset) {
-    var pts = [], steps = 28;
+  function points(e, amp, phase) {
+    var pts = [], steps = 36;
     for (var s = 0; s <= steps; s++) {
-      var y = (H * s) / steps;
-      pts.push([edgeX(w.e + offset, w.amp, w.phase, y), y]);
+      var x = (W * s) / steps;
+      pts.push([x, edgeY(e, amp, phase, x)]);
     }
     return pts;
+  }
+
+  function pathD(pts) {
+    return 'M' + pts.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' L');
   }
 
   function update() {
@@ -68,29 +88,28 @@
       var next = i < n - 1 ? ease(clamp((p - i - 0.12) / 0.76)) : 0;
 
       if (t <= 0) {
-        panel.style.clipPath = 'inset(0 0 0 100%)';
+        panel.style.clipPath = 'inset(100% 0 0 0)';
       } else if (t >= 1) {
         panel.style.clipPath = 'none';
       } else {
         var w = edge(t, i);
-        var pts = points(w, 0);
+        var pts = points(w.e, w.amp, w.phase);
         var poly = pts.map(function (q) { return q[0].toFixed(1) + 'px ' + q[1].toFixed(1) + 'px'; });
-        poly.push((W + 4) + 'px ' + H + 'px', (W + 4) + 'px 0px');
+        poly.push(W + 'px ' + (H + 4) + 'px', '0px ' + (H + 4) + 'px');
         panel.style.clipPath = 'polygon(' + poly.join(',') + ')';
 
-        var d = 'M' + pts.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' L');
-        var trail = points({ e: w.e + w.amp * 0.9 + W * 0.02, amp: w.amp * 0.8, phase: w.phase - 0.7 }, 0);
-        foamA.setAttribute('d', d);
-        foamB.setAttribute('d', 'M' + trail.map(function (q) { return q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' L'));
-        foam.style.opacity = Math.sin(Math.PI * t).toFixed(3);
+        LINES.forEach(function (l, k) {
+          paths[k].setAttribute('d', pathD(points(w.e + l.off * H, w.amp * l.amp, w.phase + l.ph)));
+        });
+        foam.style.opacity = Math.min(1, Math.sin(Math.PI * t) * 1.6).toFixed(3);
         foamOn = true;
       }
 
-      // the incoming artwork rides in behind the wave; the outgoing one is pushed gently back
-      if (art) art.style.transform = 'translate3d(' + ((1 - t) * 22 - next * 10).toFixed(2) + '%,0,0) rotate(' + ((1 - t) * 2.5).toFixed(2) + 'deg)';
-      if (amb) amb.style.transform = 'translate3d(' + ((1 - t) * 8 - next * 4).toFixed(2) + '%,0,0) scale(1.1)';
+      // the incoming artwork rises with the water; the outgoing one is lifted gently away
+      if (art) art.style.transform = 'translate3d(0,' + ((1 - t) * 24 - next * 8).toFixed(2) + 'vh,0) rotate(' + ((1 - t) * -1.5).toFixed(2) + 'deg) scale(' + (1 - next * 0.04).toFixed(3) + ')';
+      if (amb) amb.style.transform = 'translate3d(0,' + ((1 - t) * 10 - next * 4).toFixed(2) + 'vh,0) scale(1.1)';
       if (content) {
-        content.style.transform = 'translate3d(' + ((1 - t) * 90 - next * 40).toFixed(1) + 'px,0,0)';
+        content.style.transform = 'translate3d(0,' + ((1 - t) * 90 - next * 50).toFixed(1) + 'px,0)';
         content.style.opacity = (Math.min(t * 1.4, 1) * (1 - next * 0.6)).toFixed(3);
       }
     }
