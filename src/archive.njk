@@ -9,33 +9,17 @@ description: Riptide's back catalogue of immersive, interactive and digital work
   {% include "page-waves.njk" %}
   <div class="wrap">
     <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">Our work</h1>
-    <p class="lede">Everything we have made since 2014. If you are programming, commissioning or researching, this is the page you want.</p>
+    <p class="lede work-intro">Past riptides have taken us to rooftop bars, and underground libraries. From Leeds to the streets of Buenos Aires. In busy nightclubs, empty city streets, hotel rooms, on your phones and through your letterbox. <em>A decade of work that still swirls.</em></p>
   </div>
 </section>
 
-<section class="band band--flush" style="padding-top: 8px;">
-  <div class="wrap">
-    <div class="cards">
-      {% for show in collections.current %}
-      <article class="card">
-        <a class="card__media" href="{{ show.url }}" tabindex="-1" aria-hidden="true"><img src="{{ show.data.image }}" alt="" width="1200" height="675" loading="lazy"></a>
-        <div class="card__head">
-          <h3><a href="{{ show.url }}">{{ show.data.title }}</a></h3>
-          <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
-        </div>
-        <p>{{ show.data.summary }}</p>
-        <p class="card__meta">{{ show.data.cardMeta }}</p>
-      </article>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+{% set shows = collections.current %}
+{% include "tide.njk" %}
 
 <section class="band band--tint arc" aria-labelledby="arc-title">
   <div class="wrap">
     <div class="arc__head">
-      <h2 id="arc-title" class="display">Previously</h2>
-      <p>Nightclubs, city streets, hotel rooms, phones. A decade of work that doesn't sit still.</p>
+      <h2 id="arc-title" class="display">Past Work</h2>
     </div>
     <ol class="arc__list">
       {% for show in collections.past | byYearDesc %}
@@ -53,8 +37,11 @@ description: Riptide's back catalogue of immersive, interactive and digital work
           <span class="arc__thumb" aria-hidden="true"><img src="{{ show.data.image }}" alt="" loading="lazy"></span>
           <span class="arc__go" aria-hidden="true">→</span>
         </a>
+        {% if show.data.trailerUrl %}<a class="arc__trailer" href="{{ show.data.trailerUrl }}" target="_blank" rel="noopener">See the trailer here &rarr;</a>{% endif %}
       </li>
       {% endfor %}
     </ol>
   </div>
 </section>
+
+<script src="/assets/js/tide.js" defer></script>

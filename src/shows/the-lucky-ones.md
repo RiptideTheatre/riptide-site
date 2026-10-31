@@ -9,6 +9,7 @@ summary: "[ONE OR TWO SENTENCES ABOUT THE LUCKY ONES]"
 cardMeta: "[VENUE] · [YEAR]"
 image: /assets/img/placeholder-project-intimacy.svg
 imageAlt: The Lucky Ones
+trailerUrl: ""  # paste the trailer link here (Vimeo or YouTube)
 portrait: /assets/img/placeholder-project-intimacy.svg
 credits:
   - label: Venue

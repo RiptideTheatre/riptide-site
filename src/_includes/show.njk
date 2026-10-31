@@ -15,6 +15,7 @@ layout: base.njk
         <a class="btn btn--primary" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}">
           {{ ctaLabel or (status | statusCta) }}{% if status == "on-sale" and price %} — {{ price }}{% endif %}
         </a>
+        {% if trailerUrl %}<a class="btn btn--ghost" href="{{ trailerUrl }}" target="_blank" rel="noopener">See the trailer</a>{% endif %}
         {% if status == "coming-soon" %}<span style="font-size: 15px; color: var(--quiet);">Dates announced to the list first</span>{% endif %}
       </div>
     </div>

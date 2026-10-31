@@ -13,6 +13,7 @@ imageAlt: "Leeds Actors Studio logo"
 portrait: /assets/img/leeds-actors-studio-portrait.jpg
 aboutRail: false
 accent: gold
+panelTone: light
 ticketUrl: ""
 facts:
   - label: Company

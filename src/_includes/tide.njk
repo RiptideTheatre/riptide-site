@@ -1,0 +1,32 @@
+{# Scroll-driven showcase: each experience washes in over the last on a wave edge.
+   Without JS, or with reduced motion, the panels simply stack. #}
+<section class="tide" aria-label="Our experiences" data-tide>
+  <div class="tide__stage">
+    {% for show in shows %}
+    <article class="tide__panel{% if show.data.panelTone == 'light' %} tide__panel--light{% endif %}" aria-labelledby="tide-{{ loop.index0 }}">
+      <div class="tide__ambient" style="background-image: url('{{ show.data.image }}')" aria-hidden="true"></div>
+      <div class="tide__inner wrap">
+        <div class="tide__content">
+          <p class="tide__count" aria-hidden="true">{{ "0" if loop.index < 10 }}{{ loop.index }} / {{ "0" if loop.length < 10 }}{{ loop.length }}</p>
+          <h2 class="tide__title display" id="tide-{{ loop.index0 }}"><a href="{{ show.url }}">{{ show.data.title }}</a></h2>
+          {% if show.data.tagline %}<p class="tide__tagline">{{ show.data.tagline }}</p>{% endif %}
+          {% if show.data.cardMeta | isFilled %}<p class="tide__meta">{{ show.data.cardMeta }}</p>{% endif %}
+          <div class="tide__btns">
+            <a class="btn btn--ghost" href="{{ show.url }}">Explore</a>
+            {% if show.data.bookable %}<a class="btn btn--primary" href="{{ show.data | bookHref(show.url) }}">Book tickets</a>{% endif %}
+          </div>
+        </div>
+        <a class="tide__art" href="{{ show.url }}" tabindex="-1" aria-hidden="true">
+          <img src="{{ show.data.image }}" alt="" width="1200" height="675" {% if not loop.first %}loading="lazy"{% endif %}>
+        </a>
+      </div>
+    </article>
+    {% endfor %}
+    <svg class="tide__foam" aria-hidden="true" preserveAspectRatio="none"><path class="tide__foam-a"/><path class="tide__foam-b"/></svg>
+    <ol class="tide__dots" aria-label="Jump to an experience">
+      {% for show in shows %}
+      <li><button type="button" data-go="{{ loop.index0 }}" aria-label="{{ show.data.title }}"></button></li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
