@@ -11,7 +11,7 @@ layout: base.njk
       {% if tagline %}<p class="hero__hook display" style="font-style: italic; color: var(--teal-bright); max-width: 30ch;">{{ tagline }}</p>{% endif %}
       {% if subtitle %}<p class="hero__meta">{{ subtitle }}</p>{% endif %}
       <div class="hero__actions">
-        <a class="btn btn--primary" href="{{ ticketUrl or ctaUrl or '/#newsletter' }}">
+        <a class="btn btn--primary" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}">
           {{ ctaLabel or (status | statusCta) }}{% if status == "on-sale" and price %} — {{ price }}{% endif %}
         </a>
         {% if status == "coming-soon" %}<span style="font-size: 15px; color: var(--quiet);">Dates announced to the list first</span>{% endif %}
@@ -19,7 +19,7 @@ layout: base.njk
     </div>
     {% if portrait %}
     <div class="hero__portrait">
-      <img src="{{ portrait }}" alt="{{ imageAlt or title }}">
+      <a class="hero__portrait-link" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}" aria-label="{{ ctaLabel or (status | statusCta) }}: {{ title }}"><img src="{{ portrait }}" alt="{{ imageAlt or title }}"></a>
     </div>
     {% endif %}
   </div>
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded",function(){
   <div class="wrap">
     <h2 class="display" style="font-size: clamp(30px, 4vw, 52px); line-height: 1.15; margin: 0;">{{ closing }}</h2>
     <p style="margin-top: 30px;">
-      <a class="btn btn--primary" href="{{ ticketUrl or ctaUrl or '/#newsletter' }}">{{ ctaLabel or (status | statusCta) }}</a>
+      <a class="btn btn--primary" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}">{{ ctaLabel or (status | statusCta) }}</a>
     </p>
     <p><a href="/whats-on/">See everything else we have on</a></p>
   </div>

@@ -907,3 +907,6 @@ input::placeholder { color: var(--quiet); }
 
 .hero__portrait-link { display: block; cursor: pointer; border-radius: inherit; }
 .hero__portrait-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 6px; }
+
+a.card__media, a.listing__media { display: block; cursor: pointer; }
+.listing__btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }

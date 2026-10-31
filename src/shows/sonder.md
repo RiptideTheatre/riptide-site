@@ -5,6 +5,7 @@ subtitle: 360 sound, GPS technology and theatre, laid over the streets you alrea
 description: A binaural sound walk for Leeds. Download it, put your headphones in, and walk.
 status: anytime
 featured: true
+bookable: true
 order: 2
 year: 2023
 summary: Download it, put your headphones in, and walk — 360 sound, GPS and theatre laid over the streets you already know.
@@ -47,7 +48,7 @@ faq:
   - q: Can I do it more than once?
     a: Yes, and people do — you notice different things the second time.
   - q: Is it suitable for children?
-    a: "[AGE GUIDANCE]"
+    a: "16+"
 closing: Headphones in. See your own city differently.
 ---
 

@@ -26,7 +26,7 @@ description: Riptides swelling, riptides forming, and riptides happening right n
     {% for show in collections.current %}
     {% if loop.first %}
     <article class="listing listing--featured">
-      <div class="listing__media"><img src="{{ show.data.image }}" alt="{{ show.data.imageAlt or show.data.title }}" width="1200" height="675"></div>
+      <a class="listing__media" href="{{ show.url }}" tabindex="-1" aria-hidden="true"><img src="{{ show.data.image }}" alt="" width="1200" height="675"></a>
       <div class="listing__body">
         <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
         <h2><a href="{{ show.url }}">{{ show.data.title }}</a></h2>
@@ -38,14 +38,14 @@ description: Riptides swelling, riptides forming, and riptides happening right n
         </dl>
         {% endif %}
         <div class="listing__actions">
-          <a class="btn btn--primary" href="{{ show.data.ticketUrl or show.data.ctaUrl or '/#newsletter' }}">{{ show.data.ctaLabel or (show.data.status | statusCta) }}</a>
+          <a class="btn btn--primary" href="{{ show.data | bookHref(show.url) }}">{{ show.data.ctaLabel or (show.data.status | statusCta) }}</a>
           <a href="{{ show.url }}">Full details</a>
         </div>
       </div>
     </article>
     {% else %}
     <article class="listing listing--compact">
-      <div class="listing__media"><img src="{{ show.data.image }}" alt="{{ show.data.imageAlt or show.data.title }}" width="1200" height="675" loading="lazy"></div>
+      <a class="listing__media" href="{{ show.url }}" tabindex="-1" aria-hidden="true"><img src="{{ show.data.image }}" alt="" width="1200" height="675" loading="lazy"></a>
       <div class="listing__body">
         <div style="max-width: 62ch;">
           <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
@@ -55,7 +55,10 @@ description: Riptides swelling, riptides forming, and riptides happening right n
           <p style="color: var(--muted); margin: 12px 0 0;">{{ show.data.summary }}</p>
           <p style="color: var(--quiet); font-size: 14px; margin: 12px 0 0;">{{ show.data.cardMeta }}</p>
         </div>
-        <a class="btn btn--ghost" href="{{ show.url }}">Details</a>
+        <div class="listing__btns">
+          {% if show.data.bookable %}<a class="btn btn--primary" href="{{ show.data | bookHref(show.url) }}">Book tickets</a>{% endif %}
+          <a class="btn btn--ghost" href="{{ show.url }}">Details</a>
+        </div>
       </div>
     </article>
     {% endif %}

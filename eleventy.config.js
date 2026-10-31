@@ -37,6 +37,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("statusTone", (s) => (STATUS[s] || STATUS.past).tone);
   eleventyConfig.addFilter("statusCta", (s) => (STATUS[s] || STATUS.past).cta);
 
+  // Where a show's "Book tickets" goes: its ticket link, a section on its own page (#book), or its page.
+  eleventyConfig.addFilter("bookHref", (data, url) => {
+    if (data.ticketUrl) return data.ticketUrl;
+    if (data.ctaUrl && data.ctaUrl !== "#") return data.ctaUrl[0] === "#" ? url + data.ctaUrl : data.ctaUrl;
+    return url;
+  });
+
   eleventyConfig.addFilter("bookingUrl", (show) => {
     if (show.ctaUrl) return show.ctaUrl;
     if (show.status === "on-sale" && show.ticketUrl) return show.ticketUrl;
