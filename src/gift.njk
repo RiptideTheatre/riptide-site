@@ -120,7 +120,7 @@ eleventyExcludeFromCollections: true
     c.className = 'gc gc--' + g.product;
     $('gcFor').textContent = 'A gift for ' + g.to;
     $('gcName').textContent = g.productName;
-    $('gcWhen').textContent = g.product === 'pi' ? (g.when || '') : 'Twenty-one days, twenty minutes a day';
+    $('gcWhen').textContent = g.product === 'pi' ? (g.when || '') : 'Twenty-one days of creative recovery';
     if (g.note) { $('gcNote').textContent = g.note; show('gcNote'); }
     $('gcFrom').textContent = 'From ' + g.from;
     $('gcCode').textContent = g.code;
@@ -156,7 +156,7 @@ eleventyExcludeFromCollections: true
       card(g);
       head('A gift from ' + g.from, g.to + ', this is for you.', g.product === 'pi'
         ? 'A place on Project Intimacy: two strangers, two weeks, one conversation.'
-        : 'Reset: twenty-one days, twenty minutes a day.');
+        : 'Reset: twenty-one days of creative recovery.');
       if (g.product === 'pi') {
         $('giftPiGo').href = '/project-intimacy/questionnaire/?gift=' + g.code.replace(/-/g, '');
         show('giftPi');

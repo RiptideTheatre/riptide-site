@@ -220,7 +220,7 @@ export function recipientEmail(site, gift, when) {
   const isPi = gift.product === "pi";
   const lead = isPi
     ? `${gift.from} has given you a place on Project Intimacy: two strangers, two weeks, one conversation.`
-    : `${gift.from} has given you Reset: twenty-one days, twenty minutes a day.`;
+    : `${gift.from} has given you Reset: twenty-one days of creative recovery.`;
   const next = isPi
     ? `Your fortnight: ${when}.\n\nNext step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.`
     : `Choose the month you'd like to begin, and your Reset is yours for a year from that date.`;

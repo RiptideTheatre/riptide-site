@@ -171,10 +171,7 @@ faq:
 
     If you choose to drop out of the experience, a refund will not be possible.'
 - q: Can I buy someone else a ticket?
-  a: 'Yes and many people have done this. Simply put their name on the booking information.
-
-
-    It might be wise to tell them that they need to fill in a questionnaire!'
+  a: 'Yes, and many people have. Tick "This is a gift" when you book. We''ll email them their place and the questionnaire, or send you a gift card to give them yourself.'
 quotes:
   - quote: It pushed me to the edge of my comfort zone. It made me listen, made me have compassion, made me tell her things some of my friends don't know.
     source: Anonymous participant
