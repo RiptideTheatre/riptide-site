@@ -29,7 +29,7 @@ facts:
   - label: Time
     value: Flexible. Made to fit around your day.
   - label: Age
-    value: 16+
+    value: 18+
   - label: Price
     value: £15 — gift cards available
   - label: Access
