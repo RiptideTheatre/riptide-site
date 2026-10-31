@@ -1020,3 +1020,15 @@ a.lc__dot:hover img { transform: scale(1.06); }
   .lc__dot { width: 88px; height: 88px; }
 }
 .ab-name__close { font-family: var(--display); font-style: italic; font-size: clamp(20px, 2vw, 26px); color: var(--ivory); }
+
+/* ---------- privacy policy ---------- */
+.privacy { max-width: 900px; }
+.privacy h2 { font-family: var(--display); font-weight: 400; font-size: clamp(26px, 3vw, 36px); margin: 44px 0 12px; }
+.privacy__table { overflow-x: auto; margin: 8px 0 16px; border: 1px solid var(--line); border-radius: 8px; }
+.privacy__table:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.privacy table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px; line-height: 1.45; }
+.privacy th, .privacy td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.privacy th { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); font-weight: 500; background: var(--ink-2); }
+.privacy tr:last-child td { border-bottom: 0; }
+.privacy td:first-child { color: var(--ivory); font-weight: 500; }
+.privacy td { color: var(--muted); }
