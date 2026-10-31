@@ -575,7 +575,8 @@ input::placeholder { color: var(--quiet); }
 .ab-work__item:hover img, .ab-work__item:focus-visible img { transform: scale(1.05); filter: saturate(1) brightness(.9); }
 
 .ab-name { position: relative; overflow: hidden; padding-block: clamp(110px, 16vw, 230px); border-bottom: 1px solid var(--line); }
-.ab-name__art { position: absolute; inset: -6%; background: url("../video/waves-poster.jpg") center / cover no-repeat; opacity: .5; animation: abSwell 40s ease-in-out infinite alternate; }
+.ab-name__art { position: absolute; inset: -6%; background: url("../video/ocean-poster.jpg") center / cover no-repeat; opacity: .7; animation: abSwell 40s ease-in-out infinite alternate; }
+.ab-name__art video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ab-name__art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(10,20,22,.55), rgba(10,20,22,.92) 75%); }
 @keyframes abSwell { from { transform: scale(1) translateY(0); } to { transform: scale(1.08) translateY(-2%); } }
 .ab-name__inner { position: relative; }
@@ -882,3 +883,11 @@ input::placeholder { color: var(--quiet); }
 .logos img { display: block; height: var(--h); width: auto; max-width: 160px; object-fit: contain; opacity: .72; transition: opacity .3s ease; }
 .logos li:hover img { opacity: 1; }
 @media (max-width: 640px) { .logos { gap: 26px 32px; } .logos img { height: calc(var(--h) * .8); } }
+
+/* ---------- underwater light behind a band ---------- */
+.band--ocean { position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(90px, 12vw, 170px); border-top: 1px solid var(--line); }
+.band--ocean > .wrap { position: relative; }
+.ocean-bg { position: absolute; inset: 0; z-index: -1; background: #0b2a31 url("../video/ocean-poster.jpg") center top / cover no-repeat; }
+.ocean-bg video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+.ocean-bg__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,20,22,.25) 0%, rgba(10,20,22,.55) 55%, rgba(10,20,22,.9) 100%); }
+.band--ocean p { color: var(--ivory); }

@@ -24,6 +24,12 @@
     "w": 82
   },
   {
+    "name": "Sheffield Hallam University",
+    "file": "/assets/img/partners/sheffield-hallam.png",
+    "h": 39,
+    "w": 72
+  },
+  {
     "name": "Sheffield Theatres",
     "file": "/assets/img/partners/sheffield-theatres.png",
     "h": 34,
@@ -46,6 +52,18 @@
     "file": "/assets/img/partners/cast.png",
     "h": 31,
     "w": 86
+  },
+  {
+    "name": "Oldham Coliseum Theatre",
+    "file": "/assets/img/partners/oldham-coliseum.png",
+    "h": 35,
+    "w": 104
+  },
+  {
+    "name": "Theatre in the Mill",
+    "file": "/assets/img/partners/theatre-in-the-mill.png",
+    "h": 35,
+    "w": 100
   },
   {
     "name": "Northern School of Contemporary Dance",

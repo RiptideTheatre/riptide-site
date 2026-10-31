@@ -122,5 +122,16 @@
   box.closest('.hero') && box.closest('.hero').addEventListener('focusin', function () { target = 1; go(); });
 })();
 </script>
+<script>
+/* Background videos marked data-lazy-src start loading only when scrolled near, and never for reduced motion. */
+(function(){
+  var vids=[].slice.call(document.querySelectorAll('video[data-lazy-src]')); if(!vids.length) return;
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function go(v){ if(v.src) return; v.src=v.getAttribute('data-lazy-src'); var p=v.play&&v.play(); if(p&&p.catch) p.catch(function(){}); v.playbackRate=1; }
+  if(!('IntersectionObserver' in window)){ vids.forEach(go); return; }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ go(e.target); io.unobserve(e.target); } }); },{rootMargin:'300px 0px'});
+  vids.forEach(function(v){ io.observe(v); });
+})();
+</script>
 </body>
 </html>
