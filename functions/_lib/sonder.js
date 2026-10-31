@@ -2,8 +2,8 @@
 // Shares Stripe, email and signing helpers with Reset.
 //
 // Settings (Cloudflare Pages → Settings → Variables and secrets), as well as Reset's:
-//   SONDER_PRICE_ID        plain    price_… for one person (£10)
-//   SONDER_PAIR_PRICE_ID   plain    price_… for two people (£14)
+//   SONDER_PRICE_ID        plain    optional: overrides the £10 price below
+//   SONDER_PAIR_PRICE_ID   plain    optional: overrides the £14 price below
 //
 // KV (RESET_KV):
 //   sonder:<email>   {email, name, passes:[{ref, qty, from, until, key}]}
@@ -14,8 +14,8 @@ import { hmac, b64u, normEmail, sendEmail, esc, isSettled, DAY } from "./reset.j
 export const SONDER_COOKIE = "sonder_session";
 export const ACCESS_DAYS = 30;
 export const TICKETS = {
-  1: { label: "Sonder, one person", env: "SONDER_PRICE_ID", price: "£10" },
-  2: { label: "Sonder for two", env: "SONDER_PAIR_PRICE_ID", price: "£14" }
+  1: { label: "Sonder, one person", env: "SONDER_PRICE_ID", priceId: "price_1UWkNYEMSsljgDjENiGauPXs", price: "£10" },
+  2: { label: "Sonder for two", env: "SONDER_PAIR_PRICE_ID", priceId: "price_1UWkNxEMSsljgDjEbtFr47O6", price: "£14" }
 };
 
 const enc = new TextEncoder();
