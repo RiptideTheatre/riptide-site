@@ -173,7 +173,7 @@
   });
 
   /* ---------- maps ---------- */
-  // A pared-back map drawn from OpenStreetMap vector tiles (OpenFreeMap): roads, their names and the river. Nothing else.
+  // A pared-back map drawn from OpenStreetMap vector tiles (OpenFreeMap): streets, their names and the river. Nothing else.
   var MAP_STYLE = {
     version: 8,
     glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
@@ -182,9 +182,7 @@
       { id: "bg", type: "background", paint: { "background-color": "#0a1416" } },
       { id: "water", type: "fill", source: "osm", "source-layer": "water", paint: { "fill-color": "#123b40", "fill-outline-color": "#2f7d77" } },
       { id: "waterway", type: "line", source: "osm", "source-layer": "waterway", paint: { "line-color": "#2f7d77", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 17, 4] } },
-      { id: "paths", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["path", "pedestrian"]]],
-        paint: { "line-color": "#2c4446", "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.6, 18, 1.6], "line-dasharray": [2, 1.5] } },
-      { id: "minor", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["minor", "service", "track"]]],
+      { id: "minor", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["minor", "pedestrian"]]],
         layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#30494b", "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.6, 18, 5] } },
       { id: "major", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary", "tertiary"]]],
         layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#46625f", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 18, 9] } },
@@ -205,8 +203,10 @@
     var pts = scenes.map(function (s) { return [s.lng, s.lat]; });
     var all = pts.concat(hasPoint(walk.start) ? [[walk.start.lng, walk.start.lat]] : []);
     if (!all.length) { box.hidden = true; return; }
-    var map = new maplibregl.Map({ container: box, style: MAP_STYLE, center: all[0], zoom: 16, attributionControl: false, pitchWithRotate: false, dragRotate: false });
-    map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: "© OpenStreetMap contributors · OpenFreeMap" }));
+    // one point (the start): frame it with the river just to the south
+    var centre = all.length > 1 ? all[0] : [all[0][0] + 0.001, all[0][1] - 0.0013];
+    var map = new maplibregl.Map({ container: box, style: MAP_STYLE, center: centre, zoom: all.length > 1 ? 16 : 15.5, attributionControl: false, pitchWithRotate: false, dragRotate: false });
+    map.addControl(new maplibregl.AttributionControl({ compact: true }));
     map.on("load", function () {
       if (pts.length > 1) {
         map.addSource("route", { type: "geojson", data: { type: "Feature", geometry: { type: "LineString", coordinates: pts } } });
