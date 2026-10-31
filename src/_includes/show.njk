@@ -92,7 +92,7 @@ layout: base.njk
     </div>
   </div>
 </section>
-<script src="/assets/js/gift-form.js" defer></script>
+<script src="/assets/js/gift-form.js?v={{ build.v }}" defer></script>
 <script>
 document.addEventListener("DOMContentLoaded",function(){
   var form=document.getElementById("pbookForm"); if(!form||!window.fetch) return;
@@ -121,6 +121,80 @@ document.addEventListener("DOMContentLoaded",function(){
           .then(function(c){ checkout=c; host.innerHTML=""; c.mount(host); });
       })
       .catch(function(err){ close(); var e=err&&err.message; say(({run:"Those dates aren't available any more. Please choose another fortnight.",setup:"Booking isn't open quite yet. Please try again shortly."})[e]||(window.RiptideGift&&RiptideGift.errors[e])||"We couldn't open the secure payment form. Please try again."); });
+  });
+});
+</script>
+{% endif %}
+
+{% if booking == "sonder" and walkLive %}
+<section class="band pbook" id="book" aria-labelledby="sbook-title">
+  <div class="wrap">
+    <div class="pbook__card" id="sbookCard">
+      <div class="pbook__intro">
+        <p class="eyebrow">Get your ticket</p>
+        <h2 id="sbook-title" class="display pbook__title">{{ title }}</h2>
+        <p class="pbook__price display">£10<span>or £14 for two</span></p>
+        <p class="pbook__fine">Pay by card, Apple Pay or Google Pay. You'll get a link to the walk straight away, and 30 days to walk it as often as you like. No app to download.</p>
+      </div>
+      <form class="pbook__form" id="sbookForm">
+        <fieldset>
+          <legend>Who's walking?</legend>
+          <label class="pbook__run"><input type="radio" name="qty" value="1" checked><span><strong>Just me · £10</strong><small>One person, on your own phone</small></span></label>
+          <label class="pbook__run"><input type="radio" name="qty" value="2"><span><strong>Two of us · £14</strong><small>Forward the link to the person walking with you</small></span></label>
+        </fieldset>
+        <button class="btn btn--primary" type="submit">Continue to payment</button>
+        <p class="pbook__msg" role="status" hidden></p>
+      </form>
+    </div>
+    <div class="pbook__pay" id="sbookPay" hidden>
+      <div class="pbook__payhead">
+        <div>
+          <p class="eyebrow">Your ticket</p>
+          <p class="pbook__what display">{{ title }} · <span id="sbookWhat"></span></p>
+        </div>
+        <button class="pbook__change" type="button" id="sbookChange">Change</button>
+      </div>
+      <div class="pbook__form-host" id="sbookCheckout"><p class="pbook__loading">Opening secure payment…</p></div>
+      <p class="pbook__fine pbook__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> Payment is handled securely by Stripe. Your card details never touch our site.</p>
+    </div>
+    <form class="sbook__lost" id="sbookLost">
+      <p class="eyebrow">Already have a ticket?</p>
+      <p class="sbook__lost-msg" id="sbookLostMsg">Open the link in your email on your phone. Lost it? We'll send it again.</p>
+      <div class="sbook__lost-row">
+        <label class="visually-hidden" for="sbookEmail">Email address</label>
+        <input id="sbookEmail" type="email" name="email" placeholder="The email you booked with" autocomplete="email" required>
+        <button class="btn btn--ghost" type="submit">Send my link</button>
+      </div>
+    </form>
+  </div>
+</section>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  var form=document.getElementById("sbookForm"); if(!form||!window.fetch) return;
+  var card=document.getElementById("sbookCard"), pay=document.getElementById("sbookPay"), host=document.getElementById("sbookCheckout"), msg=form.querySelector(".pbook__msg"), checkout=null;
+  var q=location.search, lostMsg=document.getElementById("sbookLostMsg");
+  if(/signin=1/.test(q)) lostMsg.textContent="To open the walk, use the link in your email on your phone. Lost it? Enter your email and we'll send it again.";
+  if(/error=link/.test(q)) lostMsg.textContent="That link has expired or isn't right. Enter your email and we'll send a fresh one if your ticket is still live.";
+  function say(t){ msg.textContent=t; msg.hidden=false; }
+  function loadStripe(){ if(window.Stripe) return Promise.resolve(window.Stripe); return new Promise(function(ok,no){ var s=document.createElement("script"); s.src="https://js.stripe.com/v3/"; s.async=true; s.onload=function(){ window.Stripe?ok(window.Stripe):no(); }; s.onerror=no; document.head.appendChild(s); }); }
+  function close(){ if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; } host.innerHTML='<p class="pbook__loading">Opening secure payment…</p>'; pay.hidden=true; card.hidden=false; form.querySelector("button[type=submit]").disabled=false; }
+  document.getElementById("sbookChange").addEventListener("click",function(){ close(); card.scrollIntoView({behavior:"smooth",block:"center"}); });
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var r=form.querySelector("input[name=qty]:checked"); if(!r) return;
+    msg.hidden=true; form.querySelector("button[type=submit]").disabled=true;
+    document.getElementById("sbookWhat").textContent=r.value==="2"?"Two of us · £14":"Just me · £10";
+    card.hidden=true; pay.hidden=false; pay.scrollIntoView({behavior:"smooth",block:"start"});
+    fetch("/api/sonder/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({qty:Number(r.value)})})
+      .then(function(res){ return res.json().then(function(j){ if(!res.ok) throw new Error(j.error||"checkout"); return j; }); })
+      .then(function(j){ return loadStripe().then(function(S){ return S(j.publishableKey).initEmbeddedCheckout({fetchClientSecret:function(){ return Promise.resolve(j.clientSecret); }}); }).then(function(c){ checkout=c; host.innerHTML=""; c.mount(host); }); })
+      .catch(function(err){ close(); say(err&&err.message==="setup"?"Tickets aren't on sale quite yet. Please try again shortly.":"We couldn't open the secure payment form. Please try again."); });
+  });
+  document.getElementById("sbookLost").addEventListener("submit",function(e){
+    e.preventDefault(); var em=document.getElementById("sbookEmail").value;
+    fetch("/api/sonder/resend",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:em})})
+      .then(function(){ lostMsg.textContent="If that email has a live ticket, the link is on its way. Check your inbox (and spam) on your phone."; })
+      .catch(function(){ lostMsg.textContent="Something went wrong. Please try again."; });
   });
 });
 </script>

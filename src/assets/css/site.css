@@ -981,3 +981,7 @@ a.card__media, a.listing__media { display: block; cursor: pointer; }
 .arc__row { position: relative; }
 .arc__trailer { display: inline-block; margin: -14px 0 26px 156px; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
 @media (max-width: 760px) { .arc__trailer { margin-left: 0; } }
+.sbook__lost { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); max-width: 640px; }
+.sbook__lost-msg { color: var(--muted); margin: 0 0 14px; }
+.sbook__lost-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.sbook__lost-row input { flex: 1 1 240px; min-height: 48px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--ink-2); color: var(--ivory); font: inherit; }

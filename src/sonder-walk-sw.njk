@@ -1,0 +1,24 @@
+---
+permalink: /sonder/walk/sw.js
+eleventyExcludeFromCollections: true
+---
+// Keeps the Sonder walk's page working without signal. Sound and photos are saved by the page itself.
+const SHELL = "sonder-shell-{{ build.v }}";
+const FILES = ["/sonder/walk/", "/assets/js/sonder-walk.js?v={{ build.v }}", "/assets/css/sonder-walk.css?v={{ build.v }}", "/assets/audio/silence.m4a",
+  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css", "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"];
+
+self.addEventListener("install", (e) => {
+  e.waitUntil(caches.open(SHELL).then((c) => Promise.all(FILES.map((f) => c.add(new Request(f, { credentials: "same-origin" })).catch(() => {})))));
+  self.skipWaiting();
+});
+self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));
+self.addEventListener("fetch", (e) => {
+  const url = new URL(e.request.url);
+  if (e.request.method !== "GET" || url.pathname.startsWith("/sonder/media/") || url.pathname.startsWith("/api/")) return;
+  if (![url.pathname, url.pathname + url.search, e.request.url].some((k) => FILES.includes(k))) return;
+  // network first, so updates arrive; the saved copy when there's no signal
+  e.respondWith(fetch(e.request).then((res) => {
+    if (res.ok) { const copy = res.clone(); caches.open(SHELL).then((c) => c.put(e.request, copy)); }
+    return res;
+  }).catch(() => caches.match(e.request, { ignoreSearch: true })));
+});

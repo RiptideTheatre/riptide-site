@@ -1,0 +1,134 @@
+---
+permalink: /sonder/walk/index.html
+eleventyExcludeFromCollections: true
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a1416">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Sonder · Riptide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/css/sonder-walk.css?v={{ build.v }}">
+</head>
+<body>
+<div class="sw" id="app">
+
+  <header class="sw__bar">
+    <a class="sw__brand" href="/sonder/">Sonder</a>
+    <span class="sw__step" id="barStep"></span>
+  </header>
+
+  <p class="sw__draft" id="draftNote" hidden>Preview: the route, choices and sound here are placeholders until the real walk is loaded.</p>
+
+  <!-- 1. Welcome -->
+  <section class="sw__screen" data-screen="welcome">
+    <p class="sw__eyebrow" id="welcomeEyebrow">Your ticket is ready</p>
+    <h1 class="sw__h">Before you set off</h1>
+    <ol class="sw__checks">
+      <li><strong>Headphones in.</strong> The sound is made to be heard around you, not from a speaker.</li>
+      <li><strong>Phone charged</strong>, with location turned on. The walk knows where you are and the story arrives as you reach each place.</li>
+      <li><strong>Download it on wi-fi.</strong> Then it plays without signal.</li>
+      <li><strong>Keep your screen on</strong> while you walk, and keep your eyes on the road.</li>
+    </ol>
+    <p class="sw__fine" id="untilNote"></p>
+    <button class="sw__btn" type="button" data-go="who">Begin</button>
+  </section>
+
+  <!-- 2. Who you are -->
+  <section class="sw__screen" data-screen="who" hidden>
+    <p class="sw__eyebrow">Choice 1 of 2</p>
+    <h1 class="sw__h" id="whoQ"></h1>
+    <div class="sw__choices" id="whoList" role="radiogroup"></div>
+    <button class="sw__btn" type="button" data-go="narrator" id="whoNext" disabled>Next</button>
+  </section>
+
+  <!-- 3. Narrator -->
+  <section class="sw__screen" data-screen="narrator" hidden>
+    <p class="sw__eyebrow">Choice 2 of 2</p>
+    <h1 class="sw__h" id="narQ"></h1>
+    <div class="sw__choices" id="narList" role="radiogroup"></div>
+    <button class="sw__btn" type="button" data-go="download" id="narNext" disabled>Next</button>
+    <button class="sw__link" type="button" data-go="who">Back</button>
+  </section>
+
+  <!-- 4. Download -->
+  <section class="sw__screen" data-screen="download" hidden>
+    <p class="sw__eyebrow">Almost ready</p>
+    <h1 class="sw__h">Download the walk</h1>
+    <p class="sw__p">Do this on wi-fi before you leave. It saves the sound and pictures to this phone, so the walk plays even without signal.</p>
+    <div class="sw__meter" aria-hidden="true"><span id="dlBar"></span></div>
+    <p class="sw__fine" id="dlStatus" role="status">About <span id="dlSize">a few</span> MB.</p>
+    <button class="sw__btn" type="button" id="dlBtn">Download</button>
+    <button class="sw__link" type="button" data-go="start" id="dlSkip">Skip and stream as I go</button>
+  </section>
+
+  <!-- 5. Get to the start -->
+  <section class="sw__screen" data-screen="start" hidden>
+    <p class="sw__eyebrow">The walk begins at</p>
+    <h1 class="sw__h" id="startName"></h1>
+    <p class="sw__p" id="startWhere"></p>
+    <div class="sw__map" id="startMap"></div>
+    <p class="sw__dist" id="startDist" role="status">Finding you…</p>
+    <button class="sw__btn" type="button" id="startBtn">I'm here. Start the walk</button>
+    <p class="sw__fine">Tapping start turns on location and keeps your screen awake.</p>
+  </section>
+
+  <!-- 6. The walk -->
+  <section class="sw__screen sw__screen--walk" data-screen="walk" hidden>
+    <p class="sw__eyebrow" id="sceneNum"></p>
+    <h1 class="sw__h sw__h--scene" id="sceneTitle"></h1>
+    <p class="sw__mode" id="sceneMode"></p>
+
+    <div class="sw__now" id="headingBox">
+      <p class="sw__dist sw__dist--big" id="nextDist" role="status">Finding you…</p>
+      <p class="sw__fine" id="nextPlace"></p>
+      <button class="sw__btn sw__btn--ghost" type="button" id="hereBtn">I'm here</button>
+    </div>
+
+    <div class="sw__now" id="playingBox" hidden>
+      <div class="sw__ring" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="sw__progress" aria-hidden="true"><span id="playBar"></span></div>
+      <div class="sw__controls">
+        <button class="sw__ctl" type="button" id="backBtn" aria-label="Back 15 seconds">−15</button>
+        <button class="sw__ctl sw__ctl--main" type="button" id="playBtn" aria-label="Pause">Pause</button>
+        <button class="sw__ctl" type="button" id="skipBtn" aria-label="Skip to the next scene">Skip</button>
+      </div>
+    </div>
+
+    <div class="sw__tools">
+      <button class="sw__link" type="button" id="mapBtn" aria-expanded="false">Map</button>
+      <button class="sw__link" type="button" id="listBtn" aria-expanded="false">All scenes</button>
+    </div>
+    <div class="sw__map" id="walkMap" hidden></div>
+    <ol class="sw__scenes" id="sceneList" hidden></ol>
+  </section>
+
+  <!-- 7. The end -->
+  <section class="sw__screen" data-screen="end" hidden>
+    <p class="sw__eyebrow">Sonder</p>
+    <h1 class="sw__h">Everyone you passed today has a life as full as yours.</h1>
+    <p class="sw__p">Thank you for walking with us. You can walk Sonder again, with the other choices, as often as you like while your ticket lasts.</p>
+    <button class="sw__btn" type="button" id="againBtn">Walk it again</button>
+    <a class="sw__link" href="/">Riptide</a>
+  </section>
+
+  <div class="sw__photo" id="photo" hidden>
+    <figure><img id="photoImg" alt=""><figcaption id="photoCap"></figcaption></figure>
+    <button class="sw__link" type="button" id="photoClose">Close</button>
+  </div>
+
+  <audio id="player" preload="auto" playsinline></audio>
+</div>
+
+<noscript><p style="padding:24px;color:#f4f1e9">Sonder needs JavaScript and location to run. Please turn JavaScript on.</p></noscript>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/assets/js/sonder-walk.js?v={{ build.v }}"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "draft": true,
+  "title": "Sonder",
+  "minutes": 50,
+  "start": {
+    "name": "Leeds train station",
+    "where": "Outside the main entrance, on New Station Street",
+    "lat": 53.79565,
+    "lng": -1.54663
+  },
+  "radius": 25,
+  "who": {
+    "question": "Who are you today?",
+    "options": [
+      { "id": "a", "label": "[WHO YOU ARE: OPTION A]", "line": "[One line about this choice]" },
+      { "id": "b", "label": "[WHO YOU ARE: OPTION B]", "line": "[One line about this choice]" }
+    ]
+  },
+  "narrator": {
+    "question": "Who will walk with you?",
+    "options": [
+      { "id": "x", "label": "[NARRATOR: OPTION X]", "line": "[One line about this voice]" },
+      { "id": "y", "label": "[NARRATOR: OPTION Y]", "line": "[One line about this voice]" }
+    ]
+  },
+  "scenes": [
+    {
+      "n": 1,
+      "title": "[SCENE 1 TITLE]",
+      "place": "Leeds train station",
+      "lat": 53.79565,
+      "lng": -1.54663,
+      "kind": "still",
+      "audio": { "default": "/sonder/media/audio/placeholder-01.m4a" }
+    },
+    {
+      "n": 2,
+      "title": "[SCENE 2 TITLE]",
+      "place": "[PLACE NAME]",
+      "lat": 53.79476,
+      "lng": -1.54389,
+      "kind": "walk",
+      "audio": { "default": "/sonder/media/audio/placeholder-02.m4a" },
+      "photos": [
+        { "src": "/sonder/media/photos/placeholder-01.jpg", "at": 6, "for": 8, "alt": "Placeholder photo" }
+      ]
+    },
+    {
+      "n": 3,
+      "title": "[SCENE 3 TITLE]",
+      "place": "[PLACE NAME]",
+      "lat": 53.79358,
+      "lng": -1.54095,
+      "kind": "still",
+      "audio": { "default": "/sonder/media/audio/placeholder-03.m4a" }
+    }
+  ]
+}

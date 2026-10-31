@@ -4,6 +4,7 @@
 import { verifyStripeSignature, recordBooking, sendEmail, welcomeEmail, json, isSettled } from "../../_lib/reset.js";
 import { loadRuns, confirmPiBooking } from "../../_lib/pi.js";
 import { ensureGift, isGiftSession } from "../../_lib/gift.js";
+import { confirmSonder } from "../../_lib/sonder.js";
 
 export async function onRequestPost({ request, env }) {
   const raw = await request.text();
@@ -15,6 +16,9 @@ export async function onRequestPost({ request, env }) {
     if (isGiftSession(session)) {
       // A gift (either show): store it and send the buyer's and recipient's emails.
       await ensureGift(env, request, session);
+    } else if (session.metadata?.product === "sonder") {
+      // Sonder: record the ticket and send the walk link, even if the buyer closed the tab.
+      await confirmSonder(env, session);
     } else if (session.metadata?.product === "pi") {
       // Project Intimacy: make sure the confirmation email went out, even if the buyer closed the tab.
       await confirmPiBooking(env, session, await loadRuns(env, request, false).catch(() => []));

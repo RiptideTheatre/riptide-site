@@ -6,6 +6,8 @@ description: A binaural sound walk for Leeds. Download it, put your headphones i
 status: anytime
 featured: true
 bookable: true
+booking: sonder
+walkLive: false
 order: 2
 year: 2023
 summary: Download it, put your headphones in, and walk — 360 sound, GPS and theatre laid over the streets you already know.

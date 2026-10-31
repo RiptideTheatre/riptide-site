@@ -2,6 +2,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "src/admin": "admin" });
   eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
+  eleventyConfig.addPassthroughCopy({ "src/sonder/media/audio": "sonder/media/audio", "src/sonder/media/photos": "sonder/media/photos" });
   // Reset members area: plain files, guarded by functions/reset/members/_middleware.js
   eleventyConfig.addPassthroughCopy({ "reset-members": "reset/members" });
 
