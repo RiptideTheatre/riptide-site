@@ -19,7 +19,7 @@ layout: base.njk
           {{ ctaLabel or (status | statusCta) }}{% if status == "on-sale" and price %} — {{ price }}{% endif %}
         </a>
         {% endif %}
-        {% if trailerVideo and status != "past" %}<a class="btn btn--ghost" href="#trailer">See the trailer</a>{% elif trailerUrl %}<a class="btn btn--ghost" href="{{ trailerUrl }}" target="_blank" rel="noopener">See the trailer</a>{% endif %}
+        {% if trailerVideo and status != "past" %}<a class="btn btn--ghost" href="#trailer">See the trailer</a>{% elif trailerUrl and not trailerVideo %}<a class="btn btn--ghost" href="{{ trailerUrl }}" target="_blank" rel="noopener">See the trailer</a>{% endif %}
         {% if status == "coming-soon" %}<span style="font-size: 15px; color: var(--quiet);">Dates announced to the list first</span>{% endif %}
       </div>
     </div>
