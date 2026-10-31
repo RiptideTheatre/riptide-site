@@ -162,7 +162,7 @@
         if (state.started && hasPoint(s) && metres(here, s) <= r) playScene(state.next);
       }
     }
-    Object.keys(maps).forEach(function (k) { if (maps[k].me) maps[k].me.setLatLng([here.lat, here.lng]); else if (window.L) maps[k].me = L.circleMarker([here.lat, here.lng], { radius: 7, color: "#f4f1e9", weight: 2, fillColor: "#6fc4b8", fillOpacity: 1 }).addTo(maps[k].map); });
+    Object.keys(maps).forEach(function (k) { if (maps[k].me) maps[k].me.setLatLng([here.lat, here.lng]); else if (window.L) maps[k].me = L.circleMarker([here.lat, here.lng], { radius: 7, color: "#0a1416", weight: 3, fillColor: "#f4f1e9", fillOpacity: 1 }).addTo(maps[k].map); });
   }
   function keepAwake() {
     if (!("wakeLock" in navigator)) return;
@@ -180,7 +180,10 @@
     if (!all.length) { el.hidden = true; return; }
     var map = L.map(el, { zoomControl: false, attributionControl: true });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(map);
-    if (pts.length > 1) L.polyline(pts, { color: "#6fc4b8", weight: 3, opacity: .8, dashArray: "6 6" }).addTo(map);
+    if (pts.length > 1) {
+      L.polyline(pts, { color: "#6fc4b8", weight: 10, opacity: .18, lineCap: "round", lineJoin: "round" }).addTo(map);
+      L.polyline(pts, { color: "#6fc4b8", weight: 2.5, opacity: .95, lineCap: "round", lineJoin: "round" }).addTo(map);
+    }
     walk.scenes.filter(hasPoint).forEach(function (s) {
       L.marker([s.lat, s.lng], { icon: L.divIcon({ className: "sw__pin", html: "<span>" + s.n + "</span>", iconSize: [26, 26] }) }).addTo(map);
     });
@@ -245,7 +248,7 @@
       $("playBtn").textContent = "Pause";
     });
   }
-  function stop() { player.pause(); playing = -1; hidePhoto(); }
+  function stop() { player.pause(); playing = -1; hidePhoto(false); }
   function finishScene() {
     var i = playing; stop();
     state.next = i + 1; save();
@@ -261,7 +264,7 @@
       var at = typeof ph.at === "object" ? (ph.at[state.narrator] != null ? ph.at[state.narrator] : ph.at[Object.keys(ph.at)[0]]) : ph.at;
       var t = player.currentTime, on = t >= at && t < at + (ph.for || 10);
       if (on && !photoShown[k]) { photoShown[k] = true; showPhoto(ph); }
-      if (!on && photoShown[k] === true && t >= at + (ph.for || 10)) { photoShown[k] = "done"; hidePhoto(); }
+      if (!on && photoShown[k] === true && t >= at + (ph.for || 10)) { photoShown[k] = "done"; hidePhoto(true); }
     });
   });
   $("playBtn").addEventListener("click", function () {
@@ -271,7 +274,7 @@
   $("backBtn").addEventListener("click", function () { player.currentTime = Math.max(0, player.currentTime - 15); });
   $("skipBtn").addEventListener("click", function () { if (playing >= 0) finishScene(); });
   $("hereBtn").addEventListener("click", function () { playScene(state.next); });
-  $("againBtn").addEventListener("click", function () { state.next = 0; state.started = false; save(); show("who"); });
+  $("againBtn").addEventListener("click", function () { state.next = 0; state.started = false; state.lastPhoto = null; lastPhoto = null; $("thumbBtn").hidden = true; save(); show("who"); });
 
   function toggle(btn, el, after) {
     btn.addEventListener("click", function () {
@@ -283,16 +286,27 @@
   toggle($("listBtn"), $("sceneList"));
 
   /* ---------- photos ---------- */
-  function showPhoto(ph) {
+  var lastPhoto = null, photoManual = false;
+  function openPhoto(ph, manual) {
+    if (!ph) return;
+    photoManual = !!manual;
     sourceFor(ph.src).then(function (src) {
       $("photoImg").src = src; $("photoImg").alt = ph.alt || "";
       $("photoCap").textContent = ph.caption || "";
       $("photo").hidden = false;
-      if (navigator.vibrate) navigator.vibrate(60);
+      if (!manual && navigator.vibrate) navigator.vibrate(60);
     });
   }
-  function hidePhoto() { $("photo").hidden = true; }
-  $("photoClose").addEventListener("click", hidePhoto);
+  function showPhoto(ph) {
+    lastPhoto = ph; state.lastPhoto = ph; save();
+    sourceFor(ph.src).then(function (src) { $("thumbImg").src = src; $("thumbBtn").hidden = false; });
+    openPhoto(ph, false);
+  }
+  function hidePhoto(auto) { if (auto && photoManual) return; $("photo").hidden = true; photoManual = false; }
+  $("photoClose").addEventListener("click", function () { hidePhoto(false); });
+  $("photo").addEventListener("click", function (e) { if (e.target === $("photo")) hidePhoto(false); });
+  $("thumbBtn").addEventListener("click", function () { openPhoto(lastPhoto, true); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("photo").hidden) hidePhoto(false); });
 
   /* ---------- boot ---------- */
   fetch("/sonder/media/walk.json", { credentials: "same-origin", cache: "no-cache" })
@@ -305,6 +319,7 @@
       walk = data;
       if (walk.draft) $("draftNote").hidden = false;
       if (!walk.scenes.some(hasPoint)) $("mapBtn").hidden = true;
+      if (state.lastPhoto) { lastPhoto = state.lastPhoto; sourceFor(lastPhoto.src).then(function (src) { $("thumbImg").src = src; $("thumbBtn").hidden = false; }); }
       if ("caches" in window) caches.open(CACHE).then(function (c) { c.put("/sonder/media/walk.json", new Response(JSON.stringify(walk), { headers: { "Content-Type": "application/json" } })); });
       if (location.search.indexOf("welcome=1") > -1) { $("welcomeEyebrow").textContent = "Thank you. Your ticket is ready"; history.replaceState(null, "", location.pathname); }
       fetch("/api/sonder/me", { credentials: "same-origin" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (me) {
