@@ -90,32 +90,32 @@
     "w": 68
   },
   {
-    "name": "[Li logo]",
-    "file": "/assets/img/partners/partner-li.png",
+    "name": "Leeds Inspired",
+    "file": "/assets/img/partners/leeds-inspired.png",
     "h": 47,
     "w": 48
   },
   {
-    "name": "[xR logo]",
-    "file": "/assets/img/partners/partner-xr.png",
+    "name": "XR Stories",
+    "file": "/assets/img/partners/xr-stories.png",
     "h": 42,
     "w": 64
   },
   {
-    "name": "[goat and house logo]",
-    "file": "/assets/img/partners/partner-goat.png",
+    "name": "Deershed Festival",
+    "file": "/assets/img/partners/deershed-festival.png",
     "h": 51,
     "w": 46
   },
   {
-    "name": "[pink 20 logo]",
-    "file": "/assets/img/partners/partner-pink-20.png",
+    "name": "Leeds International Festival",
+    "file": "/assets/img/partners/leeds-international-festival.png",
     "h": 70,
     "w": 70
   },
   {
-    "name": "[yellow network logo]",
-    "file": "/assets/img/partners/partner-network.png",
+    "name": "Immersive Network",
+    "file": "/assets/img/partners/immersive-network.png",
     "h": 77,
     "w": 68
   }
