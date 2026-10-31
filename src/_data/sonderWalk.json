@@ -10,32 +10,32 @@
  },
  "radius": 25,
  "who": {
-  "question": "Who are you today?",
+  "question": "Who are you?",
   "options": [
    {
-    "id": "a",
-    "label": "[CHOICE A: confirm]",
+    "id": "man",
+    "label": "I'm a man",
     "line": ""
    },
    {
-    "id": "b",
-    "label": "[CHOICE B: confirm]",
+    "id": "woman",
+    "label": "I'm a woman",
     "line": ""
    }
   ]
  },
  "narrator": {
-  "question": "Who will walk with you?",
+  "question": "Who would you like to walk with?",
   "options": [
    {
-    "id": "sophie",
-    "label": "Sophie",
-    "line": ""
+    "id": "female",
+    "label": "A woman's voice",
+    "line": "Sophie"
    },
    {
-    "id": "ryan",
-    "label": "Ryan",
-    "line": ""
+    "id": "male",
+    "label": "A man's voice",
+    "line": "Ryan"
    }
   ]
  },
@@ -46,10 +46,10 @@
    "place": "Leeds train station",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s01-746b1e3e02.m4a",
-    "b+sophie": "/sonder/media/audio/s01-97427b2fc4.m4a",
-    "a+sophie": "/sonder/media/audio/s01-7d3a413c16.m4a",
-    "b+ryan": "/sonder/media/audio/s01-746b1e3e02.m4a"
+    "man+male": "/sonder/media/audio/s01-746b1e3e02.m4a",
+    "woman+female": "/sonder/media/audio/s01-97427b2fc4.m4a",
+    "man+female": "/sonder/media/audio/s01-7d3a413c16.m4a",
+    "woman+male": "/sonder/media/audio/s01-746b1e3e02.m4a"
    },
    "photos": [
     {
@@ -72,10 +72,10 @@
    "place": "Queens Square",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s02-cacebd88a2.m4a",
-    "b+sophie": "/sonder/media/audio/s02-9cfabcd844.m4a",
-    "a+sophie": "/sonder/media/audio/s02-41760013b3.m4a",
-    "b+ryan": "/sonder/media/audio/s02-acb9759172.m4a"
+    "man+male": "/sonder/media/audio/s02-cacebd88a2.m4a",
+    "woman+female": "/sonder/media/audio/s02-9cfabcd844.m4a",
+    "man+female": "/sonder/media/audio/s02-41760013b3.m4a",
+    "woman+male": "/sonder/media/audio/s02-acb9759172.m4a"
    },
    "photos": [
     {
@@ -92,10 +92,10 @@
    "place": "Boar Lane",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s03-caf4698803.m4a",
-    "b+sophie": "/sonder/media/audio/s03-98b55cc31b.m4a",
-    "a+sophie": "/sonder/media/audio/s03-98b55cc31b.m4a",
-    "b+ryan": "/sonder/media/audio/s03-caf4698803.m4a"
+    "man+male": "/sonder/media/audio/s03-caf4698803.m4a",
+    "woman+female": "/sonder/media/audio/s03-98b55cc31b.m4a",
+    "man+female": "/sonder/media/audio/s03-98b55cc31b.m4a",
+    "woman+male": "/sonder/media/audio/s03-caf4698803.m4a"
    },
    "photos": [
     {
@@ -112,10 +112,10 @@
    "place": "Corn Exchange",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s04-558fb369e7.m4a",
-    "b+sophie": "/sonder/media/audio/s04-dd103e4de5.m4a",
-    "a+sophie": "/sonder/media/audio/s04-ed951ea0d0.m4a",
-    "b+ryan": "/sonder/media/audio/s04-4e1bc12eb9.m4a"
+    "man+male": "/sonder/media/audio/s04-558fb369e7.m4a",
+    "woman+female": "/sonder/media/audio/s04-dd103e4de5.m4a",
+    "man+female": "/sonder/media/audio/s04-ed951ea0d0.m4a",
+    "woman+male": "/sonder/media/audio/s04-4e1bc12eb9.m4a"
    },
    "photos": [
     {
@@ -132,10 +132,10 @@
    "place": "COVID Calls",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s05-7681b68f4c.m4a",
-    "b+sophie": "/sonder/media/audio/s05-7388aa2544.m4a",
-    "a+sophie": "/sonder/media/audio/s05-7388aa2544.m4a",
-    "b+ryan": "/sonder/media/audio/s05-7681b68f4c.m4a"
+    "man+male": "/sonder/media/audio/s05-7681b68f4c.m4a",
+    "woman+female": "/sonder/media/audio/s05-7388aa2544.m4a",
+    "man+female": "/sonder/media/audio/s05-7388aa2544.m4a",
+    "woman+male": "/sonder/media/audio/s05-7681b68f4c.m4a"
    },
    "photos": [
     {
@@ -152,10 +152,10 @@
    "place": "Waiting on a Bridge",
    "kind": "walk",
    "audio": {
-    "b+sophie": "/sonder/media/audio/s06-40d4051fdb.m4a",
-    "a+sophie": "/sonder/media/audio/s06-40d4051fdb.m4a",
-    "b+ryan": "/sonder/media/audio/s06-8f7e073bc7.m4a",
-    "ryan": "/sonder/media/audio/s06-8f7e073bc7.m4a"
+    "woman+female": "/sonder/media/audio/s06-40d4051fdb.m4a",
+    "man+female": "/sonder/media/audio/s06-40d4051fdb.m4a",
+    "woman+male": "/sonder/media/audio/s06-8f7e073bc7.m4a",
+    "male": "/sonder/media/audio/s06-8f7e073bc7.m4a"
    },
    "photos": [
     {
@@ -178,10 +178,10 @@
    "place": "Tunnel Christmas",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s07-6baf16babf.m4a",
-    "b+sophie": "/sonder/media/audio/s07-dfce63e776.m4a",
-    "a+sophie": "/sonder/media/audio/s07-dfce63e776.m4a",
-    "b+ryan": "/sonder/media/audio/s07-6baf16babf.m4a"
+    "man+male": "/sonder/media/audio/s07-6baf16babf.m4a",
+    "woman+female": "/sonder/media/audio/s07-dfce63e776.m4a",
+    "man+female": "/sonder/media/audio/s07-dfce63e776.m4a",
+    "woman+male": "/sonder/media/audio/s07-6baf16babf.m4a"
    },
    "photos": [
     {
@@ -198,10 +198,10 @@
    "place": "Leeds Dock",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s08-5b002f3ea4.m4a",
-    "b+sophie": "/sonder/media/audio/s08-3a67041b3f.m4a",
-    "a+sophie": "/sonder/media/audio/s08-76c781e6b2.m4a",
-    "b+ryan": "/sonder/media/audio/s08-8149940b5d.m4a"
+    "man+male": "/sonder/media/audio/s08-5b002f3ea4.m4a",
+    "woman+female": "/sonder/media/audio/s08-3a67041b3f.m4a",
+    "man+female": "/sonder/media/audio/s08-76c781e6b2.m4a",
+    "woman+male": "/sonder/media/audio/s08-8149940b5d.m4a"
    },
    "photos": [
     {
@@ -230,10 +230,10 @@
    "place": "Phonecall",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s09-cfe0bb8fcb.m4a",
-    "b+sophie": "/sonder/media/audio/s09b-5f01368257.m4a",
-    "a+sophie": "/sonder/media/audio/s09c-177417051f.m4a",
-    "b+ryan": "/sonder/media/audio/s09-6a2abcec2e.m4a"
+    "man+male": "/sonder/media/audio/s09-cfe0bb8fcb.m4a",
+    "woman+female": "/sonder/media/audio/s09b-5f01368257.m4a",
+    "man+female": "/sonder/media/audio/s09c-177417051f.m4a",
+    "woman+male": "/sonder/media/audio/s09-6a2abcec2e.m4a"
    },
    "photos": [
     {
@@ -250,10 +250,10 @@
    "place": "New York into Outskirts",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s10-189e948375.m4a",
-    "b+sophie": "/sonder/media/audio/s10-8df9fcd1c8.m4a",
-    "a+sophie": "/sonder/media/audio/s10-2c0a2a0f49.m4a",
-    "b+ryan": "/sonder/media/audio/s10-0a39d355b6.m4a"
+    "man+male": "/sonder/media/audio/s10-189e948375.m4a",
+    "woman+female": "/sonder/media/audio/s10-8df9fcd1c8.m4a",
+    "man+female": "/sonder/media/audio/s10-2c0a2a0f49.m4a",
+    "woman+male": "/sonder/media/audio/s10-0a39d355b6.m4a"
    },
    "photos": [
     {
@@ -276,10 +276,10 @@
    "place": "Scattered Heights",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s11-cc14d87914.m4a",
-    "b+sophie": "/sonder/media/audio/s11-ac914e6c22.m4a",
-    "a+sophie": "/sonder/media/audio/s11-4d49d0df8c.m4a",
-    "b+ryan": "/sonder/media/audio/s11-4fa0e36ffb.m4a"
+    "man+male": "/sonder/media/audio/s11-cc14d87914.m4a",
+    "woman+female": "/sonder/media/audio/s11-ac914e6c22.m4a",
+    "man+female": "/sonder/media/audio/s11-4d49d0df8c.m4a",
+    "woman+male": "/sonder/media/audio/s11-4fa0e36ffb.m4a"
    },
    "photos": [
     {
@@ -296,10 +296,10 @@
    "place": "Leeds Dock",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s12-2ddc3f2be8.m4a",
-    "b+sophie": "/sonder/media/audio/s12-7122b7ea5d.m4a",
-    "a+sophie": "/sonder/media/audio/s12-7122b7ea5d.m4a",
-    "b+ryan": "/sonder/media/audio/s12b-2ddc3f2be8.m4a"
+    "man+male": "/sonder/media/audio/s12-2ddc3f2be8.m4a",
+    "woman+female": "/sonder/media/audio/s12-7122b7ea5d.m4a",
+    "man+female": "/sonder/media/audio/s12-7122b7ea5d.m4a",
+    "woman+male": "/sonder/media/audio/s12b-2ddc3f2be8.m4a"
    },
    "photos": [
     {
@@ -316,10 +316,10 @@
    "place": "Pockets",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s13-6db0340742.m4a",
-    "b+sophie": "/sonder/media/audio/s13-2b6042959e.m4a",
-    "a+sophie": "/sonder/media/audio/s13-34d7c36846.m4a",
-    "b+ryan": "/sonder/media/audio/s13-49c0a4e36d.m4a"
+    "man+male": "/sonder/media/audio/s13-6db0340742.m4a",
+    "woman+female": "/sonder/media/audio/s13-2b6042959e.m4a",
+    "man+female": "/sonder/media/audio/s13-34d7c36846.m4a",
+    "woman+male": "/sonder/media/audio/s13-49c0a4e36d.m4a"
    },
    "photos": [
     {
@@ -336,10 +336,10 @@
    "place": "Dear Estate Agent",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s14-423fa16354.m4a",
-    "b+sophie": "/sonder/media/audio/s14-950f5f8a2a.m4a",
-    "a+sophie": "/sonder/media/audio/s14-950f5f8a2a.m4a",
-    "b+ryan": "/sonder/media/audio/s14-950f5f8a2a.m4a"
+    "man+male": "/sonder/media/audio/s14-423fa16354.m4a",
+    "woman+female": "/sonder/media/audio/s14-950f5f8a2a.m4a",
+    "man+female": "/sonder/media/audio/s14-950f5f8a2a.m4a",
+    "woman+male": "/sonder/media/audio/s14-950f5f8a2a.m4a"
    },
    "photos": [
     {
@@ -356,10 +356,10 @@
    "place": "The Calls Return",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s15-a2a0e7ec2f.m4a",
-    "b+sophie": "/sonder/media/audio/s15-1fb049cf19.m4a",
-    "a+sophie": "/sonder/media/audio/s15-1fb049cf19.m4a",
-    "b+ryan": "/sonder/media/audio/s15-1fb049cf19.m4a"
+    "man+male": "/sonder/media/audio/s15-a2a0e7ec2f.m4a",
+    "woman+female": "/sonder/media/audio/s15-1fb049cf19.m4a",
+    "man+female": "/sonder/media/audio/s15-1fb049cf19.m4a",
+    "woman+male": "/sonder/media/audio/s15-1fb049cf19.m4a"
    },
    "photos": [
     {
@@ -376,10 +376,10 @@
    "place": "Leeds Bridge into Phonecall",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s16-3ee48f7dab.m4a",
-    "b+sophie": "/sonder/media/audio/s16-51ed6bfd31.m4a",
-    "a+sophie": "/sonder/media/audio/s16-d66583d473.m4a",
-    "b+ryan": "/sonder/media/audio/s16-4104f5c4c0.m4a"
+    "man+male": "/sonder/media/audio/s16-3ee48f7dab.m4a",
+    "woman+female": "/sonder/media/audio/s16-51ed6bfd31.m4a",
+    "man+female": "/sonder/media/audio/s16-d66583d473.m4a",
+    "woman+male": "/sonder/media/audio/s16-4104f5c4c0.m4a"
    },
    "photos": [
     {
@@ -396,10 +396,10 @@
    "place": "Brasserie Blanc",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s17-85ebade1d8.m4a",
-    "b+sophie": "/sonder/media/audio/s17-c7155488f8.m4a",
-    "a+sophie": "/sonder/media/audio/s17-6d0cb241fa.m4a",
-    "ryan": "/sonder/media/audio/s17-85ebade1d8.m4a"
+    "man+male": "/sonder/media/audio/s17-85ebade1d8.m4a",
+    "woman+female": "/sonder/media/audio/s17-c7155488f8.m4a",
+    "man+female": "/sonder/media/audio/s17-6d0cb241fa.m4a",
+    "male": "/sonder/media/audio/s17-85ebade1d8.m4a"
    },
    "photos": [
     {
@@ -416,10 +416,10 @@
    "place": "Paris",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s18-f44f6b8687.m4a",
-    "b+sophie": "/sonder/media/audio/s18-a3366d64eb.m4a",
-    "a+sophie": "/sonder/media/audio/s18-482fee736f.m4a",
-    "b+ryan": "/sonder/media/audio/s18-f4944de254.m4a"
+    "man+male": "/sonder/media/audio/s18-f44f6b8687.m4a",
+    "woman+female": "/sonder/media/audio/s18-a3366d64eb.m4a",
+    "man+female": "/sonder/media/audio/s18-482fee736f.m4a",
+    "woman+male": "/sonder/media/audio/s18-f4944de254.m4a"
    },
    "photos": [
     {
@@ -431,8 +431,8 @@
     {
      "src": "/sonder/media/photos/18b.jpg",
      "at": {
-      "sophie": 325,
-      "ryan": 310
+      "female": 325,
+      "male": 310
      },
      "for": 15,
      "alt": "Where to go next: Paris"
@@ -445,10 +445,10 @@
    "place": "Leeds train station",
    "kind": "walk",
    "audio": {
-    "a+ryan": "/sonder/media/audio/s19-a816e5e8be.m4a",
-    "b+sophie": "/sonder/media/audio/s19-3a05f5ceb2.m4a",
-    "a+sophie": "/sonder/media/audio/s19-3a05f5ceb2.m4a",
-    "b+ryan": "/sonder/media/audio/s19-a816e5e8be.m4a"
+    "man+male": "/sonder/media/audio/s19-a816e5e8be.m4a",
+    "woman+female": "/sonder/media/audio/s19-3a05f5ceb2.m4a",
+    "man+female": "/sonder/media/audio/s19-3a05f5ceb2.m4a",
+    "woman+male": "/sonder/media/audio/s19-a816e5e8be.m4a"
    },
    "photos": [
     {
