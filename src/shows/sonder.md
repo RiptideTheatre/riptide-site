@@ -2,7 +2,7 @@
 title: Sonder
 tagline: A binaural sound walk for Leeds.
 subtitle: 360 sound, GPS technology and theatre, laid over the streets you already know.
-description: A binaural sound walk for Leeds. Download it, put your headphones in, and walk.
+description: A binaural sound walk for Leeds. Open it on your phone, put your headphones in, and walk.
 kinds: [in-person]
 workLabel: "NEW for 2027"
 gallery:
@@ -26,10 +26,10 @@ status: anytime
 featured: true
 bookable: true
 booking: sonder
-walkLive: false
+walkLive: true
 order: 2
 year: 2023
-summary: Download it, put your headphones in, and walk — 360 sound, GPS and theatre laid over the streets you already know.
+summary: "Open it on your phone, put your headphones in, and walk: 360 sound, GPS and theatre laid over the streets you already know."
 cardMeta: Leeds · 50 mins · £10
 image: /assets/img/sonder.jpg
 imageAlt: "Sonder, written over moving water"
@@ -39,12 +39,12 @@ trailerVideo: /assets/video/sonder-promo.mp4
 trailerPoster: /assets/video/sonder-promo-poster.jpg
 aboutImage: /assets/img/sonder-about.jpg
 aboutAlt: "Sonder: an audience member on a bridge over the river in Leeds, headphones on, following a map on her phone"
-ctaLabel: Download the app
-ctaUrl: "#"
+ctaLabel: Get your ticket — £10
+ctaUrl: "#book"
 price: £10
 facts:
   - label: Where
-    value: Starts in Leeds city centre — exact point in the app
+    value: Starts outside Leeds train station
   - label: Duration
     value: About 50 minutes at an easy pace
   - label: When
@@ -56,7 +56,7 @@ facts:
   - label: Access
     value: Step-free and wheelchair accessible
 needs:
-  - A smartphone with the app installed and downloaded before you set off
+  - A smartphone with location turned on. Open your ticket link and download the walk on wi-fi before you set off.
   - Headphones — over-ear or in-ear both work, but not a speaker
   - Around an hour, and no particular need to be anywhere after
 care:
@@ -71,7 +71,13 @@ press:
     source: Culture Vultures
 faq:
   - q: Do I need mobile signal?
-    a: Download the walk over wi-fi before you set off and it runs offline. GPS works without data.
+    a: Download the walk on wi-fi before you set off and it plays without signal. GPS works without data.
+  - q: How do I get in?
+    a: "Book a ticket and we'll email you a link straight away. Open it on your phone, choose who you are and who will walk with you, and head to Leeds station. There's no app to download."
+  - q: How long does my ticket last?
+    a: 30 days. Walk it as many times as you like in that time, with different choices each time.
+  - q: Can two of us do it together?
+    a: Yes. Book the £14 ticket for two and forward the email to the person walking with you. You'll each need your own phone and headphones.
   - q: Can I do it more than once?
     a: Yes, and people do — you notice different things the second time.
   - q: Is it suitable for children?
