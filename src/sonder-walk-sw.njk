@@ -5,7 +5,7 @@ eleventyExcludeFromCollections: true
 // Keeps the Sonder walk's page working without signal. Sound and photos are saved by the page itself.
 const SHELL = "sonder-shell-{{ build.v }}";
 const FILES = ["/sonder/walk/", "/assets/js/sonder-walk.js?v={{ build.v }}", "/assets/css/sonder-walk.css?v={{ build.v }}", "/assets/audio/silence.m4a",
-  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css", "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"];
+  "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css", "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(SHELL).then((c) => Promise.all(FILES.map((f) => c.add(new Request(f, { credentials: "same-origin" })).catch(() => {})))));

@@ -162,7 +162,7 @@
         if (state.started && hasPoint(s) && metres(here, s) <= r) playScene(state.next);
       }
     }
-    Object.keys(maps).forEach(function (k) { if (maps[k].me) maps[k].me.setLatLng([here.lat, here.lng]); else if (window.L) maps[k].me = L.circleMarker([here.lat, here.lng], { radius: 7, color: "#0a1416", weight: 3, fillColor: "#f4f1e9", fillOpacity: 1 }).addTo(maps[k].map); });
+    if (window.maplibregl) placeMe();
   }
   function keepAwake() {
     if (!("wakeLock" in navigator)) return;
@@ -173,24 +173,66 @@
   });
 
   /* ---------- maps ---------- */
+  // A pared-back map drawn from OpenStreetMap vector tiles (OpenFreeMap): roads, their names and the river. Nothing else.
+  var MAP_STYLE = {
+    version: 8,
+    glyphs: "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
+    sources: { osm: { type: "vector", url: "https://tiles.openfreemap.org/planet" } },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": "#0a1416" } },
+      { id: "water", type: "fill", source: "osm", "source-layer": "water", paint: { "fill-color": "#123b40", "fill-outline-color": "#2f7d77" } },
+      { id: "waterway", type: "line", source: "osm", "source-layer": "waterway", paint: { "line-color": "#2f7d77", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 17, 4] } },
+      { id: "paths", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["path", "pedestrian"]]],
+        paint: { "line-color": "#2c4446", "line-width": ["interpolate", ["linear"], ["zoom"], 14, 0.6, 18, 1.6], "line-dasharray": [2, 1.5] } },
+      { id: "minor", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["minor", "service", "track"]]],
+        layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#30494b", "line-width": ["interpolate", ["linear"], ["zoom"], 13, 0.6, 18, 5] } },
+      { id: "major", type: "line", source: "osm", "source-layer": "transportation", filter: ["in", ["get", "class"], ["literal", ["motorway", "trunk", "primary", "secondary", "tertiary"]]],
+        layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#46625f", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 1, 18, 9] } },
+      { id: "road-names", type: "symbol", source: "osm", "source-layer": "transportation_name", minzoom: 15,
+        layout: { "symbol-placement": "line", "text-field": ["get", "name"], "text-font": ["Noto Sans Regular"], "text-size": 11, "text-letter-spacing": 0.04 },
+        paint: { "text-color": "#8aa19f", "text-halo-color": "#0a1416", "text-halo-width": 1.5 } },
+      { id: "river-name", type: "symbol", source: "osm", "source-layer": "waterway", filter: ["has", "name"], minzoom: 13,
+        layout: { "symbol-placement": "line", "text-field": ["get", "name"], "text-font": ["Noto Sans Italic"], "text-size": 13, "text-letter-spacing": 0.12 },
+        paint: { "text-color": "#6fc4b8", "text-halo-color": "#0a1416", "text-halo-width": 1.5 } }
+    ]
+  };
+
+  function el(cls, html) { var d = document.createElement("div"); d.className = cls; d.innerHTML = html; return d; }
+
   function makeMap(id) {
-    if (maps[id] || !window.L) return;
-    var el = $(id), pts = walk.scenes.filter(hasPoint).map(function (s) { return [s.lat, s.lng]; });
-    var all = pts.concat(hasPoint(walk.start) ? [[walk.start.lat, walk.start.lng]] : []);
-    if (!all.length) { el.hidden = true; return; }
-    var map = L.map(el, { zoomControl: false, attributionControl: true });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(map);
-    if (pts.length > 1) {
-      L.polyline(pts, { color: "#6fc4b8", weight: 10, opacity: .18, lineCap: "round", lineJoin: "round" }).addTo(map);
-      L.polyline(pts, { color: "#6fc4b8", weight: 2.5, opacity: .95, lineCap: "round", lineJoin: "round" }).addTo(map);
-    }
-    walk.scenes.filter(hasPoint).forEach(function (s) {
-      L.marker([s.lat, s.lng], { icon: L.divIcon({ className: "sw__pin", html: "<span>" + s.n + "</span>", iconSize: [26, 26] }) }).addTo(map);
+    if (maps[id] || !window.maplibregl) return;
+    var box = $(id), scenes = walk.scenes.filter(hasPoint);
+    var pts = scenes.map(function (s) { return [s.lng, s.lat]; });
+    var all = pts.concat(hasPoint(walk.start) ? [[walk.start.lng, walk.start.lat]] : []);
+    if (!all.length) { box.hidden = true; return; }
+    var map = new maplibregl.Map({ container: box, style: MAP_STYLE, center: all[0], zoom: 16, attributionControl: false, pitchWithRotate: false, dragRotate: false });
+    map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: "© OpenStreetMap contributors · OpenFreeMap" }));
+    map.on("load", function () {
+      if (pts.length > 1) {
+        map.addSource("route", { type: "geojson", data: { type: "Feature", geometry: { type: "LineString", coordinates: pts } } });
+        map.addLayer({ id: "route-glow", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#6fc4b8", "line-width": 10, "line-opacity": 0.18, "line-blur": 4 } });
+        map.addLayer({ id: "route", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#6fc4b8", "line-width": 2.5 } });
+      }
     });
-    if (!pts.length && hasPoint(walk.start)) L.marker(all[0], { icon: L.divIcon({ className: "sw__pin", html: "<span>1</span>", iconSize: [26, 26] }) }).addTo(map);
-    if (all.length > 1) map.fitBounds(L.latLngBounds(all), { padding: [30, 30] }); else map.setView(all[0], 17);
+    // scene starting points: numbered teal discs
+    (scenes.length ? scenes : [{ n: 1, lat: walk.start.lat, lng: walk.start.lng }]).forEach(function (s) {
+      new maplibregl.Marker({ element: el("sw__pin", "<span>" + s.n + "</span>") }).setLngLat([s.lng, s.lat]).addTo(map);
+    });
+    if (all.length > 1) {
+      var b = all.reduce(function (bb, p) { return bb.extend(p); }, new maplibregl.LngLatBounds(all[0], all[0]));
+      map.fitBounds(b, { padding: 36, duration: 0 });
+    }
     maps[id] = { map: map };
     if (here) onMove();
+  }
+
+  // you: an ivory dot with rings rippling out from it, like the listening circle
+  function placeMe() {
+    Object.keys(maps).forEach(function (k) {
+      var m = maps[k];
+      if (!m.me) m.me = new maplibregl.Marker({ element: el("sw__me", "<i></i><i></i><i></i><b></b>") }).setLngLat([here.lng, here.lat]).addTo(m.map);
+      else m.me.setLngLat([here.lng, here.lat]);
+    });
   }
 
   /* ---------- start ---------- */
@@ -282,7 +324,7 @@
       if (!el.hidden && after) after();
     });
   }
-  toggle($("mapBtn"), $("walkMap"), function () { setTimeout(function () { makeMap("walkMap"); if (maps.walkMap) maps.walkMap.map.invalidateSize(); }, 30); });
+  toggle($("mapBtn"), $("walkMap"), function () { setTimeout(function () { makeMap("walkMap"); if (maps.walkMap) maps.walkMap.map.resize(); }, 30); });
   toggle($("listBtn"), $("sceneList"));
 
   /* ---------- photos ---------- */
