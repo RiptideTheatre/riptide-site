@@ -54,6 +54,8 @@ module.exports = function (eleventyConfig) {
     [...arr].sort((a, b) => (Number(b.data.year) || 0) - (Number(a.data.year) || 0) || (a.data.order || 99) - (b.data.order || 99))
   );
   eleventyConfig.addFilter("isFilled", (v) => !!v && !/^\s*\[/.test(String(v)));
+  // keep only list items whose given field is real copy, not a [PLACEHOLDER]
+  eleventyConfig.addFilter("filledBy", (arr, key) => (arr || []).filter((x) => !!x && !!x[key] && !/^\s*\[/.test(String(x[key]))));
   eleventyConfig.addFilter("bySortOrder", (arr) =>
     [...arr].sort((a, b) => (a.data.order || 99) - (b.data.order || 99))
   );

@@ -27,11 +27,13 @@ layout: base.njk
   </div>
 </section>
 
+{% if (content | striptags | trim | first) != "[" %}
 <section class="band band--tint">
   <div class="wrap"><div class="prose">
     {{ content | safe }}
   </div></div>
 </section>
+{% endif %}
 
 {% if steps %}
 <section class="band">
@@ -146,7 +148,8 @@ document.addEventListener("DOMContentLoaded",function(){
 </section>
 {% endif %}
 
-{% if credits %}
+{% set credits = credits | filledBy("value") %}
+{% if credits.length %}
 <section class="band band--tint">
   <div class="wrap panel" style="max-width: 720px;">
     <p class="eyebrow">Credits</p>
@@ -193,6 +196,8 @@ document.addEventListener("DOMContentLoaded",function(){
 </section>
 {% endif %}
 
+{% set press = press | filledBy("quote") %}
+{% if not press.length %}{% set press = false %}{% endif %}
 {% if quotes or press %}
 <section class="band">
   <div class="wrap">
