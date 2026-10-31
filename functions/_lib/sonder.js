@@ -66,8 +66,11 @@ export async function recordSonderBooking(env, session) {
 }
 
 // A preview link for Riptide to check the walk before tickets go on sale. Only its hash is stored here;
-// to retire it, delete this line (or set SONDER_PREVIEW_OFF=1 in Cloudflare).
-const PREVIEW_KEY_SHA256 = "7a5f86473b3d41c932f236c725f1c868e09b08b92ed2dc16346e4c020bcc58f3";
+// to retire them, delete the list (or set SONDER_PREVIEW_OFF=1 in Cloudflare).
+const PREVIEW_KEYS_SHA256 = [
+  "7a5f86473b3d41c932f236c725f1c868e09b08b92ed2dc16346e4c020bcc58f3",
+  "1cf60e9ca877df6caad49cc8b80f7d1404194310aef160492db63e2f200240c5"
+];
 
 async function sha256hex(s) {
   const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
@@ -76,7 +79,7 @@ async function sha256hex(s) {
 
 export async function useWalkKey(env, key) {
   if (!key || !/^[A-Za-z0-9_-]{16,64}$/.test(key)) return null;
-  if (!env.SONDER_PREVIEW_OFF && (await sha256hex(key)) === PREVIEW_KEY_SHA256) {
+  if (!env.SONDER_PREVIEW_OFF && PREVIEW_KEYS_SHA256.includes(await sha256hex(key))) {
     return { email: "preview@theriptide.co.uk", until: Date.now() + ACCESS_DAYS * DAY };
   }
   const raw = await env.RESET_KV.get("sonderkey:" + key);
