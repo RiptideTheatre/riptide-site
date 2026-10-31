@@ -12,20 +12,36 @@ layout: base.njk
       {% if tagline %}<p class="hero__hook display" style="font-style: italic; color: var(--teal-bright); max-width: 30ch;">{{ tagline }}</p>{% endif %}
       {% if subtitle %}<p class="hero__meta">{{ subtitle }}</p>{% endif %}
       <div class="hero__actions">
+        {% if status == "past" %}
+        {% if trailerVideo %}<a class="btn btn--primary" href="#trailer">See the trailer</a>{% endif %}
+        {% else %}
         <a class="btn btn--primary" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}">
           {{ ctaLabel or (status | statusCta) }}{% if status == "on-sale" and price %} — {{ price }}{% endif %}
         </a>
-        {% if trailerUrl %}<a class="btn btn--ghost" href="{{ trailerUrl }}" target="_blank" rel="noopener">See the trailer</a>{% endif %}
+        {% endif %}
+        {% if trailerVideo and status != "past" %}<a class="btn btn--ghost" href="#trailer">See the trailer</a>{% elif trailerUrl %}<a class="btn btn--ghost" href="{{ trailerUrl }}" target="_blank" rel="noopener">See the trailer</a>{% endif %}
         {% if status == "coming-soon" %}<span style="font-size: 15px; color: var(--quiet);">Dates announced to the list first</span>{% endif %}
       </div>
     </div>
     {% if portrait %}
     <div class="hero__portrait">
-      <a class="hero__portrait-link" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}" aria-label="{{ ctaLabel or (status | statusCta) }}: {{ title }}"><img src="{{ portrait }}" alt="{{ imageAlt or title }}"></a>
+      {% if status == "past" %}{% if trailerVideo %}<a class="hero__portrait-link" href="#trailer" aria-label="See the trailer: {{ title }}"><img src="{{ portrait }}" alt="{{ imageAlt or title }}"></a>{% else %}<img src="{{ portrait }}" alt="{{ imageAlt or title }}">{% endif %}
+      {% else %}<a class="hero__portrait-link" href="{% if ticketUrl %}{{ ticketUrl }}{% elif ctaUrl and ctaUrl != '#' %}{{ ctaUrl }}{% else %}/#newsletter{% endif %}" aria-label="{{ ctaLabel or (status | statusCta) }}: {{ title }}"><img src="{{ portrait }}" alt="{{ imageAlt or title }}"></a>{% endif %}
     </div>
     {% endif %}
   </div>
 </section>
+
+{% if trailerVideo %}
+<section class="band trailer" id="trailer" aria-labelledby="trailer-title">
+  <div class="wrap">
+    <p class="eyebrow" id="trailer-title">The trailer</p>
+    <video class="trailer__video" controls playsinline preload="none" poster="{{ trailerPoster }}">
+      <source src="{{ trailerVideo }}" type="video/mp4">
+    </video>
+  </div>
+</section>
+{% endif %}
 
 {% if (content | striptags | trim | first) != "[" %}
 <section class="band band--tint">
@@ -271,13 +287,13 @@ document.addEventListener("DOMContentLoaded",function(){
 {% endif %}
 
 {% set press = press | filledBy("quote") %}
-{% if not press.length %}{% set press = false %}{% endif %}
-{% if quotes or press %}
+{% for group in [{label: "Press", items: press}, {label: ("What audiences said" if press.length else "What participants said"), items: quotes}] %}
+{% if group.items and group.items.length %}
 <section class="band">
   <div class="wrap">
-    <p class="eyebrow">{% if press %}Press{% else %}What participants said{% endif %}</p>
+    <p class="eyebrow">{{ group.label }}</p>
     <div class="quotes">
-      {% for item in (quotes or press) %}
+      {% for item in group.items %}
       <blockquote>
         <p>&ldquo;{{ item.quote }}&rdquo;</p>
         <footer>{{ item.source }}</footer>
@@ -287,6 +303,7 @@ document.addEventListener("DOMContentLoaded",function(){
   </div>
 </section>
 {% endif %}
+{% endfor %}
 
 {% if closing %}
 <section class="band band--tint" style="text-align: center;">

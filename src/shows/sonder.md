@@ -44,6 +44,9 @@ care:
     body: You can pause at any point and pick the walk back up where you left it.
   - title: Walk with someone
     body: Plenty of people do it side by side, each with their own headphones. It works either way.
+press:
+  - quote: A vital piece of digital art
+    source: Culture Vultures
 faq:
   - q: Do I need mobile signal?
     a: Download the walk over wi-fi before you set off and it runs offline. GPS works without data.

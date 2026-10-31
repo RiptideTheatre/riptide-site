@@ -22,6 +22,9 @@ credits:
 press:
   - quote: All in all the production was fascinating and deeply, deeply personal.
     source: Richard Horsman, The Culture Vulture
+quotes:
+  - quote: A reminder to be present, important and valuable
+    source: Audience member
 ---
 
 A guided journey through city spaces accompanied by smartphone and GPS technology. Each audience member set out alone with headphones and a charged phone; the app spoke when GPS confirmed they had arrived, and the route led to encounters with performers in the street and, eventually, in room 404 of a city-centre hotel.

@@ -1,26 +1,41 @@
 ---
 title: "The Lucky Ones"
-tagline: Long-form immersive theatre in the city.
-description: A long-form immersive experience. Part of Riptide's back catalogue.
+tagline: Bespoke, individual, pervasive performance.
+description: The Lucky Ones, Riptide's durational performance for one audience member at a time, Leeds 2018 and online 2021. Part of Riptide's back catalogue.
 status: past
 order: 20
-year: 2019
-summary: "[ONE OR TWO SENTENCES ABOUT THE LUCKY ONES]"
-cardMeta: "[VENUE] · [YEAR]"
-image: /assets/img/placeholder-project-intimacy.svg
-imageAlt: The Lucky Ones
-trailerUrl: ""  # paste the trailer link here (Vimeo or YouTube)
-portrait: /assets/img/placeholder-project-intimacy.svg
+year: 2018
+format: Bespoke, individual, pervasive performance
+place: Leeds
+summary: The Lucky Ones is a highly ambitious, series of durational performances which take place across many days for one audience member at a time.
+cardMeta: Leeds · 2018 & 2021
+image: /assets/img/the-lucky-ones.jpg
+imageAlt: "A bouquet of red carnations wrapped in brown paper, with a card reading “for you”, left on a doorstep"
+portrait: /assets/img/the-lucky-ones-portrait.jpg
+trailerUrl: "/the-lucky-ones/#trailer"
+trailerVideo: /assets/video/lucky-ones-trailer.mp4
+trailerPoster: /assets/video/lucky-ones-trailer-poster.jpg
 credits:
-  - label: Venue
-    value: "[VENUE]"
-  - label: Year
-    value: "[YEAR]"
-  - label: Team
-    value: "[KEY CREDITS]"
+  - label: Where
+    value: Leeds, UK
+  - label: When
+    value: April & September 2018
+  - label: Digital version
+    value: February – May 2021
 press:
-  - quote: "[PRESS QUOTE]"
-    source: "[PUBLICATION]"
+  - quote: A well thought out, high quality art experience which marks Riptide out as an emerging company to watch
+    source: Lyn Gardner
+  - quote: A really neat idea
+    source: Mark Fisher, The Guardian
+quotes:
+  - quote: I was obsessed by the story, the best month of my life!
+    source: Audience member
+  - quote: It was like my very own Truman Show
+    source: Audience member
 ---
 
-[A PARAGRAPH ABOUT WHAT THE LUCKY ONES WAS, WHO IT WAS FOR, AND WHAT MADE IT WORK. This page exists so a programmer can see the shape of your back catalogue — it is worth filling in properly.]
+The Lucky Ones is a highly ambitious, series of durational performances which take place across many days for one audience member at a time.
+
+The Lucky Ones puts you at the very heart of the show and tailors the experience to your individual likes/dislikes. The experience starts with something arriving through your letter box and evolves from there. It is a blend of digital interactions, live performances and interactive elements.
+
+Every audience member's journey is different and their choices directly determine how their story will finish.

@@ -16,6 +16,45 @@ description: Riptide's back catalogue of immersive, interactive and digital work
 {% set shows = collections.current %}
 {% include "tide.njk" %}
 
+<section class="band lc" aria-labelledby="lc-title">
+  <div class="wrap lc__inner">
+    <div class="lc__intro">
+      <p class="eyebrow ab-eyebrow">The series</p>
+      <h2 id="lc-title" class="display lc__title">Lost Connections</h2>
+      <p class="lc__lede">Lost Connections is a series of socially engaged work which Riptide will create over the next 5 years.</p>
+      <p class="lc__strong"><strong>We live in the loneliest, most-disconnected society in human history.</strong> It is through our artwork that we can find connection to ourselves, to our community and our surroundings.</p>
+      <p class="lc__stat"><span class="display">49%</span> <span>of adults (25.99 million people) in the UK report feeling lonely occasionally, sometimes, often or always</span></p>
+      <p class="lc__body">Lost Connections is rooted in the ancient teachings of meditation, mindfulness and ritual, and infuses modern scientific research about connection. We want to engage people with in a new way by combining the experience with innovative uses of VR and AI technology.</p>
+    </div>
+    <ol class="lc__list">
+      <li class="lc__item">
+        <a class="lc__dot" href="/project-intimacy/" tabindex="-1" aria-hidden="true"><img src="/assets/img/gift-pi.jpg" alt="" loading="lazy" style="object-position: 70% 50%"></a>
+        <div>
+          <h3 class="lc__name"><a href="/project-intimacy/">Project Intimacy</a></h3>
+          <p class="lc__when">2020 – current</p>
+          <p>A 14-day SMS experience aimed at connecting like-minded strangers through a series of curated prompts.</p>
+        </div>
+      </li>
+      <li class="lc__item">
+        <a class="lc__dot" href="/intermission/" tabindex="-1" aria-hidden="true"><img src="/assets/img/intermission.jpg" alt="" loading="lazy"></a>
+        <div>
+          <h3 class="lc__name"><a href="/intermission/">Intermission</a></h3>
+          <p class="lc__when">2026–7</p>
+          <p>A bespoke, 90 minute immersive experience, aimed at combatting the mental health epidemic. A fusion of immersive theatre, XR technology and wellbeing techniques. Huge collaboration with artists, wellness experts and National partners.</p>
+        </div>
+      </li>
+      <li class="lc__item">
+        <span class="lc__dot" aria-hidden="true"><img src="/assets/img/lc-journey.jpg" alt="" loading="lazy"></span>
+        <div>
+          <h3 class="lc__name">Journey back to human…</h3>
+          <p class="lc__when">2027–8</p>
+          <p>A durational participatory experience for a small community. Set in rural surrounds, a curated artwork designed to re-find our connection with nature.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
 <section class="band band--tint arc" aria-labelledby="arc-title">
   <div class="wrap">
     <div class="arc__head">
@@ -32,12 +71,13 @@ description: Riptide's back catalogue of immersive, interactive and digital work
           </span>
           <span class="arc__about">
             {% if show.data.summary | isFilled %}<span class="arc__line">{{ show.data.summary }}</span>{% elif show.data.tagline %}<span class="arc__line">{{ show.data.tagline }}</span>{% endif %}
-            {% if show.data.press and (show.data.press[0].quote | isFilled) %}<span class="arc__quote">“{{ show.data.press[0].quote }}” <cite>{{ show.data.press[0].source }}</cite></span>{% endif %}
+            {% set q = (show.data.press | filledBy("quote"))[0] or (show.data.quotes or [])[0] %}
+            {% if q %}<span class="arc__quote">“{{ q.quote }}” <cite>{{ q.source }}</cite></span>{% endif %}
           </span>
           <span class="arc__thumb" aria-hidden="true"><img src="{{ show.data.image }}" alt="" loading="lazy"></span>
           <span class="arc__go" aria-hidden="true">→</span>
         </a>
-        {% if show.data.trailerUrl %}<a class="arc__trailer" href="{{ show.data.trailerUrl }}" target="_blank" rel="noopener">See the trailer here &rarr;</a>{% endif %}
+        {% if show.data.trailerUrl %}<a class="arc__trailer" href="{{ show.data.trailerUrl }}"{% if not show.data.trailerVideo %} target="_blank" rel="noopener"{% endif %}>See the trailer here &rarr;</a>{% endif %}
       </li>
       {% endfor %}
     </ol>
