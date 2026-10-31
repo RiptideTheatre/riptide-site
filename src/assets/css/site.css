@@ -846,7 +846,8 @@ input::placeholder { color: var(--quiet); }
 
 /* Project Intimacy: the key art, dark, amber */
 .gc--pi { background: var(--ink); color: var(--ivory); }
-.gc--pi .gc__art { background: linear-gradient(90deg, var(--ink) 34%, rgba(10, 20, 22, .55) 64%, rgba(10, 20, 22, .15)), linear-gradient(0deg, var(--ink) 4%, rgba(10, 20, 22, 0) 46%), url("/assets/img/gift-pi.jpg") right top / cover no-repeat; }
+.gc--pi .gc__art { background: linear-gradient(180deg, rgba(10, 20, 22, .72) 0%, rgba(10, 20, 22, 0) 24%), linear-gradient(0deg, var(--ink) 0%, rgba(10, 20, 22, .92) 34%, rgba(10, 20, 22, 0) 54%), url("/assets/img/gift-pi.jpg") center top / cover no-repeat; }
+.gc--pi .gc__mid { align-self: end; }
 .gc--pi .gc__for, .gc--pi .gc__code strong { color: var(--amber); }
 .gc--pi .gc__name { font-style: normal; }
 .gc--pi .gc__when { color: var(--muted); }
