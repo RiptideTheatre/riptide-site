@@ -15,6 +15,7 @@ cardMeta: Leeds · 50 mins · £10
 image: /assets/img/sonder.jpg
 imageAlt: "Sonder, written over moving water"
 portrait: /assets/img/sonder-portrait.jpg
+portraitAlt: "A woman in headphones on a footbridge over the river in Leeds"
 trailerVideo: /assets/video/sonder-promo.mp4
 trailerPoster: /assets/video/sonder-promo-poster.jpg
 aboutImage: /assets/img/sonder-about.jpg
