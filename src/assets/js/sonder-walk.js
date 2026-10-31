@@ -204,8 +204,8 @@
     var all = pts.concat(hasPoint(walk.start) ? [[walk.start.lng, walk.start.lat]] : []);
     if (!all.length) { box.hidden = true; return; }
     // one point (the start): frame it with the river just to the south
-    var centre = all.length > 1 ? all[0] : [all[0][0] + 0.001, all[0][1] - 0.0013];
-    var map = new maplibregl.Map({ container: box, style: MAP_STYLE, center: centre, zoom: all.length > 1 ? 16 : 15.5, attributionControl: false, pitchWithRotate: false, dragRotate: false });
+    var centre = all.length > 1 ? all[0] : [all[0][0], all[0][1] - 0.0011];
+    var map = new maplibregl.Map({ container: box, style: MAP_STYLE, center: centre, zoom: all.length > 1 ? 16 : 15, attributionControl: false, pitchWithRotate: false, dragRotate: false });
     map.addControl(new maplibregl.AttributionControl({ compact: true }));
     map.on("load", function () {
       if (pts.length > 1) {
