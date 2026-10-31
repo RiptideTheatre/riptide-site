@@ -904,3 +904,6 @@ input::placeholder { color: var(--quiet); }
 .gr-body .faq details ul { margin: 0 0 14px; padding-left: 1.2em; color: var(--muted); }
 .gr-body .faq details li { margin-bottom: 6px; }
 .gr-body .faq a { color: var(--ivory); }
+
+.hero__portrait-link { display: block; cursor: pointer; border-radius: inherit; }
+.hero__portrait-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 6px; }

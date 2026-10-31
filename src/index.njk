@@ -18,13 +18,14 @@ description: Riptide make immersive, interactive and digital experiences from Le
       <h1>{{ lead.data.title }}</h1>
       <p class="hero__hook">{{ lead.data.tagline }}</p>
       <p class="hero__meta">{{ lead.data.cardMeta }}</p>
+      {% set leadCta %}{% if lead.data.ticketUrl %}{{ lead.data.ticketUrl }}{% elif lead.data.ctaUrl and lead.data.ctaUrl[0] == '#' %}{{ lead.url }}{{ lead.data.ctaUrl }}{% else %}{{ lead.data.ctaUrl or '#newsletter' }}{% endif %}{% endset %}
       <div class="hero__actions">
-        <a class="btn btn--primary" href="{% if lead.data.ticketUrl %}{{ lead.data.ticketUrl }}{% elif lead.data.ctaUrl and lead.data.ctaUrl[0] == '#' %}{{ lead.url }}{{ lead.data.ctaUrl }}{% else %}{{ lead.data.ctaUrl or '#newsletter' }}{% endif %}">{{ lead.data.ctaLabel or (lead.data.status | statusCta) }}</a>
+        <a class="btn btn--primary" href="{{ leadCta }}">{{ lead.data.ctaLabel or (lead.data.status | statusCta) }}</a>
         <a class="btn btn--ghost" href="{{ lead.url }}">How it works</a>
       </div>
     </div>
     <div class="hero__portrait hero__portrait--wide">
-      <img src="{{ lead.data.portrait or lead.data.image }}" alt="{{ lead.data.imageAlt or lead.data.title }}">
+      <a class="hero__portrait-link" href="{{ leadCta }}" aria-label="{{ lead.data.ctaLabel or (lead.data.status | statusCta) }}: {{ lead.data.title }}"><img src="{{ lead.data.portrait or lead.data.image }}" alt="{{ lead.data.imageAlt or lead.data.title }}"></a>
     </div>
   </div>
 </section>
