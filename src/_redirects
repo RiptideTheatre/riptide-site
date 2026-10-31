@@ -21,7 +21,7 @@
 /intermission-faqs  /intermission/        301
 /inttickets         /intermission/        301
 /inttickets-1       /intermission/        301
-/green-room-faqs    /whats-on/            301
+/green-room-faqs    /green-room/          301
 /termsandconditions /privacy/             301
 # Reset: old Squarespace day pages → the members area (sign-in required)
 /reset/1            /reset/members/#day-1   301
