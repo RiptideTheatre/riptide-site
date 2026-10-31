@@ -6,7 +6,7 @@
   "email": "info@theriptide.co.uk",
   "companyNumber": "12489037",
   "registeredOffice": "Patrick Studios, East Street Arts, St Mary's Lane, Leeds LS9 7EH",
-  "newsletterAction": "",
+  "newsletterAction": "https://theriptide.us16.list-manage.com/subscribe/post?u=af7a75a0341e04fb0e2be2b47&id=2347551194&f_id=008636e0f0",
   "awards": "Winner, Best Immersive Theatre Company — UK Enterprise Awards 2023 & 2025",
   "social": [
     {
@@ -55,5 +55,6 @@
       "label": "UK Enterprise Awards"
     }
   ],
-  "showNumbers": false
+  "showNumbers": false,
+  "newsletterBot": "b_af7a75a0341e04fb0e2be2b47_2347551194"
 }
