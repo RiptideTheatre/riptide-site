@@ -20,7 +20,7 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 96px; }
 
 body {
   margin: 0;
@@ -261,14 +261,21 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -0.01em; }
 /* ---------- status badges ---------- */
 
 .badge {
-  display: inline-block;
-  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  /* letter-spacing leaves a gap after the last letter, so the right padding is a touch smaller */
+  padding: 7px 12px 7px 14px;
   border-radius: 40px;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+@supports (text-box: trim-both cap alphabetic) {
+  .badge { text-box: trim-both cap alphabetic; padding-block: 8px; }
 }
 .badge--live { background: var(--coral); color: #2a0d03; }
 .badge--soon { background: #3a2a10; color: var(--amber); }
@@ -537,7 +544,7 @@ input::placeholder { color: var(--quiet); }
   .listing--compact { grid-template-columns: minmax(0, 1fr); }
   .listing__media { border-right: 0; border-bottom: 1px solid var(--line); }
   .listing__media img { max-height: 260px; }
-  .masthead { position: static; }
+  .masthead .nav:not([hidden]) { max-height: calc(100svh - 76px); overflow-y: auto; overscroll-behavior: contain; }
   .nav { gap: 14px 18px; }
 }
 

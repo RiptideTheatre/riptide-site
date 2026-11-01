@@ -5,7 +5,7 @@ html, body { margin: 0; background: var(--ink); color: var(--ivory); font-family
 body { min-height: 100svh; background: radial-gradient(120% 60% at 50% 110%, rgba(63,163,150,.18), rgba(10,20,22,0) 60%), var(--ink); }
 button { font: inherit; }
 .sw { max-width: 520px; margin: 0 auto; padding: 0 20px calc(28px + env(safe-area-inset-bottom)); min-height: 100svh; display: flex; flex-direction: column; }
-.sw__bar { display: flex; justify-content: space-between; align-items: center; padding: calc(14px + env(safe-area-inset-top)) 0 14px; border-bottom: 1px solid var(--line); }
+.sw__bar { display: flex; justify-content: space-between; align-items: center; padding: calc(14px + env(safe-area-inset-top)) 0 14px; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; background: rgba(10,20,22,.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
 .sw__brand { font-family: "Instrument Serif", Georgia, serif; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--ivory); text-decoration: none; }
 .sw__step { font-size: 13px; letter-spacing: .2em; color: var(--quiet); }
 .sw__draft { margin: 14px 0 0; padding: 10px 14px; border: 1px dashed var(--amber); border-radius: 8px; color: var(--amber); font-size: 14px; }
