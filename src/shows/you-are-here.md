@@ -3,6 +3,9 @@ title: You Are Here
 tagline: A guided journey through city spaces, accompanied by smartphone and GPS.
 description: You Are Here, Riptide's 2015 one-person GPS journey through Leeds city centre. Part of Riptide's back catalogue.
 partLine: "Part-theatre, part-dream, part-adventure."
+gallery:
+  - src: /assets/img/you-are-here-poster.jpg
+    alt: "The You Are Here poster: a head in profile filled with a map of Leeds"
 status: past
 order: 31
 year: 2015
@@ -10,9 +13,9 @@ format: GPS journey for one
 place: Leeds city centre
 summary: One audience member at a time, guided through Leeds by an app, meeting performers in public places and behind a hotel-room door.
 cardMeta: Leeds city centre · June 2015
-image: /assets/img/placeholder-you-are-here.svg
-imageAlt: You Are Here
-portrait: /assets/img/placeholder-you-are-here.svg
+image: /assets/img/you-are-here.jpg
+imageAlt: "The You Are Here poster: a head in profile filled with a map of Leeds"
+portrait: /assets/img/you-are-here-poster.jpg
 credits:
   - label: Where
     value: Leeds city centre, including the Metropole Hotel

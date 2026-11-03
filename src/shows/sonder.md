@@ -5,6 +5,23 @@ subtitle: 360 sound, GPS technology and theatre, laid over the streets you alrea
 description: A binaural sound walk for Leeds. Download it, put your headphones in, and walk.
 kinds: [in-person]
 workLabel: "NEW for 2027"
+gallery:
+  - src: /assets/img/sonder-g1.jpg
+    alt: "A woman in headphones on the riverside in Leeds, a photo of a bare tree on her phone"
+  - src: /assets/img/sonder-g2.jpg
+    alt: "A woman in headphones in Leeds City Square, looking at her phone"
+  - src: /assets/img/sonder-g3.jpg
+    alt: "A woman in headphones outside Leeds station"
+  - src: /assets/img/sonder-g4.jpg
+    alt: "A phone showing a photo of a bare tree by the river"
+  - src: /assets/img/sonder-g5.jpg
+    alt: "A woman in headphones on a footbridge in Leeds"
+  - src: /assets/img/sonder-g6.jpg
+    alt: "A woman in headphones on a bridge, looking along the river"
+  - src: /assets/img/sonder-g7.jpg
+    alt: "A woman in headphones walking past a red-brick wall, looking at her phone"
+  - src: /assets/img/sonder-g8.jpg
+    alt: "A woman in headphones walking along a Leeds street, seen from behind"
 status: anytime
 featured: true
 bookable: true

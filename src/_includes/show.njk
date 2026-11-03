@@ -51,6 +51,18 @@ layout: base.njk
 </section>
 {% endif %}
 
+{% if gallery and gallery.length %}
+<section class="band gallery" aria-labelledby="gallery-title">
+  <div class="wrap">
+    <h2 id="gallery-title" class="gallery__title display">In pictures</h2>
+    <ul class="gallery__grid gallery__grid--n{{ gallery.length }}">
+      {% for g in gallery %}<li><a href="{{ g.src }}" class="gallery__item" target="_blank" rel="noopener"><img src="{{ g.src }}" alt="{{ g.alt }}" loading="lazy"></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
 {% if steps %}
 <section class="band">
   <div class="wrap">

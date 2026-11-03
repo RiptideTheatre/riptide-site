@@ -5,6 +5,23 @@ subtitle: Research and development, winter 2023, Leeds. In development for 2026â
 description: Intermission, Riptide's immersive experience with care at its core. R&D in Leeds, winter 2023; in development for 2026â€“7.
 kinds: [in-person, one-to-one]
 partLine: "Part-bespoke theatre, part-spa, part-retreat."
+gallery:
+  - src: /assets/img/intermission-g1.jpg
+    alt: "A woman in a pale haze, looking up and to one side"
+  - src: /assets/img/intermission-g2.jpg
+    alt: "A woman looks out from behind a sheer curtain"
+  - src: /assets/img/intermission-g3.jpg
+    alt: "Cupped hands holding a small cup of tea with a painted fish at the bottom"
+  - src: /assets/img/intermission-g4.jpg
+    alt: "A woman stands in a lit doorway full of haze while a guide holds the door"
+  - src: /assets/img/intermission-g5.jpg
+    alt: "A woman standing in soft, warm haze"
+  - src: /assets/img/intermission-g6.jpg
+    alt: "A man faces a tall curved mirror in the haze"
+  - src: /assets/img/intermission-g7.jpg
+    alt: "A man walks towards the camera down a corridor of haze and upright light tubes"
+  - src: /assets/img/intermission-g8.jpg
+    alt: "A man in silhouette at a bright doorway, a guide beside him"
 status: past
 featured: false
 order: 19
