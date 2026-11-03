@@ -4,7 +4,7 @@
   <div class="tide__stage">
     {% for show in shows %}
     <article class="tide__panel{% if show.data.panelTone == 'light' %} tide__panel--light{% endif %}" aria-labelledby="tide-{{ loop.index0 }}">
-      <div class="tide__ambient" style="background-image: url('{{ show.data.image }}')" aria-hidden="true"></div>
+      <div class="tide__ambient" style="background-image: url('{{ show.data.image | smallWebp }}')" aria-hidden="true"></div>
       <div class="tide__inner wrap">
         <div class="tide__content">
           <p class="tide__count" aria-hidden="true">{{ "0" if loop.index < 10 }}{{ loop.index }} / {{ "0" if loop.length < 10 }}{{ loop.length }}</p>

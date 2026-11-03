@@ -13,7 +13,12 @@ eleventyExcludeFromCollections: true
     (nothing)         a box to type a gift code into, for printed cards
   Data comes from /api/gift/session, /api/gift/info and (Reset) /api/gift/claim.
 #}
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&display=swap">
+<style>
+@font-face{font-family:"Bodoni Moda";font-style:normal;font-weight:400 900;font-display:swap;src:url(/assets/fonts/bodoni-moda.woff2) format("woff2")}
+@font-face{font-family:"Bodoni Moda";font-style:italic;font-weight:400 900;font-display:swap;src:url(/assets/fonts/bodoni-moda-italic.woff2) format("woff2")}
+@font-face{font-family:"Hanken Grotesk";font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/fonts/hanken-grotesk.woff2) format("woff2")}
+@font-face{font-family:"Hanken Grotesk";font-style:italic;font-weight:100 900;font-display:swap;src:url(/assets/fonts/hanken-grotesk-italic.woff2) format("woff2")}
+</style>
 
 <section class="band band--flush band--waves gift-head">
   {% include "page-waves.njk" %}

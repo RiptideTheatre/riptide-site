@@ -3,6 +3,7 @@ title: Sonder
 tagline: A binaural sound walk for Leeds.
 subtitle: 360 sound, GPS technology and theatre, laid over the streets you already know.
 description: A binaural sound walk for Leeds. Download it, put your headphones in, and walk.
+kinds: [in-person]
 status: anytime
 featured: true
 bookable: true

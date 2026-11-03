@@ -10,13 +10,14 @@ description: Riptides swelling, riptides forming, and riptides happening right n
   <div class="wrap">
     <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">What's on</h1>
     <p class="lede">Riptides swelling, riptides forming, and riptides happening right now.</p>
-    <nav class="filters" aria-label="Filter by kind">
-      <a href="/whats-on/" aria-current="true">All</a>
-      <a href="/whats-on/">In person</a>
-      <a href="/whats-on/">At home</a>
-      <a href="/whats-on/">One to one</a>
-      <a href="/whats-on/">Free</a>
-    </nav>
+    <div class="filters" role="group" aria-label="Show only" data-filters hidden>
+      <button type="button" data-kind="" aria-pressed="true">All</button>
+      <button type="button" data-kind="in-person" aria-pressed="false">In person</button>
+      <button type="button" data-kind="at-home" aria-pressed="false">At home</button>
+      <button type="button" data-kind="one-to-one" aria-pressed="false">One to one</button>
+      <button type="button" data-kind="free" aria-pressed="false">Free</button>
+    </div>
+    <p class="visually-hidden" role="status" id="filterStatus"></p>
   </div>
 </section>
 
@@ -25,7 +26,7 @@ description: Riptides swelling, riptides forming, and riptides happening right n
 
     {% for show in collections.current %}
     {% if loop.first or show.data.bigListing %}
-    <article class="listing listing--featured">
+    <article class="listing listing--featured" data-kinds="{{ (show.data.kinds or []) | join(' ') }}">
       <a class="listing__media" href="{{ show.url }}" tabindex="-1" aria-hidden="true"><img src="{{ show.data.image }}" alt="" width="1200" height="675"></a>
       <div class="listing__body">
         <span class="badge badge--{{ show.data.status | statusTone }}">{{ show.data.status | statusLabel }}</span>
@@ -44,7 +45,7 @@ description: Riptides swelling, riptides forming, and riptides happening right n
       </div>
     </article>
     {% else %}
-    <article class="listing listing--compact">
+    <article class="listing listing--compact" data-kinds="{{ (show.data.kinds or []) | join(' ') }}">
       <a class="listing__media" href="{{ show.url }}" tabindex="-1" aria-hidden="true"><img src="{{ show.data.image }}" alt="" width="1200" height="675" loading="lazy"></a>
       <div class="listing__body">
         <div style="max-width: 62ch;">
@@ -63,9 +64,36 @@ description: Riptides swelling, riptides forming, and riptides happening right n
     </article>
     {% endif %}
     {% endfor %}
+    <p class="filters__none" id="filterNone" hidden>Nothing of that kind is on right now. <button type="button" class="filters__reset" data-kind="">Show everything</button></p>
 
   </div>
 </section>
+<script>
+/* What's on filters: show only one kind of experience, without reloading the page. */
+(function () {
+  var box = document.querySelector('[data-filters]'); if (!box) return;
+  var items = [].slice.call(document.querySelectorAll('[data-kinds]'));
+  var buttons = [].slice.call(box.querySelectorAll('button'));
+  var none = document.getElementById('filterNone'), status = document.getElementById('filterStatus');
+  function apply(kind, push) {
+    var shown = 0;
+    items.forEach(function (el) {
+      var on = !kind || (' ' + el.getAttribute('data-kinds') + ' ').indexOf(' ' + kind + ' ') > -1;
+      el.hidden = !on; if (on) shown++;
+    });
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
+    none.hidden = shown > 0;
+    status.textContent = kind ? 'Showing ' + shown + (shown === 1 ? ' experience' : ' experiences') : 'Showing everything';
+    if (push) { var u = new URL(location.href); if (kind) u.searchParams.set('kind', kind); else u.searchParams.delete('kind'); history.replaceState(null, '', u); }
+  }
+  box.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) apply(b.getAttribute('data-kind'), true); });
+  none.querySelector('button').addEventListener('click', function () { apply('', true); });
+  box.hidden = false;
+  var start = new URLSearchParams(location.search).get('kind') || '';
+  if (start && !buttons.some(function (b) { return b.getAttribute('data-kind') === start; })) start = '';
+  apply(start, false);
+})();
+</script>
 
 <section class="band">
   <div class="wrap split">

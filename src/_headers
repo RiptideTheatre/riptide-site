@@ -1,0 +1,18 @@
+# Cloudflare Pages response headers.
+# CSS and JS links carry ?v=<build>, and fonts never change, so browsers can keep them for a year.
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+# Photos, films and sounds: a month, then checked again.
+/assets/img/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=604800
+/assets/video/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=604800
+/assets/audio/*
+  Cache-Control: public, max-age=2592000
+/favicon.svg
+  Cache-Control: public, max-age=2592000

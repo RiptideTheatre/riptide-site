@@ -1,3 +1,10 @@
+/* Fonts are served from this site (faster, and no request to Google) */
+@font-face { font-family: "Instrument Serif"; font-style: normal; font-weight: 400; font-display: swap; src: url(/assets/fonts/instrument-serif-400.woff2) format("woff2"); }
+@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url(/assets/fonts/instrument-serif-400-italic.woff2) format("woff2"); }
+@font-face { font-family: "Space Grotesk"; font-style: normal; font-weight: 400; font-display: swap; src: url(/assets/fonts/space-grotesk-400.woff2) format("woff2"); }
+@font-face { font-family: "Space Grotesk"; font-style: normal; font-weight: 500; font-display: swap; src: url(/assets/fonts/space-grotesk-500.woff2) format("woff2"); }
+@font-face { font-family: "Space Grotesk"; font-style: normal; font-weight: 700; font-display: swap; src: url(/assets/fonts/space-grotesk-700.woff2) format("woff2"); }
+
 /* Sonder walk: a phone-first, full-screen companion for the sound walk. */
 :root { --ink: #0a1416; --ink-2: #0e1b1e; --line: #1e3235; --ivory: #f4f1e9; --muted: #a8b5b3; --quiet: #6e8482; --coral: #e8542b; --teal: #6fc4b8; --amber: #e9b65c; }
 * { box-sizing: border-box; }
@@ -83,3 +90,4 @@ button { font: inherit; }
 @keyframes sw-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .sw__me i { animation: none; opacity: .35; transform: scale(.5); } .sw__ring span { animation: none; opacity: .5; } .sw__photo { animation: none; } }
 .maplibregl-map { font-family: "Space Grotesk", sans-serif; }
+picture { display: contents; }

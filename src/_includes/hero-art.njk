@@ -7,17 +7,12 @@
 #}
 <div class="hero__art" aria-hidden="true">
   {% if heroVideo %}
-    <video class="hero__media" autoplay muted loop playsinline preload="metadata"
-           {% if heroPoster %}poster="{{ heroPoster }}"{% endif %}>
-      {% if heroVideoWebm %}<source src="{{ heroVideoWebm }}" type="video/webm">{% endif %}
-      <source src="{{ heroVideo }}" type="video/mp4">
-    </video>
+    <video class="hero__media" muted loop playsinline preload="none"
+           {% if heroPoster %}poster="{{ heroPoster }}"{% endif %} data-hero-src="{{ heroVideo }}"></video>
   {% elif heroImage %}
     <img class="hero__media" src="{{ heroImage }}" alt="">
   {% else %}
-    <video class="hero__media" autoplay muted loop playsinline preload="metadata" poster="/assets/video/waves-poster.jpg">
-      <source src="/assets/video/waves.mp4" type="video/mp4">
-    </video>
+    {% include "waves-video.njk" %}
   {% endif %}
   <div class="hero__scrim"></div>
 </div>

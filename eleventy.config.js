@@ -2,6 +2,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addPassthroughCopy({ "src/admin": "admin" });
   eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
+  eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers", "src/favicon.svg": "favicon.svg", "src/favicon.ico": "favicon.ico" });
   eleventyConfig.addPassthroughCopy({ "src/sonder/media/audio": "sonder/media/audio", "src/sonder/media/photos": "sonder/media/photos" });
   // Reset members area: plain files, guarded by functions/reset/members/_middleware.js
   eleventyConfig.addPassthroughCopy({ "reset-members": "reset/members" });
@@ -54,6 +55,48 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("byYearDesc", (arr) =>
     [...arr].sort((a, b) => (Number(b.data.year) || 0) - (Number(a.data.year) || 0) || (a.data.order || 99) - (b.data.order || 99))
   );
+
+  // Offer WebP (and a phone-sized copy) for every site photo. tools/images.py makes the files;
+  // this swaps <img src="x.jpg"> for a <picture>, keeping the original as the fallback.
+  const imgWidths = (() => { try { return require("./tools/image-widths.json"); } catch { return {}; } })();
+  const fsImg = require("fs");
+  eleventyConfig.addTransform("webp-pictures", function (content) {
+    if (!(this.page.outputPath || "").endsWith(".html")) return content;
+    return content.replace(/<img\b([^>]*?)\ssrc="(\/assets\/(?:img|img\/partners|video)\/[^"?]+?)\.(jpe?g|png)"([^>]*)>/g, (tag, before, base, ext, after) => {
+      if (/srcset=/.test(tag)) return tag;
+      if (!fsImg.existsSync("src" + base + ".webp")) return tag;
+      const w = imgWidths[base];
+      const variants = [480, 800].filter((n) => fsImg.existsSync("src" + base + "-" + n + ".webp")).map((n) => `${base}-${n}.webp ${n}w`);
+      const sizesM = tag.match(/\ssizes="([^"]*)"/);
+      const srcset = variants.length && w ? variants.concat(`${base}.webp ${w}w`).join(", ") : `${base}.webp`;
+      const sizes = variants.length && w ? ` sizes="${sizesM ? sizesM[1] : "(max-width: 860px) 100vw, 50vw"}"` : "";
+      let img = tag;
+      if (!/\sdecoding=/.test(img)) img = img.replace(/<img\b/, '<img decoding="async"');
+      return `<picture><source type="image/webp" srcset="${srcset}"${sizes}>${img}</picture>`;
+    });
+  });
+  // Minify the stylesheets after each build (the source files stay readable).
+  eleventyConfig.on("eleventy.after", ({ dir }) => {
+    const { transform } = require("lightningcss");
+    const path = require("path");
+    const cssDir = path.join(dir.output, "assets", "css");
+    if (!fsImg.existsSync(cssDir)) return;
+    for (const f of fsImg.readdirSync(cssDir).filter((n) => n.endsWith(".css"))) {
+      const file = path.join(cssDir, f);
+      try {
+        const out = transform({ filename: f, code: fsImg.readFileSync(file), minify: true, targets: { safari: 14 << 16, chrome: 90 << 16, firefox: 90 << 16 } });
+        fsImg.writeFileSync(file, out.code);
+      } catch (e) { console.warn("[css] could not minify", f, e.message); }
+    }
+  });
+
+  // A small WebP copy of an image, for blurred backgrounds (falls back to the original)
+  eleventyConfig.addFilter("smallWebp", (src) => {
+    const m = String(src || "").match(/^(\/assets\/.+)\.(jpe?g|png)$/);
+    if (!m) return src;
+    for (const n of [480, 800]) if (fsImg.existsSync("src" + m[1] + "-" + n + ".webp")) return m[1] + "-" + n + ".webp";
+    return fsImg.existsSync("src" + m[1] + ".webp") ? m[1] + ".webp" : src;
+  });
   eleventyConfig.addFilter("isFilled", (v) => !!v && !/^\s*\[/.test(String(v)));
   // keep only list items whose given field is real copy, not a [PLACEHOLDER]
   eleventyConfig.addFilter("filledBy", (arr, key) => (arr || []).filter((x) => !!x && !!x[key] && !/^\s*\[/.test(String(x[key]))));

@@ -3,6 +3,7 @@ title: The Director's Diary
 tagline: Conversations with the best minds in the industry.
 subtitle: An insight into what it is really like as a creative.
 description: A podcast series talking to the best minds in the industry about what making work is really like.
+kinds: [at-home, free]
 status: podcast
 featured: true
 order: 4
