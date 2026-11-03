@@ -29,7 +29,7 @@ ${link}
 Before your start date, anonymise yourself on WhatsApp and save Riptide's number. The questionnaire's checklist walks you through both.
 
 Riptide`;
-  const html = `<!doctype html><html><body style="margin:0;background:#0a1416;font-family:Georgia,serif;color:#f4f1e9">
+  const html = `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#0a1416;font-family:Georgia,serif;color:#f4f1e9">
 <div style="max-width:520px;margin:0 auto;padding:40px 24px">
 <div style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#e9b65c;margin-bottom:24px">Project Intimacy</div>
 <p style="font-size:26px;line-height:1.3;margin:0 0 18px">You're booked.</p>

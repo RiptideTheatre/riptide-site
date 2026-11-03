@@ -211,7 +211,7 @@ export async function sendEmail(env, { to, subject, text, html }) {
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 export function emailShell(inner) {
-  return `<!doctype html><html><body style="margin:0;background:#F1F2EF;font-family:Georgia,serif;color:#1E2431">
+  return `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#F1F2EF;font-family:Georgia,serif;color:#1E2431">
 <div style="max-width:520px;margin:0 auto;padding:40px 24px">
 <div style="font-size:28px;letter-spacing:.2em;margin-bottom:28px">RESET</div>
 ${inner}
@@ -240,7 +240,8 @@ Riptide`;
   const html = emailShell(`
 <p style="font-size:22px;line-height:1.4;margin:0 0 18px">You're booked onto Reset.</p>
 <p style="font-size:16px;line-height:1.6">Your 21 days begin on <strong>${esc(when)}</strong>. Each day opens on its own date, and you can return to every day for a year.</p>
-<p style="margin:28px 0"><a href="${link}" style="background:#1E2431;color:#F1F2EF;text-decoration:none;padding:14px 26px;border-radius:999px;font-family:Arial,sans-serif;font-size:15px">Open your Reset</a></p>
+<p style="margin:28px 0 8px;text-align:center"><img src="${site}/assets/img/email/reset-day10.png" width="263" height="159" alt="" style="display:inline-block;width:263px;max-width:100%;height:auto;border:0"></p>
+<p style="margin:20px 0 28px"><a href="${link}" style="display:inline-block;background:#1E2431;color:#F1F2EF;text-decoration:none;padding:13px 26px;border:2px solid #B8893E;border-radius:999px;font-family:Arial,sans-serif;font-size:15px">Open your Reset</a></p>
 <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#5D6573">On a new phone or computer, <a href="${signin}" style="color:#9A7344">sign in</a> with this email address.</p>
 <p style="font-size:16px;line-height:1.6;margin-top:28px"><strong>Before you begin</strong></p>
 <ul style="font-size:16px;line-height:1.7;padding-left:20px">

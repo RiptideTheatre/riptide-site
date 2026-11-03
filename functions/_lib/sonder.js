@@ -117,7 +117,7 @@ export async function readSonderSession(env, request) {
 
 /* ---------- email ---------- */
 
-const shell = (inner) => `<!doctype html><html><body style="margin:0;background:#0a1416;font-family:Georgia,serif;color:#f4f1e9">
+const shell = (inner) => `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#0a1416;font-family:Georgia,serif;color:#f4f1e9">
 <div style="max-width:520px;margin:0 auto;padding:40px 24px">${inner}
 <p style="font-family:Arial,sans-serif;font-size:12px;color:#6e8482;margin-top:40px">Riptide · Patrick Studios, St Mary's Lane, Leeds LS9 7EH</p>
 </div></body></html>`;

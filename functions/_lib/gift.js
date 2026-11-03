@@ -174,7 +174,7 @@ const noteBlock = (gift, dark) =>
 // Project Intimacy emails use the dark Riptide look; Reset emails use Reset's own.
 function shell(gift, inner) {
   if (gift.product !== "pi") return emailShell(inner);
-  return `<!doctype html><html><body style="margin:0;background:#0a1416;font-family:Georgia,serif;color:#f4f1e9">
+  return `<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0;background:#0a1416;font-family:Georgia,serif;color:#f4f1e9">
 <div style="max-width:520px;margin:0 auto;padding:40px 24px">
 <div style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#e9b65c;margin-bottom:24px">Project Intimacy · A gift</div>
 ${inner}
