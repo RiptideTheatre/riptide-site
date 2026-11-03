@@ -8,9 +8,10 @@ year: 2020
 place: Leeds International Festival
 summary: The show that never was… commissioned by Leeds International Festival but postponed due to COVID.
 cardMeta: Leeds International Festival · 2020
-image: /assets/img/placeholder-delirium.svg
-imageAlt: Delirium
-portrait: /assets/img/placeholder-delirium.svg
+image: /assets/img/delirium.jpg
+imageAlt: "Delirium artwork: a woman floating in blue light and haze"
+portrait: /assets/img/delirium-portrait.jpg
+portraitAlt: "Delirium artwork: a small figure beneath a neon serpent sign in a column of magenta light"
 credits:
   - label: Commissioned by
     value: Leeds International Festival
