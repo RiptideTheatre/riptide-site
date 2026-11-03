@@ -7,8 +7,10 @@
 //
 // KV (RESET_KV):
 //   sonder:<email>   {email, name, passes:[{ref, qty, from, until, key}]}
-//   sonderkey:<key>  {email, until}   the walk link in the welcome email (reusable, so it can be
-//                                     forwarded to the second person on a pair ticket)
+//   sonderkey:<key>  {email, until, qty, devices:[id]}   the walk link in the welcome email.
+//                    It signs in one phone per person on the ticket (two for a pair, so it can be
+//                    forwarded). Asking for the link again issues a fresh one, which signs the old
+//                    phones out: that's how someone moves their ticket to a new phone.
 import { hmac, b64u, normEmail, sendEmail, esc, isSettled, DAY } from "./reset.js";
 
 export const SONDER_COOKIE = "sonder_session";
@@ -54,8 +56,28 @@ export async function grantSonder(env, email, ref, qty = 1, name = "") {
   if (name && !buyer.name) buyer.name = name;
   const ttl = Math.ceil((until - Date.now()) / 1000) + 86400;
   await env.RESET_KV.put("sonder:" + email, JSON.stringify(buyer));
-  await env.RESET_KV.put("sonderkey:" + key, JSON.stringify({ email, until }), { expirationTtl: ttl });
+  await env.RESET_KV.put("sonderkey:" + key, JSON.stringify({ email, until, qty: pass.qty, devices: [] }), { expirationTtl: ttl });
   return { buyer, pass, isNew: true };
+}
+
+const MAX_MOVES = 6;
+
+// "Send my link again": a fresh link replaces the old one, so the ticket can move to a new phone.
+// After MAX_MOVES fresh links the same link is sent again instead.
+export async function freshWalkLink(env, email) {
+  email = normEmail(email);
+  const buyer = await getSonderBuyer(env, email);
+  const pass = livePass(buyer);
+  if (!pass) return null;
+  if ((pass.moves || 0) >= MAX_MOVES) return pass;
+  const old = pass.key;
+  pass.key = b64u(crypto.getRandomValues(new Uint8Array(18)));
+  pass.moves = (pass.moves || 0) + 1;
+  const ttl = Math.ceil((pass.until - Date.now()) / 1000) + 86400;
+  await env.RESET_KV.put("sonderkey:" + pass.key, JSON.stringify({ email, until: pass.until, qty: pass.qty, devices: [] }), { expirationTtl: ttl });
+  await env.RESET_KV.put("sonder:" + email, JSON.stringify(buyer));
+  if (old) await env.RESET_KV.delete("sonderkey:" + old);
+  return pass;
 }
 
 export async function recordSonderBooking(env, session) {
@@ -77,7 +99,9 @@ async function sha256hex(s) {
   return [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-export async function useWalkKey(env, key) {
+// Signs this phone in with the link from the email. `device` is this phone's id if it was signed in
+// before. Returns {email, until, key, device}, {full: qty} when the ticket's phones are all taken, or null.
+export async function useWalkKey(env, key, device) {
   if (!key || !/^[A-Za-z0-9_-]{16,64}$/.test(key)) return null;
   if (!env.SONDER_PREVIEW_OFF && PREVIEW_KEYS_SHA256.includes(await sha256hex(key))) {
     return { email: "preview@theriptide.co.uk", until: Date.now() + ACCESS_DAYS * DAY };
@@ -85,14 +109,36 @@ export async function useWalkKey(env, key) {
   const raw = await env.RESET_KV.get("sonderkey:" + key);
   if (!raw) return null;
   const v = JSON.parse(raw);
-  return v.until > Date.now() ? v : null;
+  if (!(v.until > Date.now())) return null;
+  const devices = v.devices || [];
+  const qty = v.qty === 2 ? 2 : 1;
+  if (!(device && devices.includes(device))) {
+    if (devices.length >= qty) return { full: qty };
+    device = b64u(crypto.getRandomValues(new Uint8Array(12)));
+    devices.push(device);
+    v.devices = devices;
+    await env.RESET_KV.put("sonderkey:" + key, JSON.stringify(v), { expirationTtl: Math.ceil((v.until - Date.now()) / 1000) + 86400 });
+  }
+  return { email: v.email, until: v.until, key, device };
+}
+
+// Is this phone still one of the ticket's phones? (A fresh link signs the old ones out.)
+export async function deviceStillIn(env, session) {
+  if (!session) return false;
+  if (!session.k) return session.email === "preview@theriptide.co.uk";
+  const raw = await env.RESET_KV.get("sonderkey:" + session.k);
+  if (!raw) return false;
+  const v = JSON.parse(raw);
+  return v.until > Date.now() && (v.devices || []).includes(session.d);
 }
 
 /* ---------- signed cookie ---------- */
 
-export async function makeSonderCookie(env, email, until) {
+export async function makeSonderCookie(env, email, until, key, device) {
   if (!env.SESSION_SECRET) throw new Error("SESSION_SECRET is not set");
-  const body = b64u(enc.encode(JSON.stringify({ e: normEmail(email), x: until })));
+  const payload = { e: normEmail(email), x: until };
+  if (key && device) { payload.k = key; payload.d = device; }
+  const body = b64u(enc.encode(JSON.stringify(payload)));
   const sig = b64u(await hmac(env.SESSION_SECRET, "sonder." + body));
   const maxAge = Math.max(60, Math.floor((until - Date.now()) / 1000));
   return `${SONDER_COOKIE}=${body}.${sig}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
@@ -109,7 +155,7 @@ export async function readSonderSession(env, request) {
     if (!sameBytes(good, fromB64u(sig))) return null;
     const p = JSON.parse(new TextDecoder().decode(fromB64u(body)));
     if (!p.x || p.x < Date.now()) return null;
-    return { email: p.e, until: p.x };
+    return { email: p.e, until: p.x, k: p.k, d: p.d };
   } catch {
     return null;
   }
@@ -134,7 +180,7 @@ export function sonderEmail(env, pass) {
 Open the walk on your phone:
 ${link}
 
-${pair ? "This ticket is for two. Forward this email to the person walking with you, so they can open the walk on their own phone.\n\n" : ""}You can walk it as many times as you like until ${until}.
+${pair ? "This ticket is for two. Forward this email to the person walking with you, so they can open the walk on their own phone. The link works on two phones.\n\n" : "The link works on one phone.\n\n"}You can walk it as many times as you like until ${until}.
 
 Before you set off: open the link over wi-fi and download the walk, charge your phone and bring headphones. The walk starts at Leeds train station.
 
@@ -144,7 +190,7 @@ Riptide`;
 <p style="font-size:26px;line-height:1.3;margin:0 0 18px">Your walk is ready.</p>
 <p style="font-size:16px;line-height:1.6;color:#a8b5b3">Open this link on your phone. You can walk Sonder as many times as you like until <strong style="color:#f4f1e9">${esc(until)}</strong>.</p>
 <p style="margin:28px 0"><a href="${link}" style="background:#e8542b;color:#0a1416;text-decoration:none;padding:14px 26px;border-radius:6px;font-family:Arial,sans-serif;font-size:15px;font-weight:bold">Open the walk</a></p>
-${pair ? `<p style="font-size:16px;line-height:1.6;color:#a8b5b3">This ticket is for two. <strong style="color:#f4f1e9">Forward this email</strong> to the person walking with you, so they can open the walk on their own phone.</p>` : ""}
+${pair ? `<p style="font-size:16px;line-height:1.6;color:#a8b5b3">This ticket is for two. <strong style="color:#f4f1e9">Forward this email</strong> to the person walking with you, so they can open the walk on their own phone. The link works on two phones.</p>` : `<p style="font-size:16px;line-height:1.6;color:#a8b5b3">The link works on one phone. Changing phones? Ask for a fresh link on the Sonder page.</p>`}
 <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#a8b5b3">Before you set off: open the link over wi-fi and download the walk, charge your phone and bring headphones. The walk starts at Leeds train station.</p>`);
   return { subject: "Your Sonder walk", text, html };
 }

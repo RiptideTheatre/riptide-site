@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded",function(){
     </div>
     <form class="sbook__lost" id="sbookLost">
       <p class="eyebrow">Already have a ticket?</p>
-      <p class="sbook__lost-msg" id="sbookLostMsg">Open the link in your email on your phone. Lost it? We'll send it again.</p>
+      <p class="sbook__lost-msg" id="sbookLostMsg">Open the link in your email on your phone. Lost it, or changed phones? We'll send a fresh one.</p>
       <div class="sbook__lost-row">
         <label class="visually-hidden" for="sbookEmail">Email address</label>
         <input id="sbookEmail" type="email" name="email" placeholder="The email you booked with" autocomplete="email" required>
@@ -191,6 +191,9 @@ document.addEventListener("DOMContentLoaded",function(){
   var q=location.search, lostMsg=document.getElementById("sbookLostMsg");
   if(/signin=1/.test(q)) lostMsg.textContent="To open the walk, use the link in your email on your phone. Lost it? Enter your email and we'll send it again.";
   if(/error=link/.test(q)) lostMsg.textContent="That link has expired or isn't right. Enter your email and we'll send a fresh one if your ticket is still live.";
+  if(/error=phones/.test(q)) lostMsg.textContent=(/n=2/.test(q)?"This ticket is already open on two phones.":"This ticket is already open on another phone.")+" To move it to this phone, enter the email you booked with and we'll send a fresh link. The old link will stop working.";
+  if(/booked=1/.test(q)) lostMsg.textContent="You're booked. We've emailed your link to the walk: open it on the phone you'll walk with.";
+  if(/error=moved/.test(q)) lostMsg.textContent="A fresh link has been sent for this ticket, so this phone was signed out. Open the newest Sonder email on this phone, or ask for another link below.";
   function say(t){ msg.textContent=t; msg.hidden=false; }
   function loadStripe(){ if(window.Stripe) return Promise.resolve(window.Stripe); return new Promise(function(ok,no){ var s=document.createElement("script"); s.src="https://js.stripe.com/v3/"; s.async=true; s.onload=function(){ window.Stripe?ok(window.Stripe):no(); }; s.onerror=no; document.head.appendChild(s); }); }
   function close(){ if(checkout){ try{checkout.destroy();}catch(e){} checkout=null; } host.innerHTML='<p class="pbook__loading">Opening secure payment…</p>'; pay.hidden=true; card.hidden=false; form.querySelector("button[type=submit]").disabled=false; }
