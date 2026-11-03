@@ -182,7 +182,16 @@
    ],
    "fileTitle": "Waiting on a Bridge",
    "lat": 53.79428,
-   "lng": -1.537836
+   "lng": -1.537836,
+   "moments": [
+    {
+     "at": 80,
+     "title": "You are here",
+     "cue": "Continue over the bridge.",
+     "lat": 53.794099,
+     "lng": -1.537829
+    }
+   ]
   },
   {
    "n": 7,
@@ -327,7 +336,7 @@
     "man+male": "/sonder/media/audio/s12-2ddc3f2be8.m4a",
     "woman+female": "/sonder/media/audio/s12-7122b7ea5d.m4a",
     "man+female": "/sonder/media/audio/s12-7122b7ea5d.m4a",
-    "woman+male": "/sonder/media/audio/s12b-2ddc3f2be8.m4a"
+    "woman+male": "/sonder/media/audio/s12-2ddc3f2be8.m4a"
    },
    "photos": [
     {
@@ -549,11 +558,8 @@
    ]
   }
  ],
- "extraPoints": {
-  "youAreHere": {
-   "lat": 53.794099,
-   "lng": -1.537829,
-   "note": "Scene 'You are here' from Alexander's list: no separate sound file found; check whether it is part of 'Waiting on a Bridge'"
-  }
+ "ambient": {
+  "src": "/sonder/media/audio/ambient.m4a",
+  "volume": 0.35
  }
 }

@@ -8,7 +8,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var player = $("player");
   var walk = null, state = load(), watchId = null, here = null, wakeLock = null, heading = null;
-  var objectUrl = null, playing = -1, maps = {}, photoShown = {}, trail = [], follow = true;
+  var momentShown = {}, objectUrl = null, playing = -1, maps = {}, photoShown = {}, trail = [], follow = true;
   var DEMO = /[?&]demo=1/.test(location.search);
 
   /* ---------- state ---------- */
@@ -71,6 +71,7 @@
       var a = audioFor(s); if (a) out.push(a);
       (s.photos || []).forEach(function (p) { out.push(p.src); });
     });
+    if (walk.ambient) out.push(walk.ambient.src);
     return out;
   }
   function variant() { return state.who + "+" + state.narrator; }
@@ -305,6 +306,7 @@
       if (!hasPoint(s)) return;
       var node = el("wk-pin", "<span>" + s.n + "</span><em></em>");
       node.querySelector("em").textContent = s.title;
+      (s.moments || []).forEach(function (mo) { if (hasPoint(mo)) new maplibregl.Marker({ element: el("wk-ghost wk-moment", "") }).setLngLat([mo.lng, mo.lat]).addTo(map); });
       (s.ghosts || []).forEach(function (g) { new maplibregl.Marker({ element: el("wk-ghost", "") }).setLngLat([g.lng, g.lat]).addTo(map); });
       m.pins[i] = { node: node, marker: new maplibregl.Marker({ element: node, anchor: "top", offset: [0, -12] }).setLngLat([s.lng, s.lat]).addTo(map) };
     });
@@ -389,6 +391,33 @@
     frameWalk(700);
   });
 
+  /* ---------- the quiet music between scenes ---------- */
+  var bed = null, bedGain = null, actx = null, bedWanted = false;
+  function bedSetup() {
+    if (!walk.ambient || bed) return;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      bed = new Audio(); bed.loop = true; bed.preload = "auto"; bed.setAttribute("playsinline", "");
+      if (AC) { actx = new AC(); bedGain = actx.createGain(); bedGain.gain.value = 0; actx.createMediaElementSource(bed).connect(bedGain); bedGain.connect(actx.destination); }
+      sourceFor(walk.ambient.src).then(function (src) { bed.src = src; if (bedWanted) bedOn(); });
+    } catch (e) { bed = null; }
+  }
+  function bedLevel(v, secs) {
+    if (bedGain && actx) { var t = actx.currentTime; bedGain.gain.cancelScheduledValues(t); bedGain.gain.setValueAtTime(bedGain.gain.value, t); bedGain.gain.linearRampToValueAtTime(v, t + secs); }
+    else if (bed) bed.volume = v;
+  }
+  function bedOn() {
+    bedWanted = true; if (!bed || !bed.src) return;
+    if (actx && actx.state === "suspended") actx.resume();
+    var p = bed.play(); if (p && p.catch) p.catch(function () {});
+    bedLevel((walk.ambient.volume || 0.35), 3);
+  }
+  function bedOff(secs) {
+    bedWanted = false; if (!bed) return;
+    bedLevel(0, secs || 1.5);
+    clearTimeout(bedOff.t); bedOff.t = setTimeout(function () { if (!bedWanted) bed.pause(); }, ((secs || 1.5) + 0.2) * 1000);
+  }
+
   /* ---------- start ---------- */
   function prepStart() {
     $("startName").textContent = walk.start.name;
@@ -400,7 +429,7 @@
     // a tap unlocks sound on phones that only play audio after a touch
     player.src = "/assets/audio/silence.m4a";
     var p = player.play(); if (p && p.catch) p.catch(function () {});
-    keepAwake(); watch(); compass();
+    keepAwake(); watch(); compass(); bedSetup();
     state.started = true; if (state.next == null) state.next = 0; save();
     show("walk");
     var first = walk.scenes[state.next];
@@ -434,6 +463,7 @@
       $("nextDist").textContent = distText(s);
       pointArrow();
     }
+    if (playing >= 0) bedOff(1.2); else if (state.started) bedOn();
     $("headingBox").hidden = playing >= 0;
     $("playingBox").hidden = playing < 0;
     $("prevBtn").disabled = $("prevBtn2").disabled = i === 0;
@@ -458,7 +488,7 @@
   function playScene(i) {
     var s = walk.scenes[i], url = s && audioFor(s);
     if (!s) return;
-    playing = i; state.next = i; save(); photoShown = {}; lastPhoto = null; renderWalk();
+    playing = i; state.next = i; save(); photoShown = {}; momentShown = {}; lastPhoto = null; renderWalk();
     setPlayIcon(false);
     if (!url) { $("sceneMode").textContent = "This scene's sound isn't loaded yet."; return; }
     sourceFor(url).then(function (src) {
@@ -478,7 +508,7 @@
   function finishScene() {
     var i = playing; stop();
     state.next = i + 1; save();
-    if (state.next >= walk.scenes.length) { state.started = false; state.next = 0; save(); show("end"); return; }
+    if (state.next >= walk.scenes.length) { state.started = false; state.next = 0; save(); bedOff(4); show("end"); return; }
     renderWalk();
     if (here) onMove();
     if (follow) frameWalk(900);
@@ -497,6 +527,13 @@
     if (!scrubbing) { $("scrub").value = Math.round(f * 1000); $("scrub").style.setProperty("--p", (f * 100).toFixed(2) + "%"); }
     $("tNow").textContent = fmt(player.currentTime);
     $("tLeft").textContent = "-" + fmt(player.duration - player.currentTime);
+    (walk.scenes[playing].moments || []).forEach(function (mo, k) {
+      if (player.currentTime >= mo.at && !momentShown[k]) {
+        momentShown[k] = true;
+        setCard("Scene " + walk.scenes[playing].n + " of " + walk.scenes.length, mo.title, mo.cue || "");
+        toast(mo.title); if (navigator.vibrate) navigator.vibrate([80, 60, 80]);
+      }
+    });
     (walk.scenes[playing].photos || []).forEach(function (ph, k) {
       var at = typeof ph.at === "object" ? (ph.at[state.narrator] != null ? ph.at[state.narrator] : ph.at[Object.keys(ph.at)[0]]) : ph.at;
       var t = player.currentTime, on = t >= at && t < at + (ph.for || 10);

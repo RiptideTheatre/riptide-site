@@ -181,3 +181,4 @@ picture { display: contents; }
 @media (prefers-reduced-motion: reduce) { .wk__play i, .wk-pin.is-next span::after { animation: none; } .wk__toast { animation: none; } }
 
 .wk-ghost { width: 10px; height: 10px; border-radius: 50%; border: 1.5px dashed rgba(111,196,184,.7); pointer-events: none; }
+.wk-moment { border-style: solid; background: rgba(111,196,184,.35); }
