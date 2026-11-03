@@ -12,6 +12,8 @@ gallery:
     alt: "A woman looks straight out through a torn photograph"
   - src: /assets/img/the-lucky-ones-g4.jpg
     alt: "A text message on a phone: You will know when the time is right."
+banner: /assets/img/the-lucky-ones-banner.jpg
+bannerAlt: "A durational immersive experience"
 status: past
 order: 20
 year: 2018

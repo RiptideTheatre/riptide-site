@@ -1092,3 +1092,8 @@ picture { display: contents; }
 .gallery__item { display: block; border-radius: 6px; overflow: hidden; background: var(--ink-2, #0e1b1e); }
 .gallery__item img { display: block; width: 100%; height: auto; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .gallery__item:hover img, .gallery__item:focus-visible img { transform: scale(1.03); }
+
+/* a show's banner artwork, under the hero */
+.show-banner { background: #1c1c1c; border-block: 1px solid var(--line); }
+.show-banner .wrap { display: flex; justify-content: center; }
+.show-banner img { display: block; width: 100%; max-width: 851px; height: auto; }

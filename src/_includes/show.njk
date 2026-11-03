@@ -32,6 +32,12 @@ layout: base.njk
   </div>
 </section>
 
+{% if banner %}
+<section class="show-banner" aria-label="{{ bannerAlt or title }}">
+  <div class="wrap"><img src="{{ banner }}" alt="{{ bannerAlt or title }}" width="851" height="315"></div>
+</section>
+{% endif %}
+
 {% if trailerVideo %}
 <section class="band trailer" id="trailer" aria-labelledby="trailer-title">
   <div class="wrap">
