@@ -123,6 +123,31 @@ eleventyExcludeFromCollections: true
       <div class="pq-done" hidden tabindex="-1">
         <p class="eyebrow ab-eyebrow">Project Intimacy</p>
         <h2 class="display">Your response has been recorded.</h2>
+        <div class="pq-wait">
+          <p class="pq-wait__kicker">While you wait</p>
+          <p class="pq-wait__lede">Your partner is out there somewhere, answering the same questions. We'll be in touch before your project dates with everything you need.</p>
+          <p class="pq-wait__then">In the meantime, two other ways to spend time with Riptide:</p>
+          <ul class="pq-wait__list">
+            <li class="pq-wait__item">
+              <a class="pq-wait__img" href="/reset/" tabindex="-1" aria-hidden="true"><img src="/assets/img/reset.jpg" alt="" loading="lazy"></a>
+              <div class="pq-wait__body">
+                <h3 class="pq-wait__name display">Reset</h3>
+                <p class="pq-wait__tag">A 21-day creative retreat, done at home.</p>
+                <p class="pq-wait__price">£45</p>
+                <a class="btn btn--primary" href="/reset/#book">Book Reset</a>
+              </div>
+            </li>
+            <li class="pq-wait__item">
+              <a class="pq-wait__img" href="/sonder/" tabindex="-1" aria-hidden="true"><img src="/assets/img/sonder.jpg" alt="" loading="lazy"></a>
+              <div class="pq-wait__body">
+                <h3 class="pq-wait__name display">Sonder</h3>
+                <p class="pq-wait__tag">A binaural sound walk for Leeds.</p>
+                <p class="pq-wait__price">£10</p>
+                <a class="btn btn--ghost" href="/sonder/">Find out more</a>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
       <p class="pq-fail" role="alert" hidden></p>
     </form>
@@ -133,6 +158,13 @@ eleventyExcludeFromCollections: true
 (function () {
   var form = document.getElementById('pq');
   if (!form) return;
+  if (location.hash === '#done-preview') {
+    [].forEach.call(form.querySelectorAll('.pq-page, fieldset'), function (p) { p.hidden = true; });
+    var st = document.querySelector('.pq-steps'); if (st) st.hidden = true;
+    var tt = document.getElementById('pq-title'); if (tt) tt.textContent = 'Thank you';
+    form.querySelector('.pq-done').hidden = false;
+    var sb = form.querySelector('button[type=submit]'); if (sb) sb.hidden = true;
+  }
   var pages = [].slice.call(form.querySelectorAll('.pq-page'));
   var steps = [].slice.call(document.querySelectorAll('.pq-steps li'));
   var title = document.getElementById('pq-title');
