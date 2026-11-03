@@ -8,6 +8,10 @@ gallery:
     alt: "A woman on a busy Leeds shopping street, absorbed in her phone"
   - src: /assets/img/the-lucky-ones-g2.jpg
     alt: "People stand still in a Leeds arcade, each looking at their phone, as shoppers blur past"
+  - src: /assets/img/the-lucky-ones-g3.jpg
+    alt: "A woman looks straight out through a torn photograph"
+  - src: /assets/img/the-lucky-ones-g4.jpg
+    alt: "A text message on a phone: You will know when the time is right."
 status: past
 order: 20
 year: 2018
