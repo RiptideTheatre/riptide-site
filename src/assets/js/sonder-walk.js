@@ -150,7 +150,17 @@
     if (d < 15) return "You're here";
     return distLabel(d) + " " + direction(here, target);
   }
+  // sample route: pretend you're on the route, a little short of the next place, wherever you really are
+  function demoHere() {
+    var i = playing >= 0 ? playing : state.next, s = walk.scenes[i], prev = walk.scenes[i - 1] || walk.start;
+    if (!hasPoint(s)) return;
+    var f = playing >= 0 ? 1 : 0.55;
+    here = { lat: prev.lat + (s.lat - prev.lat) * f, lng: prev.lng + (s.lng - prev.lng) * f, acc: 5 };
+    trail.push([here.lng, here.lat]);
+    onMove();
+  }
   function watch() {
+    if (DEMO) { watchId = 1; setTimeout(demoHere, 50); return; }
     if (watchId !== null || !navigator.geolocation) return;
     watchId = navigator.geolocation.watchPosition(function (p) {
       here = { lat: p.coords.latitude, lng: p.coords.longitude, acc: p.coords.accuracy };
@@ -396,6 +406,7 @@
   }
   function renderWalk() {
     var i = playing >= 0 ? playing : state.next, s = walk.scenes[i];
+    if (DEMO && watchId !== null && renderWalk.at !== i + "/" + playing) { renderWalk.at = i + "/" + playing; setTimeout(demoHere, 400); }
     if (!s) { show("end"); return; }
     var of = " of " + walk.scenes.length;
     if (playing >= 0) {
