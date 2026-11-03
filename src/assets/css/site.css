@@ -1007,6 +1007,8 @@ a.card__media, a.listing__media { display: block; cursor: pointer; }
 .tide--live .tide__stage { position: sticky; top: var(--mh, 76px); height: calc(100vh - var(--mh, 76px)); height: calc(100svh - var(--mh, 76px)); overflow: hidden; }
 .tide--live .tide__panel { position: absolute; inset: 0; padding: 0; }
 .tide--live .tide__foam { display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; opacity: 0; }
+.tide__water { display: none; }
+.tide--live .tide__water { display: block; position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
 .tide__foam path { fill: none; stroke: var(--ivory); vector-effect: non-scaling-stroke; }
 .tide--live .tide__dots { display: flex; flex-direction: column; gap: 14px; position: absolute; right: calc(var(--gutter) / 2.4); top: 50%; transform: translateY(-50%); z-index: 6; list-style: none; margin: 0; padding: 0; }
 .tide__dots button { display: block; width: 10px; height: 10px; padding: 0; border-radius: 50%; border: 1px solid rgba(244,241,233,.75); background: transparent; cursor: pointer; transition: transform .3s, background .3s; mix-blend-mode: difference; }
