@@ -2,6 +2,7 @@
 title: "The Lucky Ones"
 tagline: Bespoke, individual, pervasive performance.
 description: The Lucky Ones, Riptide's durational performance for one audience member at a time, Leeds 2018 and online 2021. Part of Riptide's back catalogue.
+partLine: "Part-theatre, part-video game, part-Truman Show."
 status: past
 order: 20
 year: 2018

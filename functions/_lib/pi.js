@@ -33,7 +33,7 @@ Riptide`;
 <div style="max-width:520px;margin:0 auto;padding:40px 24px">
 <div style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#e9b65c;margin-bottom:24px">Project Intimacy</div>
 <p style="font-size:26px;line-height:1.3;margin:0 0 18px">You're booked.</p>
-<p style="font-size:16px;line-height:1.6;color:#a8b5b3">Your fortnight: <strong style="color:#f4f1e9">${esc(when)}</strong>.</p>
+<p style="font-size:16px;line-height:1.6;color:#a8b5b3">Your project dates: <strong style="color:#f4f1e9">${esc(when)}</strong>.</p>
 <p style="font-size:16px;line-height:1.6;color:#a8b5b3">Next step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.</p>
 <p style="margin:28px 0"><a href="${link}" style="background:#e8542b;color:#0a1416;text-decoration:none;padding:14px 26px;border-radius:6px;font-family:Arial,sans-serif;font-size:15px;font-weight:bold">Fill in the questionnaire</a></p>
 <p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#a8b5b3">Before your start date, anonymise yourself on WhatsApp and save Riptide's number. The questionnaire's checklist walks you through both.</p>

@@ -193,7 +193,7 @@ export function buyerEmail(site, gift, when) {
   const link = giftLink(site, gift);
   const code = prettyCode(gift.code);
   const sent = gift.send === "email" && gift.email;
-  const whenLine = gift.product === "pi" ? `Their fortnight: ${when}.` : `Their Reset begins ${when}. They can choose a different month when they unwrap it.`;
+  const whenLine = gift.product === "pi" ? `Their project dates: ${when}.` : `Their Reset begins ${when}. They can choose a different month when they unwrap it.`;
   const text = `Your gift is booked: ${name} for ${gift.to}.
 
 ${whenLine}
@@ -222,7 +222,7 @@ export function recipientEmail(site, gift, when) {
     ? `${gift.from} has given you a place on Project Intimacy: two strangers, two weeks, one conversation.`
     : `${gift.from} has given you Reset: twenty-one days of creative recovery.`;
   const next = isPi
-    ? `Your fortnight: ${when}.\n\nNext step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.`
+    ? `Your project dates: ${when}.\n\nNext step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.`
     : `Choose the month you'd like to begin, and your Reset is yours for a year from that date.`;
   const text = `${gift.to},
 
@@ -239,7 +239,7 @@ Riptide`;
 <p style="font-size:16px;line-height:1.6">${esc(lead)}</p>
 ${noteBlock(gift, isPi)}
 ${isPi
-    ? `<p style="font-size:16px;line-height:1.6">Your fortnight: <strong>${esc(when)}</strong>.</p><p style="font-size:16px;line-height:1.6">Next step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.</p>`
+    ? `<p style="font-size:16px;line-height:1.6">Your project dates: <strong>${esc(when)}</strong>.</p><p style="font-size:16px;line-height:1.6">Next step: the questionnaire. It takes about fifteen minutes and it's how we match you with your partner, so please answer as honestly as you can.</p>`
     : `<p style="font-size:16px;line-height:1.6">Choose the month you'd like to begin, and your Reset is yours for a year from that date.</p>`}
 ${button(gift, link, isPi ? "Fill in your questionnaire" : "Unwrap your Reset")}
 ${small(gift, `Gift code: <strong style="letter-spacing:.08em">${code}</strong>`)}`);

@@ -4,6 +4,7 @@ tagline: Two strangers. Two weeks. One conversation.
 subtitle: The UK's longest-running WhatsApp experience.
 description: You'll be matched with a stranger. For fourteen days a prompt lands each morning. No script, no performance, no audience.
 kinds: [at-home, one-to-one]
+workLabel: "UK's longest running WhatsApp experience"
 status: on-sale
 booking: stripe
 ctaUrl: "#book"

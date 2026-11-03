@@ -7,7 +7,8 @@
       <div class="tide__ambient" style="background-image: url('{{ show.data.image | smallWebp }}')" aria-hidden="true"></div>
       <div class="tide__inner wrap">
         <div class="tide__content">
-          <p class="tide__count" aria-hidden="true">{{ "0" if loop.index < 10 }}{{ loop.index }} / {{ "0" if loop.length < 10 }}{{ loop.length }}</p>
+          <p class="tide__top"><span class="tide__live"><i aria-hidden="true"></i>Live now</span><span class="tide__count" aria-hidden="true">{{ "0" if loop.index < 10 }}{{ loop.index }} / {{ "0" if loop.length < 10 }}{{ loop.length }}</span></p>
+          {% if show.data.workLabel %}<p class="tide__label">{{ show.data.workLabel }}</p>{% endif %}
           <h2 class="tide__title display" id="tide-{{ loop.index0 }}"><a href="{{ show.url }}">{{ show.data.title }}</a></h2>
           {% if show.data.tagline %}<p class="tide__tagline">{{ show.data.tagline }}</p>{% endif %}
           {% if show.data.cardMeta | isFilled %}<p class="tide__meta">{{ show.data.cardMeta }}</p>{% endif %}

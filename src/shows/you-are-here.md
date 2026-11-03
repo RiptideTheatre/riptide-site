@@ -2,6 +2,7 @@
 title: You Are Here
 tagline: A guided journey through city spaces, accompanied by smartphone and GPS.
 description: You Are Here, Riptide's 2015 one-person GPS journey through Leeds city centre. Part of Riptide's back catalogue.
+partLine: "Part-theatre, part-dream, part-adventure."
 status: past
 order: 31
 year: 2015

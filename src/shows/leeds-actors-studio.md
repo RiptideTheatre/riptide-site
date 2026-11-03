@@ -4,6 +4,7 @@ tagline: Affordable, ongoing training for actors in Leeds.
 subtitle: A weekly Company, skills classes and one-to-one coaching.
 description: Leeds Actors Studio offers affordable, ongoing training for actors in Leeds, especially recent graduates who want to keep training.
 kinds: [in-person]
+workLabel: "New for emerging talent"
 status: coming-soon
 featured: true
 order: 3

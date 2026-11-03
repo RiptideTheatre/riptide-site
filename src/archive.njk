@@ -13,6 +13,15 @@ description: Riptide's back catalogue of immersive, interactive and digital work
   </div>
 </section>
 
+<div class="band live-head" aria-labelledby="live-title">
+  <div class="wrap live-head__inner">
+    <h2 id="live-title" class="live-head__title"><span class="tide__live"><i aria-hidden="true"></i>Live and available now</span></h2>
+    <ul class="live-head__list">
+      {% for show in collections.current %}<li><a href="{{ show.url }}">{{ show.data.title }}</a></li>{% endfor %}
+    </ul>
+  </div>
+</div>
+
 {% set shows = collections.current %}
 {% include "tide.njk" %}
 
@@ -70,7 +79,7 @@ description: Riptide's back catalogue of immersive, interactive and digital work
             <span class="arc__meta">{% if show.data.format | isFilled %}{{ show.data.format }}{% endif %}{% if (show.data.format | isFilled) and (show.data.place | isFilled) %} · {% endif %}{% if show.data.place | isFilled %}{{ show.data.place }}{% endif %}</span>
           </span>
           <span class="arc__about">
-            {% if show.data.summary | isFilled %}<span class="arc__line">{{ show.data.summary }}</span>{% elif show.data.tagline %}<span class="arc__line">{{ show.data.tagline }}</span>{% endif %}
+            {% if show.data.partLine %}<span class="arc__line arc__line--part">{% for bit in show.data.partLine.split(", ") %}<span class="nw">{{ bit }}</span>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% elif show.data.summary | isFilled %}<span class="arc__line">{{ show.data.summary }}</span>{% elif show.data.tagline %}<span class="arc__line">{{ show.data.tagline }}</span>{% endif %}
             {% set q = (show.data.press | filledBy("quote"))[0] or (show.data.quotes or [])[0] %}
             {% if q %}<span class="arc__quote">“{{ q.quote }}” <cite>{{ q.source }}</cite></span>{% endif %}
           </span>

@@ -2,6 +2,7 @@
 title: SWARM
 tagline: Encounters in secret corners of a confetti-filled nightclub.
 description: SWARM, Riptide's 2016 immersive club night at Studio 24, Leeds. Part of Riptide's back catalogue.
+partLine: "Part-immersive theatre, part-nightclub, part-game."
 status: past
 order: 30
 year: 2016

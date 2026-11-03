@@ -4,6 +4,7 @@ tagline: Bespoke, care-led performance.
 subtitle: Research and development, winter 2023, Leeds. In development for 2026–7 as part of Lost Connections.
 description: Intermission, Riptide's immersive experience with care at its core. R&D in Leeds, winter 2023; in development for 2026–7.
 kinds: [in-person, one-to-one]
+partLine: "Part-bespoke theatre, part-spa, part-retreat."
 status: past
 featured: false
 order: 19
