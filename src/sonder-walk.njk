@@ -81,36 +81,62 @@ eleventyExcludeFromCollections: true
     <p class="sw__fine">Tapping start turns on location and keeps your screen awake.</p>
   </section>
 
-  <!-- 6. The walk -->
-  <section class="sw__screen sw__screen--walk" data-screen="walk" hidden>
-    <p class="sw__eyebrow" id="sceneNum"></p>
-    <h1 class="sw__h sw__h--scene" id="sceneTitle"></h1>
-    <p class="sw__mode" id="sceneMode"></p>
+  <!-- 6. The walk: the map fills the screen; a card at the top says where you are in the story,
+       the sheet at the bottom plays it -->
+  <section class="sw__screen wk" data-screen="walk" hidden>
+    <div class="wk__map" id="walkMap" aria-hidden="true"></div>
+    <div class="wk__nomap" id="walkNoMap" hidden aria-hidden="true"><div class="sw__ring"><span></span><span></span><span></span></div></div>
 
-    <div class="sw__now" id="headingBox">
-      <p class="sw__dist sw__dist--big" id="nextDist" role="status">Finding you…</p>
-      <p class="sw__fine" id="nextPlace"></p>
-      <button class="sw__btn sw__btn--ghost" type="button" id="hereBtn">I'm here</button>
-    </div>
-
-    <div class="sw__now" id="playingBox" hidden>
-      <div class="sw__ring" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="sw__progress" aria-hidden="true"><span id="playBar"></span></div>
-      <div class="sw__controls">
-        <button class="sw__ctl" type="button" id="backBtn" aria-label="Back 15 seconds">−15</button>
-        <button class="sw__ctl sw__ctl--main" type="button" id="playBtn" aria-label="Pause">Pause</button>
-        <button class="sw__ctl" type="button" id="skipBtn" aria-label="Skip to the next scene">Skip</button>
+    <header class="wk__card" id="wkCard">
+      <div class="wk__card-text">
+        <p class="wk__eyebrow" id="sceneNum"></p>
+        <h1 class="wk__title" id="sceneTitle"></h1>
+        <p class="wk__cue" id="sceneMode"></p>
       </div>
+      <button class="wk__thumb" type="button" id="thumbBtn" hidden aria-label="See the photo again"><img id="thumbImg" alt=""></button>
+    </header>
+
+    <div class="wk__tools">
+      <button class="wk__tool" type="button" id="listBtn" aria-expanded="false" aria-label="All scenes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+      <button class="wk__tool" type="button" id="meBtn" aria-label="Centre the map on me"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4 4 11l7 2 2 7z"/></svg></button>
     </div>
 
-    <button class="sw__thumb" type="button" id="thumbBtn" hidden><img id="thumbImg" alt=""><span>See the photo again</span></button>
+    <div class="wk__sheet" id="wkSheet">
+      <!-- on the way to the next scene -->
+      <div class="wk__heading" id="headingBox">
+        <div class="wk__go">
+          <span class="wk__arrow" id="wkArrow" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 5 31 33 20 27 9 33z"/></svg></span>
+          <div>
+            <p class="wk__dist" id="nextDist" role="status">Finding you…</p>
+            <p class="wk__place" id="nextPlace"></p>
+          </div>
+        </div>
+        <div class="wk__row">
+          <button class="wk__pill" type="button" id="prevBtn2">Previous</button>
+          <button class="wk__here" type="button" id="hereBtn">I'm here</button>
+        </div>
+      </div>
 
-    <div class="sw__tools">
-      <button class="sw__link" type="button" id="mapBtn" aria-expanded="false">Map</button>
-      <button class="sw__link" type="button" id="listBtn" aria-expanded="false">All scenes</button>
+      <!-- a scene playing -->
+      <div class="wk__playing" id="playingBox" hidden>
+        <div class="wk__scrub">
+          <input type="range" id="scrub" min="0" max="1000" value="0" step="1" aria-label="Position in this scene">
+          <div class="wk__times"><span id="tNow">0:00</span><span id="tLeft">-0:00</span></div>
+        </div>
+        <div class="wk__controls">
+          <button class="wk__skip" type="button" id="backBtn" aria-label="Back 10 seconds"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 8a10 10 0 1 1-3 7"/><path d="M9 3v5h5"/></svg><span>10</span></button>
+          <button class="wk__play" type="button" id="playBtn" aria-label="Pause"><i aria-hidden="true"></i><i aria-hidden="true"></i><svg class="wk__ico-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg><svg class="wk__ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+          <button class="wk__skip" type="button" id="fwdBtn" aria-label="Forward 10 seconds"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M23 8a10 10 0 1 0 3 7"/><path d="M23 3v5h-5"/></svg><span>10</span></button>
+        </div>
+        <div class="wk__row">
+          <button class="wk__pill" type="button" id="prevBtn">Previous</button>
+          <button class="wk__pill" type="button" id="skipBtn">Next</button>
+        </div>
+      </div>
+
+      <ol class="wk__scenes" id="sceneList" hidden></ol>
     </div>
-    <div class="sw__map" id="walkMap" hidden></div>
-    <ol class="sw__scenes" id="sceneList" hidden></ol>
+    <p class="wk__toast" id="wkToast" role="status" hidden></p>
   </section>
 
   <!-- 7. The end -->
