@@ -1111,7 +1111,8 @@ picture { display: contents; }
 .show-banner .wrap { display: flex; justify-content: center; }
 .show-banner img { display: block; width: 100%; max-width: 851px; height: auto; }
 /* About: company section led by the dictionary entry; awards and press ticker */
-.ab-who__company { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 6vw, 100px); align-items: start; margin-top: clamp(60px, 9vw, 120px); padding-top: clamp(40px, 6vw, 72px); border-top: 1px solid rgba(244,241,233,.14); }
+.ab-who__company { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 6vw, 100px); align-items: start; }
+.ab-who .ab-ticker { position: relative; margin-block: clamp(56px, 8vw, 110px); background: rgba(10,20,22,.55); border-top: 1px solid rgba(244,241,233,.14); border-bottom: 1px solid rgba(244,241,233,.14); }
 .ab-who__body p { color: var(--muted); margin: 0 0 22px; max-width: 54ch; }
 .ab-who .ab-name__close { margin-top: clamp(40px, 6vw, 72px); }
 @media (max-width: 860px) { .ab-who__company { grid-template-columns: 1fr; } }

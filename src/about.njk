@@ -29,6 +29,20 @@ description: Riptide create immersive and interactive theatrical experiences whi
     <p class="ab-dict reveal"><span class="ab-dict__word display">Riptide</span> <span class="ab-dict__ipa">[rɪp.taɪd]</span> <em class="ab-dict__pos">(n) noun.</em></p>
     <p class="ab-name__big display reveal">Riptides are strong currents that pull you in new and unexpected directions. They are hidden and unpredictable, and they can emerge at random locations; it is only when you are immersed in a riptide that you know it is there.</p>
     <p class="ab-name__small reveal">Many of our performances occur in public spaces, and passers-by may be oblivious to the fact you are caught in the riptide. In our experiences you will be pulled through hidden spaces, cities and fractured narratives, unable to see how far the riptide extends.</p>
+  </div>
+
+  <div class="ab-ticker" role="region" aria-label="Awards and press">
+    <div class="ab-ticker__track">
+      {% for pass in [1, 2] %}
+      <ul class="ab-ticker__run"{% if pass == 2 %} aria-hidden="true"{% endif %}>
+        <li class="ab-ticker__award"><span aria-hidden="true">✦</span> {{ site.awards }}</li>
+        {% for item in site.press %}<li><q>{{ item.quote }}</q> <cite>{{ item.source }}</cite></li>{% endfor %}
+      </ul>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="wrap ab-name__inner">
     <div class="ab-who__company">
       <p class="ab-intro__lead display reveal">Riptide create unique immersive and interactive theatrical experiences which transport you to another world. Audiences are swept through the narratives, spaces and cities in which our performances occur.</p>
       <div class="ab-who__body reveal">
@@ -42,24 +56,12 @@ description: Riptide create immersive and interactive theatrical experiences whi
 
 <section class="ab-work" aria-label="Our work in pictures">
   <div class="ab-work__rail">
-    <a class="ab-work__item reveal" href="/intermission/"><img src="/assets/img/intermission-g7.jpg" alt="Intermission: a man walks through a corridor of haze and light" loading="lazy"><span>Intermission</span></a>
+    <a class="ab-work__item reveal" href="/intermission/"><img src="/assets/img/intermission-g4.jpg" alt="Intermission: a woman walks through a bright doorway into the light" loading="lazy"><span>Intermission</span></a>
     <a class="ab-work__item reveal" href="/sonder/"><img src="/assets/img/sonder-g2.jpg" alt="Sonder: a woman in headphones in Leeds City Square" loading="lazy" style="object-position: 55% 50%"><span>Sonder</span></a>
     <a class="ab-work__item reveal" href="/swarm/"><img src="/assets/img/swarm.jpg" alt="SWARM: a crowd dancing under arcs of coloured light" loading="lazy"><span>SWARM</span></a>
     <a class="ab-work__item reveal" href="/the-lucky-ones/"><img src="/assets/img/the-lucky-ones-g3.jpg" alt="The Lucky Ones: a woman looks out through a torn photograph" loading="lazy"><span>The Lucky Ones</span></a>
   </div>
 </section>
-
-<section class="ab-ticker" aria-label="Awards and press">
-  <div class="ab-ticker__track">
-    {% for pass in [1, 2] %}
-    <ul class="ab-ticker__run"{% if pass == 2 %} aria-hidden="true"{% endif %}>
-      <li class="ab-ticker__award"><span aria-hidden="true">✦</span> {{ site.awards }}</li>
-      {% for item in site.press %}<li><q>{{ item.quote }}</q> <cite>{{ item.source }}</cite></li>{% endfor %}
-    </ul>
-    {% endfor %}
-  </div>
-</section>
-
 <section class="band band--flush ab-values">
   <div class="wrap">
     <div class="ab-values__head">
