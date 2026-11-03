@@ -179,3 +179,5 @@ picture { display: contents; }
 .wk-pin.is-next em { display: block; }
 .sw__me.has-heading::before { content: ""; position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: -26px 0 0 -9px; border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 18px solid rgba(244,241,233,.55); transform-origin: 9px 26px; transform: rotate(var(--hd, 0deg)); filter: blur(.3px); }
 @media (prefers-reduced-motion: reduce) { .wk__play i, .wk-pin.is-next span::after { animation: none; } .wk__toast { animation: none; } }
+
+.wk-ghost { width: 10px; height: 10px; border-radius: 50%; border: 1.5px dashed rgba(111,196,184,.7); pointer-events: none; }

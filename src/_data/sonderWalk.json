@@ -5,8 +5,8 @@
  "start": {
   "name": "Leeds train station",
   "where": "Outside the main entrance, on New Station Street",
-  "lat": 53.79565,
-  "lng": -1.54663
+  "lat": 53.7950651,
+  "lng": -1.54738
  },
  "radius": 25,
  "who": {
@@ -42,8 +42,7 @@
  "scenes": [
   {
    "n": 1,
-   "title": "Train Station",
-   "place": "Leeds train station",
+   "title": "The Last Goodbye",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s01-746b1e3e02.m4a",
@@ -56,20 +55,22 @@
      "src": "/sonder/media/photos/01.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Train Station"
+     "alt": "Where to go next: The Last Goodbye"
     },
     {
      "src": "/sonder/media/photos/01b.jpg",
      "at": 241,
      "for": 15,
-     "alt": "Where to go next: Train Station"
+     "alt": "Where to go next: The Last Goodbye"
     }
-   ]
+   ],
+   "fileTitle": "Train Station",
+   "lat": 53.7950651,
+   "lng": -1.54738
   },
   {
    "n": 2,
-   "title": "Queens Square",
-   "place": "Queens Square",
+   "title": "Blue Hotel",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s02-cacebd88a2.m4a",
@@ -82,14 +83,16 @@
      "src": "/sonder/media/photos/02.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Queens Square"
+     "alt": "Where to go next: Blue Hotel"
     }
-   ]
+   ],
+   "fileTitle": "Queens Square",
+   "lat": 53.796389,
+   "lng": -1.547628
   },
   {
    "n": 3,
-   "title": "Boar Lane",
-   "place": "Boar Lane",
+   "title": "Sonder",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s03-caf4698803.m4a",
@@ -102,14 +105,16 @@
      "src": "/sonder/media/photos/03.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Boar Lane"
+     "alt": "Where to go next: Sonder"
     }
-   ]
+   ],
+   "fileTitle": "Boar Lane",
+   "lat": 53.796141,
+   "lng": -1.546838
   },
   {
    "n": 4,
-   "title": "Corn Exchange",
-   "place": "Corn Exchange",
+   "title": "Houseplant",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s04-558fb369e7.m4a",
@@ -122,14 +127,16 @@
      "src": "/sonder/media/photos/04.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Corn Exchange"
+     "alt": "Where to go next: Houseplant"
     }
-   ]
+   ],
+   "fileTitle": "Corn Exchange",
+   "lat": 53.795946,
+   "lng": -1.540771
   },
   {
    "n": 5,
-   "title": "COVID Calls",
-   "place": "COVID Calls",
+   "title": "Follow Me",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s05-7681b68f4c.m4a",
@@ -142,14 +149,16 @@
      "src": "/sonder/media/photos/05.jpg",
      "at": 221,
      "for": 15,
-     "alt": "Where to go next: COVID Calls"
+     "alt": "Where to go next: Follow Me"
     }
-   ]
+   ],
+   "fileTitle": "COVID Calls",
+   "lat": 53.795195,
+   "lng": -1.539987
   },
   {
    "n": 6,
    "title": "Waiting on a Bridge",
-   "place": "Waiting on a Bridge",
    "kind": "walk",
    "audio": {
     "woman+female": "/sonder/media/audio/s06-40d4051fdb.m4a",
@@ -170,12 +179,14 @@
      "for": 15,
      "alt": "Where to go next: Waiting on a Bridge"
     }
-   ]
+   ],
+   "fileTitle": "Waiting on a Bridge",
+   "lat": 53.79428,
+   "lng": -1.537836
   },
   {
    "n": 7,
-   "title": "Tunnel Christmas",
-   "place": "Tunnel Christmas",
+   "title": "Christmas",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s07-6baf16babf.m4a",
@@ -188,14 +199,16 @@
      "src": "/sonder/media/photos/07.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Tunnel Christmas"
+     "alt": "Where to go next: Christmas"
     }
-   ]
+   ],
+   "fileTitle": "Tunnel Christmas",
+   "lat": 53.793737,
+   "lng": -1.535916
   },
   {
    "n": 8,
-   "title": "Leeds Dock",
-   "place": "Leeds Dock",
+   "title": "Windows",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s08-5b002f3ea4.m4a",
@@ -208,26 +221,32 @@
      "src": "/sonder/media/photos/08.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Leeds Dock"
+     "alt": "Where to go next: Windows"
     },
     {
      "src": "/sonder/media/photos/08b.jpg",
      "at": 100,
      "for": 15,
-     "alt": "Where to go next: Leeds Dock"
+     "alt": "Where to go next: Windows"
     },
     {
      "src": "/sonder/media/photos/08c.jpg",
      "at": 120,
      "for": 15,
-     "alt": "Where to go next: Leeds Dock"
+     "alt": "Where to go next: Windows"
     }
-   ]
+   ],
+   "fileTitle": "Leeds Dock",
+   "lat": 53.792574,
+   "lng": -1.533705,
+   "end": {
+    "lat": 53.790491,
+    "lng": -1.532688
+   }
   },
   {
    "n": 9,
-   "title": "Phonecall",
-   "place": "Phonecall",
+   "title": "Mushroom Pizza",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s09-cfe0bb8fcb.m4a",
@@ -240,14 +259,17 @@
      "src": "/sonder/media/photos/09.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Phonecall"
+     "alt": "Where to go next: Mushroom Pizza"
     }
-   ]
+   ],
+   "fileTitle": "Phonecall",
+   "lat": 53.792398,
+   "lng": -1.532966,
+   "cue": "Walk as you listen, keeping the water on your left."
   },
   {
    "n": 10,
-   "title": "New York into Outskirts",
-   "place": "New York into Outskirts",
+   "title": "Outskirts",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s10-189e948375.m4a",
@@ -260,20 +282,23 @@
      "src": "/sonder/media/photos/10.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: New York into Outskirts"
+     "alt": "Where to go next: Outskirts"
     },
     {
      "src": "/sonder/media/photos/10b.jpg",
      "at": 496,
      "for": 15,
-     "alt": "Where to go next: New York into Outskirts"
+     "alt": "Where to go next: Outskirts"
     }
-   ]
+   ],
+   "fileTitle": "New York into Outskirts",
+   "lat": 53.79137,
+   "lng": -1.529488,
+   "cue": "Walk as you listen, keeping the water on your left."
   },
   {
    "n": 11,
    "title": "Scattered Heights",
-   "place": "Scattered Heights",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s11-cc14d87914.m4a",
@@ -288,12 +313,15 @@
      "for": 15,
      "alt": "Where to go next: Scattered Heights"
     }
-   ]
+   ],
+   "fileTitle": "Scattered Heights",
+   "lat": 53.791813,
+   "lng": -1.530677,
+   "cue": "Walk as you listen, keeping the water on your right."
   },
   {
    "n": 12,
-   "title": "Leeds Dock",
-   "place": "Leeds Dock",
+   "title": "Windows (Reprise)",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s12-2ddc3f2be8.m4a",
@@ -306,14 +334,20 @@
      "src": "/sonder/media/photos/12.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Leeds Dock"
+     "alt": "Where to go next: Windows (Reprise)"
     }
-   ]
+   ],
+   "fileTitle": "Leeds Dock",
+   "lat": 53.792222,
+   "lng": -1.533147,
+   "end": {
+    "lat": 53.790491,
+    "lng": -1.532688
+   }
   },
   {
    "n": 13,
    "title": "Pockets",
-   "place": "Pockets",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s13-6db0340742.m4a",
@@ -328,12 +362,15 @@
      "for": 15,
      "alt": "Where to go next: Pockets"
     }
-   ]
+   ],
+   "fileTitle": "Pockets",
+   "lat": 53.793473,
+   "lng": -1.534807,
+   "cue": "Walk as you listen, keeping the water on your right."
   },
   {
    "n": 14,
    "title": "Dear Estate Agent",
-   "place": "Dear Estate Agent",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s14-423fa16354.m4a",
@@ -348,12 +385,18 @@
      "for": 15,
      "alt": "Where to go next: Dear Estate Agent"
     }
-   ]
+   ],
+   "fileTitle": "Dear Estate Agent",
+   "lat": 53.794116,
+   "lng": -1.537952,
+   "end": {
+    "lat": 53.795091,
+    "lng": -1.539859
+   }
   },
   {
    "n": 15,
-   "title": "The Calls Return",
-   "place": "The Calls Return",
+   "title": "Swill Speech",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s15-a2a0e7ec2f.m4a",
@@ -366,14 +409,20 @@
      "src": "/sonder/media/photos/15.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: The Calls Return"
+     "alt": "Where to go next: Swill Speech"
     }
-   ]
+   ],
+   "fileTitle": "The Calls Return",
+   "lat": 53.794355,
+   "lng": -1.542501,
+   "end": {
+    "lat": 53.793788,
+    "lng": -1.543743
+   }
   },
   {
    "n": 16,
-   "title": "Leeds Bridge into Phonecall",
-   "place": "Leeds Bridge into Phonecall",
+   "title": "Mushroom Pizza (Reprise)",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s16-3ee48f7dab.m4a",
@@ -386,14 +435,26 @@
      "src": "/sonder/media/photos/16.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Leeds Bridge into Phonecall"
+     "alt": "Where to go next: Mushroom Pizza (Reprise)"
+    }
+   ],
+   "fileTitle": "Leeds Bridge into Phonecall",
+   "lat": 53.794269,
+   "lng": -1.54204,
+   "end": {
+    "lat": 53.792925,
+    "lng": -1.543913
+   },
+   "ghosts": [
+    {
+     "lat": 53.794105,
+     "lng": -1.543224
     }
    ]
   },
   {
    "n": 17,
    "title": "Brasserie Blanc",
-   "place": "Brasserie Blanc",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s17-85ebade1d8.m4a",
@@ -408,12 +469,25 @@
      "for": 15,
      "alt": "Where to go next: Brasserie Blanc"
     }
+   ],
+   "fileTitle": "Brasserie Blanc",
+   "lat": 53.792833,
+   "lng": -1.54408,
+   "end": {
+    "lat": 53.792683,
+    "lng": -1.546603
+   },
+   "cue": "Walk as you listen, keeping the water on your left.",
+   "ghosts": [
+    {
+     "lat": 53.793253,
+     "lng": -1.544831
+    }
    ]
   },
   {
    "n": 18,
    "title": "Paris",
-   "place": "Paris",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s18-f44f6b8687.m4a",
@@ -437,12 +511,18 @@
      "for": 15,
      "alt": "Where to go next: Paris"
     }
-   ]
+   ],
+   "fileTitle": "Paris",
+   "lat": 53.792662,
+   "lng": -1.546133,
+   "end": {
+    "lat": 53.792684,
+    "lng": -1.546693
+   }
   },
   {
    "n": 19,
-   "title": "Train Station (ending)",
-   "place": "Leeds train station",
+   "title": "The Last Goodbye",
    "kind": "walk",
    "audio": {
     "man+male": "/sonder/media/audio/s19-a816e5e8be.m4a",
@@ -455,9 +535,25 @@
      "src": "/sonder/media/photos/19.jpg",
      "at": 1,
      "for": 15,
-     "alt": "Where to go next: Train Station (ending)"
+     "alt": "Where to go next: The Last Goodbye"
     }
+   ],
+   "fileTitle": "Train Station (ending)",
+   "lat": 53.795025,
+   "lng": -1.546527,
+   "path": [
+    [
+     -1.5469,
+     53.793431
+    ]
    ]
   }
- ]
+ ],
+ "extraPoints": {
+  "youAreHere": {
+   "lat": 53.794099,
+   "lng": -1.537829,
+   "note": "Scene 'You are here' from Alexander's list: no separate sound file found; check whether it is part of 'Waiting on a Bridge'"
+  }
+ }
 }

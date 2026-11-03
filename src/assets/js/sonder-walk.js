@@ -152,7 +152,7 @@
   }
   // sample route: pretend you're on the route, a little short of the next place, wherever you really are
   function demoHere() {
-    var i = playing >= 0 ? playing : state.next, s = walk.scenes[i], prev = walk.scenes[i - 1] || walk.start;
+    var i = playing >= 0 ? playing : state.next, s = walk.scenes[i], prev = anchorBefore(i) || s;
     if (!hasPoint(s)) return;
     var f = playing >= 0 ? 1 : 0.55;
     here = { lat: prev.lat + (s.lat - prev.lat) * f, lng: prev.lng + (s.lng - prev.lng) * f, acc: 5 };
@@ -195,7 +195,7 @@
         $("nextDist").textContent = distText(s);
         pointArrow();
         var r = (s.radius || walk.radius || 25) + Math.min(here.acc || 0, 30);
-        if (state.started && hasPoint(s) && metres(here, s) <= r) arrive(state.next);
+        if (state.started && hasPoint(s) && nearest(s) <= r) arrive(state.next);
       }
       drawLive();
     }
@@ -251,12 +251,28 @@
 
   function el(cls, html) { var d = document.createElement("div"); d.className = cls; d.innerHTML = html; return d; }
   function geo(coords) { return { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: coords } }; }
+  // where the previous scene left you: its end point if it's walked while listening, else its pin
+  function anchorBefore(i) {
+    for (var k = i - 1; k >= 0; k--) { var p = walk.scenes[k]; if (hasPoint(p)) return hasPoint(p.end) ? p.end : p; }
+    return hasPoint(walk.start) ? walk.start : null;
+  }
+  // the line into a scene (from where the last one ended, along any set path) and, for scenes
+  // walked while listening, on to where it ends
   function sceneCoords(i) {
     var s = walk.scenes[i];
     if (!hasPoint(s)) return null;
-    if (s.path && s.path.length) return s.path.concat([[s.lng, s.lat]]);
-    for (var k = i - 1; k >= 0; k--) if (hasPoint(walk.scenes[k])) return [[walk.scenes[k].lng, walk.scenes[k].lat], [s.lng, s.lat]];
-    return hasPoint(walk.start) ? [[walk.start.lng, walk.start.lat], [s.lng, s.lat]] : null;
+    var a = anchorBefore(i), out = [];
+    if (a && (a.lat !== s.lat || a.lng !== s.lng)) out.push([a.lng, a.lat]);
+    (s.path || []).forEach(function (q) { out.push(q); });
+    out.push([s.lng, s.lat]);
+    if (hasPoint(s.end)) out.push([s.end.lng, s.end.lat]);
+    return out.length > 1 ? out : null;
+  }
+  // a scene can be triggered at its pin or at a "ghost" point on another way there
+  function nearest(s) {
+    var best = metres(here, s);
+    (s.ghosts || []).forEach(function (g) { best = Math.min(best, metres(here, g)); });
+    return best;
   }
 
   function makeMap(id) {
@@ -289,6 +305,7 @@
       if (!hasPoint(s)) return;
       var node = el("wk-pin", "<span>" + s.n + "</span><em></em>");
       node.querySelector("em").textContent = s.title;
+      (s.ghosts || []).forEach(function (g) { new maplibregl.Marker({ element: el("wk-ghost", "") }).setLngLat([g.lng, g.lat]).addTo(map); });
       m.pins[i] = { node: node, marker: new maplibregl.Marker({ element: node, anchor: "top", offset: [0, -12] }).setLngLat([s.lng, s.lat]).addTo(map) };
     });
     if (!scenes.length) new maplibregl.Marker({ element: el("sw__pin", "<span>1</span>") }).setLngLat([walk.start.lng, walk.start.lat]).addTo(map);
@@ -412,8 +429,8 @@
     if (playing >= 0) {
       setCard("Scene " + s.n + of, s.title, s.cue || (s.kind === "walk" ? "Walk with the voice." : "Stay where you are and listen."));
     } else {
-      setCard(i === 0 && !state.started ? "Scene 1" + of : "Next · scene " + s.n + of, s.title, "Head to " + (s.place || "the next place") + ".");
-      $("nextPlace").textContent = hasPoint(s) ? (s.place || "") : "The exact spot is shown in the photo";
+      setCard(i === 0 && !state.started ? "Scene 1" + of : "Next · scene " + s.n + of, s.title, hasPoint(s) ? "Follow the line to pin " + s.n + "." : "Head to the next place.");
+      $("nextPlace").textContent = s.ghosts ? "If the riverside gate is closed, go down Sovereign Street" : (s.place || "");
       $("nextDist").textContent = distText(s);
       pointArrow();
     }
