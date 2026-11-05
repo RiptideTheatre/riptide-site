@@ -110,6 +110,7 @@ layout: base.njk
         </fieldset>
         {% set giftProduct = "pi" %}{% include "gift-fields.njk" %}
         <button class="btn btn--primary" type="submit">Continue to payment</button>
+        <p class="pbook__fine pbook__terms">By booking you agree to our <a href="/terms/">terms</a>.</p>
         <p class="pbook__msg" role="status" hidden></p>
       </form>
     </div>
@@ -177,6 +178,7 @@ document.addEventListener("DOMContentLoaded",function(){
           <label class="pbook__run"><input type="radio" name="qty" value="2"><span><strong>Two of us · £14</strong><small>Forward the link to the person walking with you</small></span></label>
         </fieldset>
         <button class="btn btn--primary" type="submit">Continue to payment</button>
+        <p class="pbook__fine pbook__terms">By booking you agree to our <a href="/terms/">terms</a>.</p>
         <p class="pbook__msg" role="status" hidden></p>
       </form>
     </div>

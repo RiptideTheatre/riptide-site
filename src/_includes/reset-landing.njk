@@ -300,6 +300,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
         </div>
         {% set giftProduct = "reset" %}{% include "gift-fields.njk" %}
         <button class="btn btn--ink" type="submit">Continue to payment</button>
+        <p class="fine" style="margin-top:12px">By booking you agree to our <a href="/terms/">terms</a>.</p>
       </form>
     </div>
     <div class="pay" id="pay" hidden>
@@ -368,7 +369,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
   <div class="wrap">
     <div class="row">
       <span>RESET is made by <a href="/">Riptide</a>. Questions: <a href="mailto:{{ site.email }}">{{ site.email }}</a></span>
-      <span><a href="/privacy/">Privacy policy</a></span>
+      <span><a href="/terms/">Booking terms</a> · <a href="/privacy/">Privacy policy</a></span>
     </div>
     <p style="margin:18px 0 0">{{ site.name }} is a company registered in England and Wales, number {{ site.companyNumber }}. Registered office: {{ site.registeredOffice }} (post only — not a public venue).</p>
   </div>

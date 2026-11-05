@@ -1097,3 +1097,4 @@ picture { display: contents; }
 .show-banner { background: #1c1c1c; border-block: 1px solid var(--line); }
 .show-banner .wrap { display: flex; justify-content: center; }
 .show-banner img { display: block; width: 100%; max-width: 851px; height: auto; }
+.pbook__terms { margin-top: 12px; font-size: 14px; }
