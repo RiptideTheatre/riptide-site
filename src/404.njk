@@ -1,0 +1,19 @@
+---
+layout: base.njk
+title: Page not found
+permalink: /404.html
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<section class="band band--flush band--waves">
+  {% include "page-waves.njk" %}
+  <div class="wrap">
+    <h1 class="display" style="font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 0;">This page has drifted off</h1>
+    <p class="lede">It may have moved when we rebuilt the site. These will take you somewhere real.</p>
+    <p style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px;">
+      <a class="btn btn--primary" href="/whats-on/">What's on</a>
+      <a class="btn btn--ghost" href="/archive/">Our work</a>
+      <a class="btn btn--ghost" href="/">Home</a>
+    </p>
+  </div>
+</section>

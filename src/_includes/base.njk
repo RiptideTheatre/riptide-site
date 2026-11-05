@@ -12,7 +12,10 @@
 <meta property="og:description" content="{{ description or site.description }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+{% set ogImg = ogImage or ((image if (image and not (".svg" in image)) else "") ) or "/assets/img/og-default.jpg" %}
+<meta property="og:image" content="{{ site.url }}{{ ogImg }}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ site.url }}{{ ogImg }}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="preload" href="/assets/video/waves-poster-800.webp" as="image" type="image/webp" media="(max-width: 900px)" fetchpriority="high">
