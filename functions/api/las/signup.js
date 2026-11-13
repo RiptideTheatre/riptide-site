@@ -7,6 +7,7 @@ export async function onRequestPost({ request, env }) {
   if (b && b.website) return json({ ok: true }); // honeypot: quietly ignore bots
   const s = readSignup(b || {});
   if (s.error) return json({ error: s.error }, 400);
+  if (!env.RESET_KV) return json({ error: "setup" }, 503);
 
   // a few sign-ups per address per hour is plenty
   const rlKey = "las:rl:" + s.email;
