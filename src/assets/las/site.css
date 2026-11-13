@@ -181,7 +181,7 @@ label.f select option{background:var(--paper);color:var(--ink)}
 .err{font-weight:500}
 
 footer{border-top:2px solid var(--ink);padding-block:48px}
-footer .cols{display:grid;grid-template-columns:minmax(0,1.2fr) repeat(2,minmax(0,1fr));gap:32px;align-items:start}
+footer .cols{display:grid;grid-template-columns:minmax(0,1.2fr) repeat(3,minmax(0,1fr));gap:32px;align-items:start}
 footer .logo{width:150px}
 footer p{margin-top:8px;overflow-wrap:anywhere}
 
@@ -357,3 +357,4 @@ details.tier[open]::details-content{block-size:auto}
 .quote figcaption{font-family:var(--head);font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase}
 @media (max-width:900px){.quotes{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.quotes{grid-template-columns:1fr}}
+footer p a{text-underline-offset:4px}

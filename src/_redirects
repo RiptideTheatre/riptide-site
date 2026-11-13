@@ -48,3 +48,6 @@
 /reset/14f          /reset/members/#day-14   301
 /an-odyssey /archive/ 301
 /an-odyssey/ /archive/ 301
+
+/leeds-actors-studio /leedsactorsstudio/ 301
+/leeds-actors-studio/* /leedsactorsstudio/:splat 301
