@@ -7,6 +7,8 @@ gallery:
   - src: /assets/img/you-are-here-poster.jpg
     alt: "The You Are Here poster: a head in profile filled with a map of Leeds"
 status: past
+archiveImage: /assets/img/archive/you-are-here.jpg
+archiveAlt: "You Are Here: a woman checks her phone on a busy Leeds shopping street"
 order: 31
 year: 2015
 format: GPS journey for one

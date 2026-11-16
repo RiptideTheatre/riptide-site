@@ -69,28 +69,38 @@ description: Riptide's back catalogue of immersive, interactive and digital work
     <div class="arc__head">
       <h2 id="arc-title" class="display">Past Work</h2>
     </div>
-    <ol class="arc__list">
+    <div class="ta" data-arc>
       {% for show in collections.past | byYearDesc %}
-      <li class="arc__row">
-        <a class="arc__link" href="{{ show.url }}">
-          <span class="arc__year">{{ show.data.year }}</span>
-          <span class="arc__main">
-            <span class="arc__title display">{{ show.data.title }}</span>
-            <span class="arc__meta">{% if show.data.format | isFilled %}{{ show.data.format }}{% endif %}{% if (show.data.format | isFilled) and (show.data.place | isFilled) %} · {% endif %}{% if show.data.place | isFilled %}{{ show.data.place }}{% endif %}</span>
-          </span>
-          <span class="arc__about">
-            {% if show.data.partLine %}<span class="arc__line arc__line--part">{% for bit in show.data.partLine.split(", ") %}<span class="nw">{{ bit }}</span>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% elif show.data.summary | isFilled %}<span class="arc__line">{{ show.data.summary }}</span>{% elif show.data.tagline %}<span class="arc__line">{{ show.data.tagline }}</span>{% endif %}
-            {% set q = (show.data.press | filledBy("quote"))[0] or (show.data.quotes or [])[0] %}
-            {% if q %}<span class="arc__quote">“{{ q.quote }}” <cite>{{ q.source }}</cite></span>{% endif %}
-          </span>
-          <span class="arc__thumb" aria-hidden="true"><img src="{{ show.data.image }}" alt="" loading="lazy"></span>
-          <span class="arc__go" aria-hidden="true">→</span>
-        </a>
-        {% if show.data.trailerUrl %}<a class="arc__trailer" href="{{ show.data.trailerUrl }}"{% if not show.data.trailerVideo %} target="_blank" rel="noopener"{% endif %}>See the trailer here &rarr;</a>{% endif %}
-      </li>
+      {% set id = "ta-" + show.fileSlug %}
+      {% set q = (show.data.press | filledBy("quote"))[0] or (show.data.quotes or [])[0] %}
+      <article class="ta__item{% if loop.first %} is-open{% endif %}">
+        <h3 class="ta__h">
+          <button class="ta__spine" type="button" aria-expanded="{{ 'true' if loop.first else 'false' }}" aria-controls="{{ id }}" id="{{ id }}-b">
+            <span class="ta__name display">{{ show.data.title }}</span>
+            <span class="ta__yr">{{ show.data.year }}</span>
+          </button>
+        </h3>
+        <div class="ta__panel" id="{{ id }}" role="region" aria-labelledby="{{ id }}-b">
+          <div class="ta__pic">
+            <img class="ta__img" src="{{ show.data.archiveImage or show.data.image }}" alt="{{ show.data.archiveAlt or show.data.imageAlt }}" loading="{{ 'eager' if loop.first else 'lazy' }}" sizes="(min-width: 900px) 70vw, 100vw"{% if show.data.archivePos %} style="object-position: {{ show.data.archivePos }}"{% endif %}>
+            <span class="ta__date" aria-hidden="true">{{ show.data.year }}</span>
+          </div>
+          <div class="ta__tx">
+            <span class="ta__meta">{% if show.data.format | isFilled %}{{ show.data.format }}{% endif %}{% if (show.data.format | isFilled) and (show.data.place | isFilled) %} · {% endif %}{% if show.data.place | isFilled %}{{ show.data.place }}{% endif %}</span>
+            <h4 class="ta__title display">{{ show.data.title }}</h4>
+            {% if show.data.partLine %}<p class="ta__part">{% for bit in show.data.partLine.split(", ") %}<span class="nw">{{ bit }}</span>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% elif show.data.summary | isFilled %}<p class="ta__sum">{{ show.data.summary }}</p>{% elif show.data.tagline %}<p class="ta__sum">{{ show.data.tagline }}</p>{% endif %}
+            {% if q %}<p class="ta__quote">“{{ q.quote }}” <cite>{{ q.source }}</cite></p>{% endif %}
+            <div class="ta__acts">
+              <a class="ta__btn" href="{{ show.url }}">Read more<span class="sr-only"> about {{ show.data.title }}</span></a>
+              {% if show.data.trailerUrl %}<a class="ta__trailer" href="{{ show.data.trailerUrl }}"{% if not show.data.trailerVideo %} target="_blank" rel="noopener"{% endif %}>See the trailer here &rarr;</a>{% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
       {% endfor %}
-    </ol>
+    </div>
   </div>
 </section>
 
 <script src="/assets/js/tide.js?v={{ build.v }}" defer></script>
+<script src="/assets/js/past-work.js?v={{ build.v }}" defer></script>

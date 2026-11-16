@@ -15,6 +15,8 @@ gallery:
 banner: /assets/img/the-lucky-ones-banner.jpg
 bannerAlt: "A durational immersive experience"
 status: past
+archiveImage: /assets/img/archive/the-lucky-ones.jpg
+archiveAlt: "The Lucky Ones: a bouquet of red carnations wrapped in brown paper, with a card reading “for you”, left on a doorstep"
 order: 20
 year: 2018
 format: Bespoke, individual, pervasive performance

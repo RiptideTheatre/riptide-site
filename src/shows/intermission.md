@@ -23,6 +23,8 @@ gallery:
   - src: /assets/img/intermission-g8.jpg
     alt: "A man in silhouette at a bright doorway, a guide beside him"
 status: past
+archiveImage: /assets/img/archive/intermission.jpg
+archiveAlt: "Intermission: a woman stands at a doorway of bright light while a performer waits beside her"
 featured: false
 order: 19
 year: 2023

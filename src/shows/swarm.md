@@ -9,6 +9,8 @@ gallery:
   - src: /assets/img/swarm-poster.jpg
     alt: "The SWARM poster: SWARM in pink neon, An Immersive Experience, Studio 24"
 status: past
+archiveImage: /assets/img/archive/swarm.jpg
+archiveAlt: "SWARM: a crowd dancing under arcs of coloured LED light in a nightclub"
 order: 30
 year: 2016
 format: Immersive club night
