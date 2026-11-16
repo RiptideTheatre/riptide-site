@@ -11,9 +11,9 @@ format: Immersive Christmas experience for families
 place: Leeds
 summary: An immersive Christmas experience for families in Leeds.
 cardMeta: Leeds · Christmas 2019
-image: /assets/img/the-lost-present.jpg
-imageAlt: "The Lost Present: a girl reads an old book by torchlight in the dark"
-portrait: /assets/img/the-lost-present-portrait.jpg
+image: /assets/img/the-lost-present-family.jpg
+imageAlt: "The Lost Present: a mother and two girls holding presents look up at Christmas lights in Leeds"
+portrait: /assets/img/the-lost-present-family-portrait.jpg
 credits:
   - label: Where
     value: Leeds
