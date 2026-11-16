@@ -9,6 +9,7 @@ gallery:
   - src: /assets/img/you-are-here-poster.jpg
     alt: "The You Are Here poster: a head in profile filled with a map of Leeds"
 status: past
+archivePos: "50% 0%"
 archiveImage: /assets/img/archive/you-are-here.jpg
 archiveAlt: "You Are Here: a woman checks her phone on a busy Leeds shopping street"
 order: 31
@@ -21,6 +22,7 @@ image: /assets/img/you-are-here-street.jpg
 imageAlt: "You Are Here: a woman checks her phone on a busy Leeds shopping street"
 portrait: /assets/img/you-are-here-street-portrait.jpg
 portraitAlt: "You Are Here: a woman checks her phone on a busy Leeds shopping street"
+portraitPos: "50% 0%"
 credits:
   - label: Where
     value: Leeds city centre, including the Metropole Hotel
