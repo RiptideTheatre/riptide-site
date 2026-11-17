@@ -7,7 +7,7 @@ senses:
   - label: Feels like
     text: "Uncovering something special. A treasure hunt. A create-your-own-adventure book."
   - label: Looks like
-    text: "Opening a treasure chest. Finding a key. Glitter. A minature scale of the building youre in."
+    text: "Opening a treasure chest. Finding a key. Glitter. A miniature scale of the building you’re in."
   - label: Sounds like
     text: "A key in a door. The click of a torch. The sound of the waves from a book."
   - label: Tastes like

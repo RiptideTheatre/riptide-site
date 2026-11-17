@@ -15,7 +15,7 @@ bannerAlt: "A durational immersive experience"
 status: past
 senses:
   - label: Feels like
-    text: "You are the star of your own film. Truman. A create your own adventure. Real world magic. Ordering something not on the menu."
+    text: "You are the star of your own film. Truman. A create-your-own adventure. Real world magic. Ordering something not on the menu."
   - label: Looks like
     text: "VIP treatment, the door being opened and seeing what is behind."
   - label: Sounds like
