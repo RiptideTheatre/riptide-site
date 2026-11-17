@@ -23,6 +23,17 @@ gallery:
   - src: /assets/img/intermission-g8.jpg
     alt: "A man in silhouette at a bright doorway, a guide beside him"
 status: past
+senses:
+  - label: Feels like
+    text: "A waking dream, a well earned rest. Being truly seen and celebrated, real life magic, surprising. A spa retreat. A surprise birthday party. A multi-sensory experience."
+  - label: Looks like
+    text: "High fidelity, cinematic design. Being transported to different parts of the world. Fairy and folktales coming to life. High-end immersive theatre."
+  - label: Sounds like
+    text: "A high-end spa. Soothing, ambient music. Birdsong. Gentle waves crashing on white sand."
+  - label: Tastes like
+    text: "Peppermints, herbal tea, oranges, cloves, ginger, cherry."
+  - label: Smells like
+    text: "Pine, Palo Santo wood, oranges, Rosemary and Thyme."
 archiveImage: /assets/img/archive/intermission.jpg
 archiveAlt: "Intermission: a woman stands at a doorway of bright light while a performer waits beside her"
 featured: false

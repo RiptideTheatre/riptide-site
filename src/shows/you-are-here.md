@@ -9,6 +9,17 @@ gallery:
   - src: /assets/img/you-are-here-poster.jpg
     alt: "The You Are Here poster: a head in profile filled with a map of Leeds"
 status: past
+senses:
+  - label: Feels like
+    text: "A guided meditation through your city. An invitation to stop. A mindful, individual experience."
+  - label: Looks like
+    text: "A city park, a hotel room, an underground library, a secret room."
+  - label: Sounds like
+    text: "Guided meditation, spa-like soundscape. Traffic merging with waves."
+  - label: Tastes like
+    text: "Peppermint tea. Crisp apples. Cucumber in water."
+  - label: Smells like
+    text: "Pine, old books, crisp white linen."
 archivePos: "50% 0%"
 archiveImage: /assets/img/archive/you-are-here.jpg
 archiveAlt: "You Are Here: a woman checks her phone on a busy Leeds shopping street"

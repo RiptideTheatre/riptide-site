@@ -13,6 +13,17 @@ gallery:
 banner: /assets/img/the-lucky-ones-banner.jpg
 bannerAlt: "A durational immersive experience"
 status: past
+senses:
+  - label: Feels like
+    text: "You are the star of your own film. Truman. A create your own adventure. Real world magic. Ordering something not on the menu."
+  - label: Looks like
+    text: "VIP treatment, the door being opened and seeing what is behind."
+  - label: Sounds like
+    text: "Your favourite song being played by a busker by chance, your phone pinging, a familiar voice."
+  - label: Tastes like
+    text: "Your favourite chocolate bar. Tea as you take it. Special, considered."
+  - label: Smells like
+    text: "Flowers. The perfume of an old friend."
 archiveImage: /assets/img/archive/the-lucky-ones.jpg
 archiveAlt: "The Lucky Ones: a bouquet of red carnations wrapped in brown paper, with a card reading “for you”, left on a doorstep"
 order: 20

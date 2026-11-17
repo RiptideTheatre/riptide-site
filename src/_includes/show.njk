@@ -32,6 +32,20 @@ layout: base.njk
   </div>
 </section>
 
+{% if senses %}
+{% set sxImg = sensesImage or archiveImage or image %}
+<section class="sx" aria-labelledby="sx-title">
+  <div class="sx__pic"><img src="{{ sxImg }}" alt="" loading="lazy"{% if sensesPos or archivePos %} style="object-position: {{ sensesPos or archivePos }}"{% endif %}></div>
+  <div class="wrap sx__body">
+    <div class="sx__head"><span class="sx__k">What it was like</span><h2 id="sx-title" class="sx__title display">{{ title }}<em>…</em></h2></div>
+    <dl class="sx__list" data-sx>
+      {% for s in senses %}<div class="sx__row"><dt class="display">{{ s.label }}</dt><dd>{{ s.text }}</dd></div>
+      {% endfor %}
+    </dl>
+  </div>
+</section>
+{% endif %}
+
 {% if banner %}
 <section class="show-banner" aria-label="{{ bannerAlt or title }}">
   <div class="wrap"><img src="{{ banner }}" alt="{{ bannerAlt or title }}" width="851" height="315"></div>
@@ -340,3 +354,4 @@ document.addEventListener("DOMContentLoaded",function(){
 </section>
 {% endif %}
 </div>
+{% if senses %}<script src="/assets/js/senses.js?v={{ build.v }}" defer></script>{% endif %}
