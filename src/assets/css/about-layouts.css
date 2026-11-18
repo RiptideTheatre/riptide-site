@@ -41,15 +41,19 @@
 .facts dd { margin: 6px 0 0; font-size: 15px; }
 .cur__people { display: grid; gap: 28px; justify-items: start; }
 .cur__close { font-size: clamp(34px, 4.6vw, 68px); line-height: 1.05; max-width: 20ch; margin: 0 0 clamp(48px, 6vw, 80px); text-wrap: balance; }
-.doors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-.doors a { background: #040c0e; padding: clamp(24px, 3vw, 40px); display: grid; gap: 40px; color: var(--ivory); text-decoration: none; transition: background .3s; }
-.doors a:hover { background: #0c1d21; }
-.doors span { font-family: var(--display); font-size: clamp(26px, 2.6vw, 36px); line-height: 1.05; }
-.doors small { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--amber); }
+.doors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.doors a { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 22px 26px 22px 30px; border-radius: 999px; border: 1px solid var(--ivory); color: var(--ivory); text-decoration: none; transition: background .25s, color .25s, transform .25s; }
+.doors a::after { content: "→"; font-size: 24px; line-height: 1; transition: transform .25s; }
+.doors a:hover, .doors a:focus-visible { background: var(--ivory); color: var(--ink); text-decoration: none; }
+.doors a:hover::after, .doors a:focus-visible::after { transform: translateX(4px); }
+.doors a:first-child { background: var(--coral); border-color: var(--coral); color: var(--ink); }
+.doors a:first-child:hover, .doors a:first-child:focus-visible { background: #f26b45; border-color: #f26b45; }
+.doors span { display: grid; gap: 4px; font-family: var(--display); font-size: clamp(24px, 2.2vw, 32px); line-height: 1.05; }
+.doors small { font-family: var(--body); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; opacity: .75; }
 @media (max-width: 760px) {
   .cur__two, .doors { grid-template-columns: 1fr; }
   .facts { grid-template-columns: 1fr 1fr; row-gap: 14px; }
-  .doors a { gap: 18px; }
+  .doors a { padding: 18px 22px 18px 26px; }
 }
 
 /* ---------- B · The Dossier ---------- */
