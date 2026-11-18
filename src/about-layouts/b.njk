@@ -1,0 +1,81 @@
+---
+layout: base.njk
+title: About (layout B)
+permalink: /about-b/
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<link rel="stylesheet" href="/assets/css/about-layouts.css?v={{ build.v }}">
+<div class="dos">
+  <section class="dos__top">
+    <div class="dos__art" aria-hidden="true">{% include "waves-video.njk" %}<div class="cur__scrim"></div></div>
+    <div class="wrap dos__grid">
+      <div>
+        <p class="eyebrow ab-eyebrow">About Riptide</p>
+        <h1 class="dos__h display">Riptide create unique immersive and interactive theatrical experiences which transport you to another world.</h1>
+        <p class="dos__sub">Audiences are swept through the narratives, spaces and cities in which our performances occur.</p>
+      </div>
+      <dl class="dos__sheet">
+        <div><dt>Founded</dt><dd>2014</dd></div>
+        <div><dt>Based in</dt><dd>Leeds, West Yorkshire</dd></div>
+        <div><dt>We make</dt><dd>Immersive, interactive and digital theatre</dd></div>
+        <div><dt>Current series</dt><dd>Lost Connections</dd></div>
+        <div><dt>Awards</dt><dd>Best Immersive Theatre Company, UK Enterprise Awards 2023 &amp; 2025</dd></div>
+        <div><dt>Artistic Director</dt><dd>Alexander Palmer</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap dos__two">
+      <h2 class="dos__label">What we make</h2>
+      <div class="cur__body">
+        <p>Since 2014 we have been making work which places the audience at the heart of the experience, combining innovative storytelling with digital technologies. These experiences may be as varied as encounters in secret corners of a confetti-filled nightclub, an intimate, pervasive and personalised performance for one, or a guided journey through city spaces accompanied by smartphone and GPS technology.</p>
+        <p>Our work combines the artistry of immersive theatre, the thrill of being inside a real-life Black Mirror episode and the interactivity of your very own Truman Show. Our current series of work is called Lost Connections.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="dos__label">What we stand for</h2>
+{% include "about-values.njk" %}
+    </div>
+  </section>
+
+  <section class="band band--tint">
+    <div class="wrap">
+      <h2 class="dos__label">In numbers</h2>
+      <div class="dos__nums">
+        <div><b>12</b><span>years making work</span></div>
+        <div><b>[00]</b><span>productions</span></div>
+        <div><b>[00,000]</b><span>audience members</span></div>
+        <div><b>2</b><span>national awards</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="dos__label">Press</h2>
+      <div class="cur__quotes">
+        {% for item in site.press %}<blockquote><p>“{{ item.quote }}”</p><footer>{{ item.source }}</footer></blockquote>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap dos__end">
+      <div>
+        <h2 class="dos__label">The people</h2>
+        <div class="ab-people__faces">{% for person in team.members %}<img src="{{ person.photo }}" alt="{{ person.name }}" width="132" height="132" loading="lazy">{% endfor %}</div>
+      </div>
+      <div class="dos__acts">
+        <a class="btn btn--primary" href="/contact/">Get in touch</a>
+        <a class="btn btn--ghost" href="/team/">Meet the team</a>
+        <a class="btn btn--ghost" href="/contact/">Download press pack</a>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="/assets/js/past-work.js?v={{ build.v }}" defer></script>

@@ -1,0 +1,55 @@
+---
+layout: base.njk
+title: About (layout C)
+permalink: /about-c/
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<link rel="stylesheet" href="/assets/css/about-layouts.css?v={{ build.v }}">
+<div class="und">
+  <div class="und__water" aria-hidden="true">
+    {% include "waves-video.njk" %}<div class="cur__scrim"></div>
+    <p class="und__word display" id="und-word">Who</p>
+  </div>
+  <div class="und__col">
+    <section class="und__sec" data-word="Who">
+      <p class="und__mword display" aria-hidden="true">Who</p>
+      <p class="eyebrow ab-eyebrow">Who we are</p>
+      <h1 class="und__h display">Riptide create unique immersive and interactive theatrical experiences which transport you to another world.</h1>
+      <p>Audiences are swept through the narratives, spaces and cities in which our performances occur.</p>
+      <p>Since 2014 we have been making work which places the audience at the heart of the experience, combining innovative storytelling with digital technologies. These experiences may be as varied as encounters in secret corners of a confetti-filled nightclub, an intimate, pervasive and personalised performance for one, or a guided journey through city spaces accompanied by smartphone and GPS technology.</p>
+      <p>Our work combines the artistry of immersive theatre, the thrill of being inside a real-life Black Mirror episode and the interactivity of your very own Truman Show. Our current series of work is called Lost Connections.</p>
+    </section>
+    <section class="und__sec" data-word="Why">
+      <p class="und__mword display" aria-hidden="true">Why</p>
+      <p class="eyebrow ab-eyebrow">Why Riptide</p>
+      <p class="ab-dict"><span class="ab-dict__word display">Riptide</span> <span class="ab-dict__ipa">[rɪp.taɪd]</span> <em class="ab-dict__pos">(n) noun.</em></p>
+      <p class="und__h und__h--s display">Riptides are strong currents that pull you in new and unexpected directions. They are hidden and unpredictable, and they can emerge at random locations; it is only when you are immersed in a riptide that you know it is there.</p>
+      <p>Many of our performances occur in public spaces, and passers-by may be oblivious to the fact you are caught in the riptide. In our experiences you will be pulled through hidden spaces, cities and fractured narratives, unable to see how far the riptide extends.</p>
+    </section>
+    <section class="und__sec" data-word="What">
+      <p class="und__mword display" aria-hidden="true">What</p>
+      <p class="eyebrow ab-eyebrow">What we stand for</p>
+{% include "about-values.njk" %}
+    </section>
+    <section class="und__sec" data-word="Proof">
+      <p class="und__mword display" aria-hidden="true">Proof</p>
+      <p class="eyebrow ab-eyebrow">What people say</p>
+      <p class="cur__award"><img src="/assets/img/brush-mark-amber.png" alt="" width="40"> {{ site.awards }}</p>
+      <div class="und__quotes">{% for item in site.press %}<blockquote><p>“{{ item.quote }}”</p><footer>{{ item.source }}</footer></blockquote>{% endfor %}</div>
+    </section>
+    <section class="und__sec" data-word="Us">
+      <p class="und__mword display" aria-hidden="true">Us</p>
+      <p class="eyebrow ab-eyebrow">The people</p>
+      <div class="ab-people__faces">{% for person in team.members %}<img src="{{ person.photo }}" alt="{{ person.name }}" width="132" height="132" loading="lazy">{% endfor %}</div>
+      <p class="und__h und__h--s display">Discard all sense of where you think the ground should be. Give yourself up to the riptide, and see where it takes you.</p>
+      <div class="dos__acts"><a class="btn btn--primary" href="/whats-on/">What's on</a><a class="btn btn--ghost" href="/team/">Meet the team</a><a class="btn btn--ghost" href="/contact/">Get in touch</a></div>
+    </section>
+  </div>
+</div>
+<script src="/assets/js/past-work.js?v={{ build.v }}" defer></script>
+<script>
+(function(){var w=document.getElementById("und-word");if(!w||!("IntersectionObserver" in window))return;
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&w.textContent!==e.target.dataset.word){w.classList.add("is-out");setTimeout(function(){w.textContent=e.target.dataset.word;w.classList.remove("is-out");},250);}});},{rootMargin:"-45% 0px -45% 0px"});
+document.querySelectorAll(".und__sec").forEach(function(s){io.observe(s);});})();
+</script>

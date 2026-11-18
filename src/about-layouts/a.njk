@@ -1,0 +1,89 @@
+---
+layout: base.njk
+title: About (layout A)
+permalink: /about-a/
+noindex: true
+eleventyExcludeFromCollections: true
+---
+<link rel="stylesheet" href="/assets/css/about-layouts.css?v={{ build.v }}">
+<div class="cur">
+  <nav class="cur__index" aria-label="On this page">
+    <a href="#who"><span>01</span>Who we are</a>
+    <a href="#why"><span>02</span>Why Riptide</a>
+    <a href="#stand"><span>03</span>What we stand for</a>
+    <a href="#said"><span>04</span>What people say</a>
+    <a href="#people"><span>05</span>The people</a>
+    <a href="#in"><span>06</span>Ways in</a>
+  </nav>
+
+  <section class="cur__ch cur__ch--surface" id="who">
+    <div class="cur__art" aria-hidden="true">{% include "waves-video.njk" %}<div class="cur__scrim"></div></div>
+    <div class="wrap cur__in">
+      <p class="cur__num">01 · Who we are</p>
+      <h1 class="cur__h display">Riptide create unique immersive and interactive theatrical experiences which transport you to another world.</h1>
+      <dl class="facts">
+        <div><dt>Founded</dt><dd>2014</dd></div>
+        <div><dt>Based in</dt><dd>Leeds</dd></div>
+        <div><dt>Current series</dt><dd>Lost Connections</dd></div>
+        <div><dt>Awards</dt><dd>Best Immersive Theatre Company 2023 &amp; 2025</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="cur__ch" id="who-2">
+    <div class="wrap cur__two">
+      <p class="cur__lead display">Audiences are swept through the narratives, spaces and cities in which our performances occur.</p>
+      <div class="cur__body">
+        <p>Since 2014 we have been making work which places the audience at the heart of the experience, combining innovative storytelling with digital technologies. These experiences may be as varied as encounters in secret corners of a confetti-filled nightclub, an intimate, pervasive and personalised performance for one, or a guided journey through city spaces accompanied by smartphone and GPS technology.</p>
+        <p>Our work combines the artistry of immersive theatre, the thrill of being inside a real-life Black Mirror episode and the interactivity of your very own Truman Show. Our current series of work is called Lost Connections.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cur__ch cur__ch--mid" id="why">
+    <div class="wrap">
+      <p class="cur__num">02 · Why Riptide</p>
+      <p class="ab-dict"><span class="ab-dict__word display">Riptide</span> <span class="ab-dict__ipa">[rɪp.taɪd]</span> <em class="ab-dict__pos">(n) noun.</em></p>
+      <p class="cur__h display">Riptides are strong currents that pull you in new and unexpected directions. They are hidden and unpredictable, and they can emerge at random locations; it is only when you are immersed in a riptide that you know it is there.</p>
+      <p class="cur__small">Many of our performances occur in public spaces, and passers-by may be oblivious to the fact you are caught in the riptide. In our experiences you will be pulled through hidden spaces, cities and fractured narratives, unable to see how far the riptide extends.</p>
+    </div>
+  </section>
+
+  <section class="cur__ch cur__ch--deep" id="stand">
+    <div class="wrap">
+      <p class="cur__num">03 · What we stand for</p>
+{% include "about-values.njk" %}
+    </div>
+  </section>
+
+  <section class="cur__ch cur__ch--deep" id="said">
+    <div class="wrap">
+      <p class="cur__num">04 · What people say</p>
+      <p class="cur__award"><img src="/assets/img/brush-mark-amber.png" alt="" width="40"> {{ site.awards }}</p>
+      <div class="cur__quotes">
+        {% for item in site.press %}<blockquote><p>“{{ item.quote }}”</p><footer>{{ item.source }}</footer></blockquote>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="cur__ch cur__ch--deeper" id="people">
+    <div class="wrap cur__people">
+      <p class="cur__num">05 · The people</p>
+      <div class="ab-people__faces">{% for person in team.members %}<img src="{{ person.photo }}" alt="{{ person.name }}" width="132" height="132" loading="lazy">{% endfor %}</div>
+      <a class="btn btn--ghost" href="/team/">Meet the team</a>
+    </div>
+  </section>
+
+  <section class="cur__ch cur__ch--floor" id="in">
+    <div class="wrap">
+      <p class="cur__num">06 · Ways in</p>
+      <p class="cur__close display">Discard all sense of where you think the ground should be. Give yourself up to the riptide, and see where it takes you. The riptide will leave you unmoored and irreversibly changed.</p>
+      <div class="doors">
+        <a href="/whats-on/"><span>Come to a show</span><small>What's on</small></a>
+        <a href="/work-with-us/"><span>Make work with us</span><small>Work with us</small></a>
+        <a href="/contact/"><span>Commission or programme us</span><small>Get in touch</small></a>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="/assets/js/past-work.js?v={{ build.v }}" defer></script>
