@@ -99,19 +99,14 @@ description: Riptide make immersive, interactive and digital experiences from Le
   </div>
 </section>
 
-<section class="band press-band">
-  <img class="press-band__art" src="/assets/img/current-coral.svg" alt="" aria-hidden="true">
-  <div class="wrap press-band__inner">
-    <p class="eyebrow">What people say</p>
-    <div class="quotes">
-      {% for item in site.press %}
-      <blockquote>
-        <p>&ldquo;{{ item.quote }}&rdquo;</p>
-        <footer>{{ item.source }}</footer>
-      </blockquote>
+<section class="press-ticker" aria-labelledby="pt-title">
+  <div class="wrap"><p class="eyebrow" id="pt-title">What people say</p></div>
+  <div class="pt" data-ticker>
+    <ul class="pt__track">
+      {% for item in site.press %}<li class="pt__item"><span class="pt__q display">&ldquo;{{ item.quote }}&rdquo;</span> <span class="pt__src">{{ item.source }}</span></li>
+      {% endfor %}{% for a in site.awardItems %}<li class="pt__item pt__item--award"><span class="pt__star" aria-hidden="true">✦</span> <span class="pt__award">{{ a }}</span></li>
       {% endfor %}
-    </div>
-    <p class="ab-proof__award" style="margin: 48px 0 0;"><span aria-hidden="true">✦</span> {{ site.awards }}</p>
+    </ul>
   </div>
 </section>
 
@@ -123,3 +118,5 @@ description: Riptide make immersive, interactive and digital experiences from Le
     <p style="margin-top: 28px;"><a class="btn btn--outline" href="/work-with-us/">See what we offer</a></p>
   </div>
 </section>
+
+<script src="/assets/js/ticker.js?v={{ build.v }}" defer></script>
