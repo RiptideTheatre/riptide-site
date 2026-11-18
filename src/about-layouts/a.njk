@@ -25,7 +25,7 @@ eleventyExcludeFromCollections: true
         <div><dt>Founded</dt><dd>2014</dd></div>
         <div><dt>Based in</dt><dd>Leeds</dd></div>
         <div><dt>Current series</dt><dd>Lost Connections</dd></div>
-        <div><dt>Awards</dt><dd>Best Immersive Theatre Company 2023 &amp; 2025</dd></div>
+        <div><dt>Awards</dt><dd>Best Immersive Theatre Company 2023<br>Best Immersive Theatre Company 2025</dd></div>
       </dl>
     </div>
   </section>
@@ -59,7 +59,7 @@ eleventyExcludeFromCollections: true
   <section class="cur__ch cur__ch--deep" id="said">
     <div class="wrap">
       <p class="cur__num">04 · What people say</p>
-      <p class="cur__award"><img src="/assets/img/brush-mark-amber.png" alt="" width="40"> {{ site.awards }}</p>
+      <ul class="cur__awards">{% for a in site.awardItems %}<li class="cur__award"><img src="/assets/img/brush-mark-amber.png" alt="" width="40"> {{ a }}</li>{% endfor %}</ul>
       <div class="cur__quotes">
         {% for item in site.press %}<blockquote><p>“{{ item.quote }}”</p><footer>{{ item.source }}</footer></blockquote>{% endfor %}
       </div>

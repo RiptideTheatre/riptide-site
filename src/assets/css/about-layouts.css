@@ -8,6 +8,8 @@
 .cur__quotes p, .und__quotes p { font-family: var(--display); font-size: clamp(24px, 2.4vw, 32px); line-height: 1.12; margin: 0 0 10px; }
 .cur__quotes footer, .und__quotes footer { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal-bright); }
 .cur__award { display: flex; align-items: center; gap: 14px; color: var(--amber); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 34px; }
+.cur__awards { list-style: none; margin: 0 0 34px; padding: 0; display: grid; gap: 12px; }
+.cur__awards .cur__award { margin: 0; }
 .dos__acts { display: flex; flex-wrap: wrap; gap: 12px; }
 
 /* ---------- A · The Current ---------- */
