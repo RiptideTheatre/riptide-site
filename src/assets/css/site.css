@@ -1205,3 +1205,14 @@ picture { display: contents; }
 @keyframes pt-move { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (min-width: 900px) { .press-ticker { padding: 30px 0 32px; } .press-ticker .eyebrow { margin-bottom: 12px; } .pt__q { font-size: 26px; } }
 @media (prefers-reduced-motion: reduce) { .pt--js .pt__track { animation: none; flex-wrap: wrap; width: auto; padding: 0 max(16px, 4vw); } .pt--js .pt__track > [aria-hidden] { display: none; } }
+
+/* Homepage manifesto: the line as a headline, the places as tags */
+.manifesto--big { font-size: clamp(46px, 7.4vw, 112px); line-height: .98; letter-spacing: -.015em; max-width: 14em; text-wrap: balance; }
+.manifesto--big em { font-style: italic; color: var(--amber); }
+.manifesto__places { margin: clamp(32px, 4vw, 56px) 0 0; display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; font-size: 15px; color: var(--muted); }
+.manifesto__lead { color: var(--quiet); margin-right: 4px; }
+.manifesto__place { border: 1px solid #2b4246; border-radius: 999px; padding: 8px 16px; color: var(--ivory); }
+/* the commas and full stop are for screen readers and copy-paste; the tags carry the separation */
+.manifesto__places { font-size: 0; }
+.manifesto__places > span { font-size: 15px; }
+.pt__mark { width: 40px; height: auto; align-self: center; }
