@@ -32,7 +32,8 @@ description: Riptide make immersive, interactive and digital experiences from Le
 
 <section class="band band--tint band--flush">
   <div class="wrap">
-    <p class="manifesto">We don't break the fourth wall — we demolish the other three too. Our work has run in nightclubs, on city streets, in hotel rooms, through your phone, to a rooftop of an unmarked building in Leeds.</p>
+    <p class="manifesto manifesto--big">We don't break the fourth wall — <em>we demolish the other three too.</em></p>
+    <p class="manifesto__places"><span class="manifesto__lead">Our work has run</span> <span class="manifesto__place">in nightclubs</span>, <span class="manifesto__place">on city streets</span>, <span class="manifesto__place">in hotel rooms</span>, <span class="manifesto__place">through your phone</span>, <span class="manifesto__place">to a rooftop of an unmarked building in Leeds</span>.</p>
   </div>
 </section>
 
@@ -99,19 +100,14 @@ description: Riptide make immersive, interactive and digital experiences from Le
   </div>
 </section>
 
-<section class="band press-band">
-  <img class="press-band__art" src="/assets/img/current-coral.svg" alt="" aria-hidden="true">
-  <div class="wrap press-band__inner">
-    <p class="eyebrow">What people say</p>
-    <div class="quotes">
-      {% for item in site.press %}
-      <blockquote>
-        <p>&ldquo;{{ item.quote }}&rdquo;</p>
-        <footer>{{ item.source }}</footer>
-      </blockquote>
+<section class="press-ticker" aria-labelledby="pt-title">
+  <div class="wrap"><p class="eyebrow" id="pt-title">What people say</p></div>
+  <div class="pt" data-ticker>
+    <ul class="pt__track">
+      {% for item in site.press %}<li class="pt__item"><span class="pt__q display">&ldquo;{{ item.quote }}&rdquo;</span> <span class="pt__src">{{ item.source }}</span></li>
+      {% endfor %}{% for a in site.awardItems %}<li class="pt__item pt__item--award"><img class="pt__mark" src="/assets/img/brush-mark-amber.png" alt="" aria-hidden="true" width="44" height="14"> <span class="pt__award">{{ a }}</span></li>
       {% endfor %}
-    </div>
-    <p class="ab-proof__award" style="margin: 48px 0 0;"><span aria-hidden="true">✦</span> {{ site.awards }}</p>
+    </ul>
   </div>
 </section>
 
@@ -123,3 +119,5 @@ description: Riptide make immersive, interactive and digital experiences from Le
     <p style="margin-top: 28px;"><a class="btn btn--outline" href="/work-with-us/">See what we offer</a></p>
   </div>
 </section>
+
+<script src="/assets/js/ticker.js?v={{ build.v }}" defer></script>

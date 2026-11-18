@@ -4,8 +4,6 @@ tagline: Bespoke, individual, pervasive performance.
 description: The Lucky Ones, Riptide's durational performance for one audience member at a time, Leeds 2018 and online 2021. Part of Riptide's back catalogue.
 partLine: "Part-theatre, part-video game, part-Truman Show."
 gallery:
-  - src: /assets/img/the-lucky-ones-g1.jpg
-    alt: "A woman on a busy Leeds shopping street, absorbed in her phone"
   - src: /assets/img/the-lucky-ones-g2.jpg
     alt: "People stand still in a Leeds arcade, each looking at their phone, as shoppers blur past"
   - src: /assets/img/the-lucky-ones-g3.jpg
@@ -15,6 +13,19 @@ gallery:
 banner: /assets/img/the-lucky-ones-banner.jpg
 bannerAlt: "A durational immersive experience"
 status: past
+senses:
+  - label: Feels like
+    text: "You are the star of your own film. Truman. A create-your-own adventure. Real world magic. Ordering something not on the menu."
+  - label: Looks like
+    text: "VIP treatment, the door being opened and seeing what is behind."
+  - label: Sounds like
+    text: "Your favourite song being played by a busker by chance, your phone pinging, a familiar voice."
+  - label: Tastes like
+    text: "Your favourite chocolate bar. Tea as you take it. Special, considered."
+  - label: Smells like
+    text: "Flowers. The perfume of an old friend."
+archiveImage: /assets/img/archive/the-lucky-ones.jpg
+archiveAlt: "The Lucky Ones: a bouquet of red carnations wrapped in brown paper, with a card reading “for you”, left on a doorstep"
 order: 20
 year: 2018
 format: Bespoke, individual, pervasive performance

@@ -51,7 +51,7 @@ like arriving somewhere. It lives at `/reset/`.
 | `RESEND_API_KEY` | Secret | `re_…` |
 | `MAIL_FROM` | Plain | `Riptide Reset <reset@theriptide.co.uk>` |
 | `SITE_URL` | Plain | `https://www.theriptide.co.uk` |
-| `FIRST_RUN` | Plain | `2027-01-01` |
+| `FIRST_RUN` | Plain | optional; defaults to `2026-12-01` |
 
 **Stripe webhook:** Developers → Webhooks → Add endpoint
 `https://www.theriptide.co.uk/api/reset/webhook`, events `checkout.session.completed` and

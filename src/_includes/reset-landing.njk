@@ -382,7 +382,7 @@ footer .row{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-betw
   var sel=document.getElementById("run");
   function fill(runs){ sel.innerHTML=runs.map(function(r){return '<option value="'+r.value+'">'+r.label+'</option>'}).join(""); }
   function local(){
-    var first=new Date(Date.UTC(2027,0,1)), now=new Date(), d=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()+1,1)); if(d<first)d=first;
+    var first=new Date(Date.UTC(2026,11,1)), now=new Date(), d=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()+1,1)); if(d<first)d=first;
     var out=[]; for(var i=0;i<6;i++){var x=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+i,1));
       out.push({value:x.toISOString().slice(0,10),label:x.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"})});}
     return out;

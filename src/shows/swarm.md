@@ -9,6 +9,19 @@ gallery:
   - src: /assets/img/swarm-poster.jpg
     alt: "The SWARM poster: SWARM in pink neon, An Immersive Experience, Studio 24"
 status: past
+senses:
+  - label: Feels like
+    text: "Losing your friends on a dance floor but meeting new ones. Being selected from a crowd. A surprise party. Holding someone’s hand for the first time."
+  - label: Looks like
+    text: "Different currency. Neon signs, abandoned warehouse, hacienda."
+  - label: Sounds like
+    text: "People dancing in time. Bass through your chest. Donna Summer. Nostalgia remixes."
+  - label: Tastes like
+    text: "Vodka. Cigarette smoke. Dry ice. A stranger’s lip gloss."
+  - label: Smells like
+    text: "Incense. A stranger’s perfume. Cigarette smoke."
+archiveImage: /assets/img/archive/swarm.jpg
+archiveAlt: "SWARM: a crowd dancing under arcs of coloured LED light in a nightclub"
 order: 30
 year: 2016
 format: Immersive club night
