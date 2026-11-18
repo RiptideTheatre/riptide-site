@@ -9,7 +9,8 @@
 //   RESEND_API_KEY         secret   re_… (sends sign-in and welcome emails)
 //   MAIL_FROM              plain    Riptide Reset <reset@theriptide.co.uk>
 //   SITE_URL               plain    https://www.theriptide.co.uk
-//   FIRST_RUN              plain    2027-01-01 (no runs are offered before this)
+//   FIRST_RUN              plain    optional, e.g. 2026-12-01. No runs are offered before this.
+//                                   Defaults to 2026-12-01; a later value here is ignored so December stays bookable.
 // Binding: KV namespace bound as RESET_KV.
 
 export const COOKIE = "reset_session";
@@ -19,7 +20,9 @@ const DAY = 86400000;
 
 // Runs start on the 1st of each month. Offer the next six, never before FIRST_RUN.
 export function upcomingRuns(env, now = new Date()) {
-  const first = parseDay(env.FIRST_RUN || "2027-01-01");
+  const DEFAULT_FIRST = "2026-12-01";
+  const set = env.FIRST_RUN && env.FIRST_RUN < DEFAULT_FIRST ? env.FIRST_RUN : DEFAULT_FIRST;
+  const first = parseDay(set);
   let d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
   if (d < first) d = first;
   const out = [];
