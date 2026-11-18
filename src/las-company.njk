@@ -128,7 +128,7 @@ img{max-width:100%}
       <div class="apply" id="ap-done" hidden>
         <span class="mark label"><i class="dot"></i>Application sent</span>
         <h3 style="font-size:1.6rem" id="ap-thanks">Thanks.</h3>
-        <p class="note">Demo only: nothing has been sent.</p>
+        <p class="note">We've emailed you a copy.</p>
       </div>
     </div>
   </section>
@@ -161,8 +161,12 @@ img{max-width:100%}
     e.preventDefault();
     const name=f.querySelector("#ap-name").value.trim(),email=f.querySelector("#ap-email").value;
     if(!name||!/\S+@\S+\.\S+/.test(email)){err.hidden=false;return;}
-    document.getElementById("ap-thanks").textContent="Thanks, "+name.split(" ")[0]+".";
-    f.hidden=true;done.hidden=false;
+    const btn=f.querySelector("button[type=submit]");btn.disabled=true;err.hidden=true;
+    fetch("/api/las/signup",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service:"company",name:name,email:email,notes:f.querySelector("#ap-notes").value})})
+      .then(function(r){if(!r.ok)throw new Error("send");
+        document.getElementById("ap-thanks").textContent="Thanks, "+name.split(" ")[0]+".";
+        f.hidden=true;done.hidden=false;})
+      .catch(function(){err.textContent="Something went wrong sending that. Please try again, or email leedsactorsstudio@gmail.com.";err.hidden=false;btn.disabled=false;});
   });
 })();
 </script>
