@@ -447,7 +447,7 @@ h1, h2, h3 { font-weight: 400; letter-spacing: -0.01em; }
 .person__more summary::after { content: "+"; color: var(--quiet); }
 .person__more[open] summary::after { content: "–"; }
 .person__more[open] summary { margin-bottom: 4px; }
-.person img { border-radius: 50%; width: 116px; height: 116px; border: 1px solid var(--line); }
+.person img { border-radius: 50%; width: 168px; height: 168px; object-fit: cover; border: 1px solid var(--line); }
 .person h3 { font-size: 17px; font-weight: 500; margin: 14px 0 2px; }
 .person .person__role { color: var(--quiet); font-size: 14px; margin: 0; }
 .person p { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
@@ -625,7 +625,7 @@ input::placeholder { color: var(--quiet); }
 
 .ab-people__grid { display: flex; flex-wrap: wrap; gap: 36px 56px; align-items: center; justify-content: space-between; }
 .ab-people__faces { display: flex; }
-.ab-people__faces img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid var(--ink); margin-left: -18px; }
+.ab-people__faces img { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; border: 3px solid var(--ink); margin-left: -18px; }
 .ab-people__faces img:first-child { margin-left: 0; }
 .ab-people__cta { display: flex; flex-wrap: wrap; gap: 14px; }
 
@@ -639,7 +639,7 @@ input::placeholder { color: var(--quiet); }
   .ab-work__item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .ab-values__list li { grid-template-columns: 1fr; gap: 12px; }
   .ab-name__small { margin-left: 0; }
-  .ab-people__faces img { width: 64px; height: 64px; margin-left: -14px; }
+  .ab-people__faces img { width: 72px; height: 72px; margin-left: -14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ab-name__art, .ab-hero__down span { animation: none; }
@@ -1216,3 +1216,8 @@ picture { display: contents; }
 .manifesto__places { font-size: 0; }
 .manifesto__places > span { font-size: 15px; }
 .pt__mark { width: 40px; height: auto; align-self: center; }
+
+/* About: what we stand for, in the same tide as Past Work */
+.ta--values .ta__title--value { font-size: clamp(30px, 4.4vw, 52px); line-height: 1.08; }
+.ta--values .ta__sum { font-size: 17px; color: var(--ivory); opacity: .85; }
+@media (min-width: 900px) { .ta--values .ta__tx { max-width: 36rem; } }
