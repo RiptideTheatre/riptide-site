@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leeds Actors Studio</title>
+<meta name="description" content="Affordable, ongoing training for actors who want to keep working on their craft, sharpen their self-tapes and own their auditions.">
+<link rel="canonical" href="https://www.theriptide.co.uk/leedsactorsstudio/">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/las/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/las/apple-touch-icon.png">
+<meta name="theme-color" content="#e4e2dd">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Leeds Actors Studio">
+<meta property="og:title" content="Leeds Actors Studio">
+<meta property="og:description" content="Affordable, ongoing training for actors who want to keep working on their craft, sharpen their self-tapes and own their auditions.">
+<meta property="og:url" content="https://www.theriptide.co.uk/leedsactorsstudio/">
+<meta property="og:image" content="https://www.theriptide.co.uk/assets/las/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&family=Jost:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/las/site.css">
@@ -269,12 +283,16 @@
       {id:"hagen",name:"Uta Hagen Technique",detail:"First Tuesday of every month · new actors welcome",kind:"class",slot:{rule:"first",day:2,time:"18:00–19:30",janSecond:true},skip:["2026-11-03"]},
       {id:"surgery",name:"Audition Surgery",detail:"Last Sunday of the month",kind:"enquiry",waitlist:true},
       {id:"company",name:"Company",detail:"Weekly · by audition · £25/month",kind:"enquiry",audition:true}]},
-    {group:"1:1 coaching · enquiry",items:[
-      {id:"ds",name:"Drama School Admissions",detail:"Three tiers · Standard £300",kind:"enquiry",tiers:["Lighter tier · £150","Standard · £300","Recalls · £120"]},
-      {id:"tape",name:"Self-Tape Surgery",detail:"1:1 · from £30",kind:"enquiry",tiers:["Online coaching · £45","Tape check · £30"],tierLabel:"Which option are you interested in?"}]}
+    {group:"1:1 coaching · book online",items:[
+      {id:"ds",name:"Drama School Admissions",detail:"Three tiers · £50 deposit to book",kind:"paid",deposit:50,opts:[{id:"ds-lighter",name:"Lighter tier",price:150},{id:"ds-standard",name:"Standard",price:300},{id:"ds-recalls",name:"Recalls",price:120}],optLabel:"Choose your tier"},
+      {id:"tape",name:"Self-Tape Surgery",detail:"Online 1:1 · from £30",kind:"paid",opts:[{id:"tape-coach",name:"Online self-tape coaching · 60 min",price:45},{id:"tape-check",name:"Tape check · 30 min online",price:30}],optLabel:"Choose an option"}]}
   ];
   const all=SERVICES.flatMap(g=>g.items);
-  const state={step:0,service:"hagen",date:null,rate:"standard",tier:"Standard · £300",name:"",email:"",notes:"",experience:"",speech:"",error:""};
+  const state={step:0,service:"hagen",date:null,rate:"standard",tier:"Standard · £300",item:"",pay:"deposit",name:"",email:"",notes:"",experience:"",speech:"",error:""};
+  const opt=()=>{const s=svc();return s.opts?(s.opts.find(o=>o.id===state.item)||s.opts[s.id==="ds"?1:0]):null;};
+  const due=()=>{const s=svc(),o=opt();return s.deposit&&state.pay==="deposit"?s.deposit:o.price;};
+  let checkout=null;
+  function loadStripe(){if(window.Stripe)return Promise.resolve(window.Stripe);return new Promise((ok,no)=>{const sc=document.createElement("script");sc.src="https://js.stripe.com/v3/";sc.async=true;sc.onload=()=>window.Stripe?ok(window.Stripe):no(new Error("stripe"));sc.onerror=no;document.head.appendChild(sc);});}
   const pane=document.getElementById("pane");
   const stepBtns=[...document.querySelectorAll(".steps button")];
   const step2=document.getElementById("step2label");
@@ -319,7 +337,7 @@
     step2.textContent=s.kind==="class"?"2 · Date & rate":"2 · Options";
     stepBtns.forEach((b,i)=>{b.removeAttribute("aria-current");if(i===state.step)b.setAttribute("aria-current","step");b.disabled=!canGo(i)||state.step===4;});
     if(state.step===0){
-      pane.innerHTML=SERVICES.map(g=>`<div class="label">${g.group}</div><div class="choice-grid">${g.items.map(i=>`<button type="button" class="choice" data-id="${i.id}" aria-pressed="${i.id===state.service}"><span style="font-weight:600">${i.name}</span><span class="light">${i.detail}</span><span class="p">${i.kind==="class"?"£14 / £20 / £26":i.audition?"Apply":i.waitlist?"Join the waitlist":"Enquire"}</span></button>`).join("")}</div>`).join("")+
+      pane.innerHTML=SERVICES.map(g=>`<div class="label">${g.group}</div><div class="choice-grid">${g.items.map(i=>`<button type="button" class="choice" data-id="${i.id}" aria-pressed="${i.id===state.service}"><span style="font-weight:600">${i.name}</span><span class="light">${i.detail}</span><span class="p">${i.kind==="class"?"£14 / £20 / £26":i.kind==="paid"?"Book":i.audition?"Apply":i.waitlist?"Join the waitlist":"Enquire"}</span></button>`).join("")}</div>`).join("")+
       `<div class="bar"><span class="note">Selected: <strong>${s.name}</strong></span><button type="button" class="btn solid" id="next">Continue</button></div>`;
       pane.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{state.service=b.dataset.id;state.date=null;render();});
       pane.querySelector("#next").onclick=()=>go(1);
@@ -345,6 +363,14 @@
         pane.innerHTML=html;
         pane.querySelectorAll(".date").forEach(b=>b.onclick=()=>{state.date=ds[+b.dataset.i];render();});
         pane.querySelectorAll(".rate-c").forEach(b=>b.onclick=()=>{state.rate=b.dataset.r;render();});
+      } else if(s.kind==="paid"){
+        state.item=opt().id;
+        html+=`<div class="label">${s.optLabel}</div><div class="choice-grid">${s.opts.map(o=>`<button type="button" class="choice opt-c" data-o="${o.id}" aria-pressed="${o.id===state.item}"><span style="font-weight:600">${o.name}</span><span class="p">£${o.price}</span></button>`).join("")}</div>`;
+        if(s.deposit)html+=`<div class="label">How would you like to pay?</div><div class="choice-grid"><button type="button" class="choice pay-c" data-p="deposit" aria-pressed="${state.pay==="deposit"}"><span style="font-weight:600">£${s.deposit} deposit</span><span class="light">Non-refundable · comes off the full fee</span></button><button type="button" class="choice pay-c" data-p="full" aria-pressed="${state.pay==="full"}"><span style="font-weight:600">Pay in full</span><span class="p">£${opt().price}</span></button></div>`;
+        html+=`<p class="note">After paying you'll choose a time for your session.</p><div class="bar"><button type="button" class="btn" id="back">Back</button><button type="button" class="btn solid" id="next">Add your details</button></div>`;
+        pane.innerHTML=html;
+        pane.querySelectorAll(".opt-c").forEach(b=>b.onclick=()=>{state.item=b.dataset.o;render();});
+        pane.querySelectorAll(".pay-c").forEach(b=>b.onclick=()=>{state.pay=b.dataset.p;render();});
       } else if(s.tiers){
         if(!s.tiers.includes(state.tier))state.tier=s.id==="ds"?"Standard · £300":s.tiers[0];
         html+=`<div class="label">${s.tierLabel||"Which tier are you interested in?"}</div><div class="choice-grid">${s.tiers.map(t=>`<button type="button" class="choice tier-c" data-t="${esc(t)}" aria-pressed="${t===state.tier}"><span style="font-weight:600">${t}</span></button>`).join("")}</div>`;
@@ -380,16 +406,34 @@
     if(state.step===3){
       const cls=s.kind==="class",p=cls?pledgeFor(state.date):null,pledge=cls&&!p.go;
       pane.innerHTML=`<dl class="summary">
-        <dt>${cls?(pledge?"Pledge":"Booking"):s.audition?"Application":s.waitlist?"Waitlist":"Enquiry"}</dt><dd>${s.name}${s.tiers?` · ${esc(state.tier)}`:""}</dd>
+        <dt>${cls||s.kind==="paid"?(pledge?"Pledge":"Booking"):s.audition?"Application":s.waitlist?"Waitlist":"Enquiry"}</dt><dd>${s.name}${s.tiers?` · ${esc(state.tier)}`:""}${s.kind==="paid"?` · ${opt().name}`:""}</dd>
+        ${s.kind==="paid"?`<dt>Pay now</dt><dd>£${due()}${s.deposit&&state.pay==="deposit"?` deposit (non-refundable) · £${opt().price-s.deposit} before your first session`:""}</dd>`:""}
         ${cls?`<dt>When</dt><dd>${fmt(state.date)}, ${s.slot.time}</dd><dt>Rate</dt><dd>${rate().name} · £${rate().price}</dd>`:""}
         ${s.id==="surgery"?`<dt>Speech</dt><dd>${esc(state.speech||"My own speech")}</dd>`:""}
         <dt>Name</dt><dd>${esc(state.name)}</dd>
         <dt>Email</dt><dd>${esc(state.email)}</dd>
       </dl>
       ${state.error?`<p class="err">${state.error}</p>`:""}
-      <div class="bar"><button type="button" class="btn" id="back">Edit details</button><button type="button" class="btn solid" id="confirm">${pledge?`Pledge £${rate().price} · pay nothing now`:cls?`Save my place · £${rate().price}`:s.audition?"Send application":s.waitlist?"Join the waitlist":"Send enquiry"}</button></div>`;
+      <div class="bar"><button type="button" class="btn" id="back">Edit details</button><button type="button" class="btn solid" id="confirm">${s.kind==="paid"?`Pay £${due()}`:pledge?`Pledge £${rate().price} · pay nothing now`:cls?`Save my place · £${rate().price}`:s.audition?"Send application":s.waitlist?"Join the waitlist":"Send enquiry"}</button></div>`;
       pane.querySelector("#back").onclick=()=>{state.error="";go(2);};
       const cb=pane.querySelector("#confirm");
+      if(s.kind==="paid"){cb.onclick=async()=>{
+        cb.disabled=true;cb.textContent="Opening secure payment…";
+        try{
+          const r=await fetch("/api/las/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({item:opt().id,pay:s.deposit?state.pay:"full",name:state.name,email:state.email,experience:state.experience,notes:state.notes,website:(document.getElementById("bk-web")||{}).value||""})});
+          const j=await r.json().catch(()=>({}));
+          if(!r.ok)throw new Error(j.error||"checkout");
+          const S=await loadStripe();
+          if(checkout){try{checkout.destroy();}catch(e){}}
+          checkout=await S(j.publishableKey).initEmbeddedCheckout({fetchClientSecret:()=>Promise.resolve(j.clientSecret)});
+          pane.innerHTML=`<div class="label">Secure payment · £${due()}</div><div id="las-pay"></div><div class="bar"><button type="button" class="btn" id="back">Change something</button></div>`;
+          checkout.mount("#las-pay");
+          pane.querySelector("#back").onclick=()=>{try{checkout.destroy();}catch(e){}checkout=null;go(3);};
+        }catch(e){
+          state.error=e.message==="setup"?"Online booking isn't open quite yet. Please email leedsactorsstudio@gmail.com.":"Something went wrong opening the payment. Please try again, or email leedsactorsstudio@gmail.com.";
+          render();
+        }
+      };return;}
       cb.onclick=async()=>{
         cb.disabled=true;cb.textContent="Sending…";
         const body={service:s.id,name:state.name,email:state.email,experience:state.experience,notes:state.notes,website:(document.getElementById("bk-web")||{}).value||""};
