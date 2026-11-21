@@ -66,7 +66,7 @@ export async function sendMail(env, { to, subject, text, replyTo }) {
 
 // ---------- Paid 1:1 coaching (Stripe, Riptide's account) ----------
 // Prices in pence. Drama School Admissions can be paid as a £50 non-refundable deposit or in full.
-//   LAS_BOOKING_URL  optional  Google Calendar booking page sent after payment, so the actor picks a time
+//   Booking pages are the hidden Cal.com events in BOOKING below; the actor picks a time after paying
 export const PAID = {
   "tape-coach":  { service: "tape", name: "Self-Tape Surgery · online coaching (60 min)", full: 4500 },
   "tape-check":  { service: "tape", name: "Self-Tape Surgery · tape check (30 min)", full: 3000 },
@@ -74,6 +74,22 @@ export const PAID = {
   "ds-standard": { service: "ds", name: "Drama School Admissions · Standard", full: 30000, deposit: 5000 },
   "ds-recalls":  { service: "ds", name: "Drama School Admissions · Recalls", full: 12000, deposit: 5000 }
 };
+// Cal.com booking pages (hidden from the public profile), one per kind of session
+export const BOOKING = {
+  "tape-coach": "https://cal.com/leedsactorsstudio/self-tape-coaching",
+  "tape-check": "https://cal.com/leedsactorsstudio/tape-check",
+  "ds-lighter": "https://cal.com/leedsactorsstudio/drama-school-admissions",
+  "ds-standard": "https://cal.com/leedsactorsstudio/drama-school-admissions",
+  "ds-recalls": "https://cal.com/leedsactorsstudio/drama-school-admissions"
+};
+export function bookingLink(item, name, email) {
+  const base = BOOKING[item];
+  if (!base) return "";
+  const q = new URLSearchParams();
+  if (name) q.set("name", name);
+  if (email) q.set("email", email);
+  return base + (q.toString() ? "?" + q : "");
+}
 export const pounds = (p) => "£" + (p % 100 ? (p / 100).toFixed(2) : String(p / 100));
 
 // Called after a Stripe payment (from the thank-you page and from the webhook); sends the emails once.
@@ -91,7 +107,7 @@ export async function confirmLas(env, session) {
   const deposit = m.pay === "deposit";
   const balance = deposit ? pounds(item.full - item.deposit) : "";
   if (env.RESET_KV) await env.RESET_KV.put(key, JSON.stringify({ email, name, item: m.item, pay: m.pay, amount, notes: m.notes || "", at: new Date().toISOString() }));
-  const booking = env.LAS_BOOKING_URL || "";
+  const booking = bookingLink(m.item, name, email);
   await sendMail(env, {
     to: env.LAS_NOTIFY || "leedsactorsstudio@gmail.com",
     subject: `LAS booking paid: ${item.name} · ${amount}${deposit ? " deposit" : ""} · ${name}`,

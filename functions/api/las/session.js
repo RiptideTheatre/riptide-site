@@ -1,6 +1,6 @@
 // GET /api/las/session?session_id=cs_…  — used by /leedsactorsstudio/booked/ straight after payment.
 import { stripe } from "../../_lib/reset.js";
-import { json, confirmLas } from "../../_lib/las.js";
+import { json, confirmLas, bookingLink } from "../../_lib/las.js";
 
 export async function onRequestGet({ request, env }) {
   const id = new URL(request.url).searchParams.get("session_id") || "";
@@ -11,7 +11,7 @@ export async function onRequestGet({ request, env }) {
     const r = await confirmLas(env, session);
     return json({
       paid: r.paid, what: r.item?.name || "", amount: r.amount || "", deposit: !!r.deposit, balance: r.balance || "",
-      first: (session.metadata?.name || "").split(" ")[0], bookingUrl: env.LAS_BOOKING_URL || ""
+      first: (session.metadata?.name || "").split(" ")[0], bookingUrl: bookingLink(session.metadata?.item, session.metadata?.name || "", session.customer_details?.email || session.customer_email || "")
     });
   } catch (e) {
     console.log("[las] session lookup failed", e.message);
