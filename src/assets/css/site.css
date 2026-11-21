@@ -1196,7 +1196,7 @@ picture { display: contents; }
 .pt__item { display: inline-flex; align-items: baseline; gap: 14px; white-space: nowrap; }
 .pt__q { font-size: clamp(24px, 2.4vw, 32px); line-height: 1.2; color: var(--ivory); }
 .pt__src { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--quiet); }
-.pt__item--award .pt__award { font-size: 15px; letter-spacing: .02em; color: var(--amber); }
+.pt__item--award .pt__award { font-size: clamp(20px, 2vw, 26px); letter-spacing: .01em; color: var(--amber); }
 .pt__star { color: var(--amber); }
 /* with the script: one long moving line, duplicated for a seamless loop */
 .pt--js .pt__track { flex-wrap: nowrap; width: max-content; padding: 0; animation: pt-move var(--pt-dur, 60s) linear infinite; }
