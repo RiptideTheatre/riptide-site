@@ -1,0 +1,53 @@
+---
+permalink: /leedsactorsstudio/booked/
+eleventyExcludeFromCollections: true
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>You're booked · Leeds Actors Studio</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/las/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/las/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/assets/las/site.css">
+<style>
+.booked{padding-block:clamp(64px,10vw,140px);display:grid;gap:22px;max-width:640px}
+.booked h1{font-size:clamp(2.2rem,6vw,3.6rem);margin:0}
+.booked dl{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;margin:6px 0 0}
+.booked dt{font-family:var(--head);font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding-top:4px}
+.booked dd{margin:0}
+.booked .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="/leedsactorsstudio/" aria-label="Leeds Actors Studio, home"><span class="logo" aria-hidden="true"></span><b>Leeds<br>Actors Studio.</b></a>
+  </div>
+</header>
+<main class="wrap booked" id="booked" aria-live="polite">
+  <span class="mark label"><i class="dot" style="background:var(--ink)"></i>Checking your payment…</span>
+</main>
+<script>
+(function(){
+  var box=document.getElementById("booked");
+  var id=new URLSearchParams(location.search).get("session_id")||"";
+  function esc(v){return String(v).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function fail(){box.innerHTML='<span class="mark label"><i class="dot" style="background:var(--ink)"></i>Something went wrong</span><h1>We couldn\'t load your booking.</h1><p>If you\'ve paid, you\'ll get a confirmation email shortly. Any questions: leedsactorsstudio@gmail.com.</p>';}
+  if(!id){fail();return;}
+  fetch("/api/las/session?session_id="+encodeURIComponent(id)).then(function(r){return r.ok?r.json():Promise.reject();}).then(function(j){
+    if(!j.paid){box.innerHTML='<span class="mark label"><i class="dot" style="background:var(--ink)"></i>Payment not completed</span><h1>Your payment didn\'t go through.</h1><p>Nothing has been charged. <a href="/leedsactorsstudio/#book">Try again</a>, or email leedsactorsstudio@gmail.com.</p>';return;}
+    box.innerHTML='<span class="mark label"><i class="dot" style="background:var(--ink)"></i>Payment received</span>'+
+      '<h1>Thanks'+(j.first?', '+esc(j.first):'')+'.</h1>'+
+      '<dl><dt>Booked</dt><dd>'+esc(j.what)+'</dd><dt>Paid</dt><dd>'+esc(j.amount)+(j.deposit?' deposit (non-refundable) · '+esc(j.balance)+' due before your first session':'')+'</dd></dl>'+
+      (j.bookingUrl?'<p>Now choose a time for your session.</p><div class="actions"><a class="btn solid" href="'+esc(j.bookingUrl)+'" target="_blank" rel="noopener">Choose your time</a></div>':'<p>We\'ll be in touch shortly to arrange a time.</p>')+
+      '<p class="note">We\'ve emailed you a copy'+(j.bookingUrl?', with the link to choose your time.':'.')+'</p>';
+  }).catch(fail);
+})();
+</script>
+</body>
+</html>

@@ -63,3 +63,51 @@ export async function sendMail(env, { to, subject, text, replyTo }) {
   if (!res.ok) console.log("[las] email failed", res.status, await res.text());
   return res.ok;
 }
+
+// ---------- Paid 1:1 coaching (Stripe, Riptide's account) ----------
+// Prices in pence. Drama School Admissions can be paid as a £50 non-refundable deposit or in full.
+//   LAS_BOOKING_URL  optional  Google Calendar booking page sent after payment, so the actor picks a time
+export const PAID = {
+  "tape-coach":  { service: "tape", name: "Self-Tape Surgery · online coaching (60 min)", full: 4500 },
+  "tape-check":  { service: "tape", name: "Self-Tape Surgery · tape check (30 min)", full: 3000 },
+  "ds-lighter":  { service: "ds", name: "Drama School Admissions · Lighter tier", full: 15000, deposit: 5000 },
+  "ds-standard": { service: "ds", name: "Drama School Admissions · Standard", full: 30000, deposit: 5000 },
+  "ds-recalls":  { service: "ds", name: "Drama School Admissions · Recalls", full: 12000, deposit: 5000 }
+};
+export const pounds = (p) => "£" + (p % 100 ? (p / 100).toFixed(2) : String(p / 100));
+
+// Called after a Stripe payment (from the thank-you page and from the webhook); sends the emails once.
+export async function confirmLas(env, session) {
+  const paid = session.payment_status === "paid" || session.payment_status === "no_payment_required";
+  const m = session.metadata || {};
+  const item = PAID[m.item];
+  if (!paid || !item) return { paid, item };
+  const key = "las:paid:" + session.id;
+  if (env.RESET_KV && await env.RESET_KV.get(key)) return { paid, item, already: true };
+  const email = session.customer_details?.email || session.customer_email || "";
+  const name = m.name || session.customer_details?.name || "";
+  const first = name.split(" ")[0] || "there";
+  const amount = pounds(session.amount_total ?? 0);
+  const deposit = m.pay === "deposit";
+  const balance = deposit ? pounds(item.full - item.deposit) : "";
+  if (env.RESET_KV) await env.RESET_KV.put(key, JSON.stringify({ email, name, item: m.item, pay: m.pay, amount, notes: m.notes || "", at: new Date().toISOString() }));
+  const booking = env.LAS_BOOKING_URL || "";
+  await sendMail(env, {
+    to: env.LAS_NOTIFY || "leedsactorsstudio@gmail.com",
+    subject: `LAS booking paid: ${item.name} · ${amount}${deposit ? " deposit" : ""} · ${name}`,
+    text: [`${item.name}`, `Paid: ${amount}${deposit ? ` (deposit; ${balance} still to pay)` : " (in full)"}`, `Name: ${name}`, `Email: ${email}`,
+      m.experience && `Experience: ${m.experience}`, m.notes && `\n${m.notes}`, `\nStripe: ${session.payment_intent || session.id}`,
+      `\nReply to this email to answer ${first} directly.`].filter(Boolean).join("\n"),
+    replyTo: email
+  });
+  if (email) await sendMail(env, {
+    to: email,
+    subject: `Leeds Actors Studio: you're booked for ${item.name.split(" · ")[0]}`,
+    text: `Hi ${first},\n\nThanks for booking ${item.name}. We've received your payment of ${amount}${deposit ? ` (your non-refundable deposit; the remaining ${balance} is due before your first session)` : ""}.\n\n` +
+      (booking ? `Next, choose a time that suits you:\n${booking}\n\n` : `We'll be in touch shortly to arrange a time.\n\n`) +
+      `You can move a session free of charge up to 24 hours before it starts. Sessions cancelled with less than 24 hours' notice, or missed, can't be refunded.${deposit || m.item.startsWith("ds-") ? " The £50 Drama School Admissions deposit is non-refundable." : ""}\n\n` +
+      `If you have any questions, just reply to this email.\n\nLeeds Actors Studio`,
+    replyTo: env.LAS_NOTIFY || "leedsactorsstudio@gmail.com"
+  });
+  return { paid, item, email, name, amount, deposit, balance };
+}

@@ -5,6 +5,7 @@ import { verifyStripeSignature, recordBooking, sendEmail, welcomeEmail, json, is
 import { loadRuns, confirmPiBooking } from "../../_lib/pi.js";
 import { ensureGift, isGiftSession } from "../../_lib/gift.js";
 import { confirmSonder } from "../../_lib/sonder.js";
+import { confirmLas } from "../../_lib/las.js";
 
 export async function onRequestPost({ request, env }) {
   const raw = await request.text();
@@ -19,6 +20,9 @@ export async function onRequestPost({ request, env }) {
     } else if (session.metadata?.product === "sonder") {
       // Sonder: record the ticket and send the walk link, even if the buyer closed the tab.
       await confirmSonder(env, session);
+    } else if (session.metadata?.product === "las") {
+      // Leeds Actors Studio 1:1 coaching: send the booking emails, even if the buyer closed the tab.
+      await confirmLas(env, session);
     } else if (session.metadata?.product === "pi") {
       // Project Intimacy: make sure the confirmation email went out, even if the buyer closed the tab.
       await confirmPiBooking(env, session, await loadRuns(env, request, false).catch(() => []));
