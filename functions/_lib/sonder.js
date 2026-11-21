@@ -11,7 +11,7 @@
 //                    It signs in one phone per person on the ticket (two for a pair, so it can be
 //                    forwarded). Asking for the link again issues a fresh one, which signs the old
 //                    phones out: that's how someone moves their ticket to a new phone.
-import { hmac, b64u, normEmail, sendEmail, esc, isSettled, DAY } from "./reset.js";
+import { siteUrl, hmac, b64u, normEmail, sendEmail, esc, isSettled, DAY } from "./reset.js";
 
 export const SONDER_COOKIE = "sonder_session";
 export const ACCESS_DAYS = 30;
@@ -171,7 +171,7 @@ const shell = (inner) => `<!doctype html><html><head><meta charset="utf-8"></hea
 export const untilLabel = (ms) => new Date(ms).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/London" });
 
 export function sonderEmail(env, pass) {
-  const site = env.SITE_URL || "https://www.theriptide.co.uk";
+  const site = siteUrl(env);
   const link = `${site}/sonder/walk/?key=${pass.key}`;
   const until = untilLabel(pass.until);
   const pair = pass.qty === 2;

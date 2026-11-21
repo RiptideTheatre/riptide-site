@@ -1,6 +1,6 @@
 // POST /api/las/checkout  {item, pay: "deposit"|"full", name, email, experience?, notes?}
 // Opens Stripe's secure payment form inside the Leeds Actors Studio booking panel (embedded Checkout).
-import { stripe } from "../../_lib/reset.js";
+import { stripe, siteUrl } from "../../_lib/reset.js";
 import { json, PAID } from "../../_lib/las.js";
 
 const clip = (v, n) => String(v || "").replace(/\s+/g, " ").trim().slice(0, n);
@@ -17,7 +17,7 @@ export async function onRequestPost({ request, env }) {
   if (!env.STRIPE_PUBLISHABLE_KEY) return json({ error: "setup" }, 503);
   const amount = pay === "deposit" ? item.deposit : item.full;
   const label = item.name + (pay === "deposit" ? " · deposit" : "");
-  const site = env.SITE_URL || new URL(request.url).origin;
+  const site = siteUrl(env, request);
   try {
     const session = await stripe(env, "POST", "checkout/sessions", {
       ui_mode: "embedded",

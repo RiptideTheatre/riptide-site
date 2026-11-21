@@ -1,7 +1,7 @@
 // POST /api/sonder/checkout  {qty: 1|2}
 // Opens Stripe's secure payment form inside the Sonder page (embedded Checkout).
 // After paying, Stripe returns the buyer to /sonder/welcome, which opens the walk.
-import { stripe, json } from "../../_lib/reset.js";
+import { stripe, json, siteUrl } from "../../_lib/reset.js";
 import { TICKETS, ACCESS_DAYS } from "../../_lib/sonder.js";
 
 export async function onRequestPost({ request, env }) {
@@ -10,7 +10,7 @@ export async function onRequestPost({ request, env }) {
   const t = TICKETS[qty];
   const price = env[t.env] || t.priceId;
   if (!price || !env.STRIPE_PUBLISHABLE_KEY) return json({ error: "setup" }, 503);
-  const site = env.SITE_URL || new URL(request.url).origin;
+  const site = siteUrl(env, request);
   try {
     const session = await stripe(env, "POST", "checkout/sessions", {
       ui_mode: "embedded",

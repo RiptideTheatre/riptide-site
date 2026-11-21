@@ -99,7 +99,11 @@ export async function confirmLas(env, session) {
   const item = PAID[m.item];
   if (!paid || !item) return { paid, item };
   const key = "las:paid:" + session.id;
-  if (env.RESET_KV && await env.RESET_KV.get(key)) return { paid, item, already: true };
+  const prior = env.RESET_KV ? await env.RESET_KV.get(key, "json") : null;
+  if (prior) {
+    const dep = prior.pay === "deposit";
+    return { paid, item, already: true, email: prior.email, name: prior.name, amount: prior.amount, deposit: dep, balance: dep ? pounds(item.full - item.deposit) : "" };
+  }
   const email = session.customer_details?.email || session.customer_email || "";
   const name = m.name || session.customer_details?.name || "";
   const first = name.split(" ")[0] || "there";

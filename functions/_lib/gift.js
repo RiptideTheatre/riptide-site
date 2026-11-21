@@ -8,7 +8,7 @@
 //   • emails the buyer a copy, and emails the recipient if the buyer chose that.
 // Project Intimacy recipients go straight to the questionnaire. Reset recipients choose a start
 // month and "unwrap" the gift, which gives their own email address access (see /api/gift/claim).
-import { sendEmail, isSettled, hmac, normEmail, esc, emailShell, runLabel } from "./reset.js";
+import { siteUrl, sendEmail, isSettled, hmac, normEmail, esc, emailShell, runLabel } from "./reset.js";
 import { loadRuns } from "./pi.js";
 
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -153,7 +153,7 @@ export async function ensureGift(env, request, session) {
     gift.notified = true;
     await saveGift(env, gift);
     const { when } = await giftWhen(env, request, gift);
-    const site = env.SITE_URL || new URL(request.url).origin;
+    const site = siteUrl(env, request);
     if (gift.buyerEmail) await sendEmail(env, { to: gift.buyerEmail, ...buyerEmail(site, gift, when) });
     if (gift.send === "email" && gift.email) await sendEmail(env, { to: gift.email, ...recipientEmail(site, gift, when) });
   }

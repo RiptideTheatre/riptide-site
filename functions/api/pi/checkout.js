@@ -1,7 +1,7 @@
 // POST /api/pi/checkout  {run: "YYYY-MM-DD", gift?: {to, from, note, send, email}}
 // Opens Stripe's secure payment form inside the Project Intimacy page (embedded Checkout).
 // After paying, Stripe returns the buyer to the questionnaire (or, for a gift, to the gift page).
-import { stripe, json } from "../../_lib/reset.js";
+import { stripe, json, siteUrl } from "../../_lib/reset.js";
 import { loadRuns } from "../../_lib/pi.js";
 import { readGift, giftParams, PRODUCTS } from "../../_lib/gift.js";
 
@@ -17,7 +17,7 @@ export async function onRequestPost({ request, env }) {
   const chosen = runs.find((r) => r.start === run);
   if (!chosen) return json({ error: "run" }, 400);
   if (!env.PI_PRICE_ID || !env.STRIPE_PUBLISHABLE_KEY) return json({ error: "setup" }, 503);
-  const site = env.SITE_URL || new URL(request.url).origin;
+  const site = siteUrl(env, request);
   try {
     const session = await stripe(env, "POST", "checkout/sessions", {
       ui_mode: "embedded",

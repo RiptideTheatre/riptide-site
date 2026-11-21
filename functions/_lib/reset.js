@@ -13,6 +13,17 @@
 //                                   Defaults to 2026-12-01; a later value here is ignored so December stays bookable.
 // Binding: KV namespace bound as RESET_KV.
 
+// The public address for links in emails and Stripe return pages. Always the real domain,
+// even if SITE_URL in Cloudflare points at the pages.dev address.
+export function siteUrl(env, request) {
+  const set = String(env.SITE_URL || "");
+  if (/^https:\/\/(www\.)?theriptide\.co\.uk/.test(set)) return set.replace(/\/$/, "");
+  if (request) {
+    const o = new URL(request.url).origin;
+    if (/theriptide\.co\.uk$/.test(new URL(o).hostname)) return o;
+  }
+  return "https://www.theriptide.co.uk";
+}
 export const COOKIE = "reset_session";
 const DAY = 86400000;
 
@@ -223,7 +234,7 @@ ${inner}
 }
 
 export function welcomeEmail(env, run) {
-  const site = env.SITE_URL || "https://www.theriptide.co.uk";
+  const site = siteUrl(env);
   const when = runLabel(run.start);
   const link = `${site}/reset/members/`;
   const signin = `${site}/reset/#signin`;
@@ -260,7 +271,7 @@ Riptide`;
 }
 
 export function signInEmail(env, token) {
-  const site = env.SITE_URL || "https://www.theriptide.co.uk";
+  const site = siteUrl(env);
   const link = `${site}/api/reset/verify?token=${token}`;
   const text = `Here is your link to sign in to Reset. It works once, for the next 30 minutes.
 

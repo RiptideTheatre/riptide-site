@@ -7,7 +7,7 @@
 //  • A plain form post (no JavaScript) → the same session on Stripe's own page, as a fallback.
 //
 // Either way Stripe returns the buyer to /reset/welcome, which confirms payment and signs them in.
-import { isValidRun, runLabel, stripe, redirect, json } from "../../_lib/reset.js";
+import { isValidRun, runLabel, stripe, redirect, json, siteUrl } from "../../_lib/reset.js";
 import { readGift, giftParams, PRODUCTS } from "../../_lib/gift.js";
 
 function sessionParams(env, site, run) {
@@ -27,7 +27,7 @@ function sessionParams(env, site, run) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const site = env.SITE_URL || new URL(request.url).origin;
+  const site = siteUrl(env, request);
   const wantsJson = (request.headers.get("Content-Type") || "").includes("application/json");
 
   let run = "", gift = null;

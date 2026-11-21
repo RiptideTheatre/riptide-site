@@ -2,7 +2,7 @@
 // Run dates live in the show's settings (src/shows/project-intimacy.md → runs) and are
 // published at /project-intimacy/runs.json, so the payment code always checks the same list
 // the page and the questionnaire show.
-import { sendEmail, isSettled } from "./reset.js";
+import { siteUrl, sendEmail, isSettled } from "./reset.js";
 
 export async function loadRuns(env, request, bookableOnly = true) {
   const url = new URL("/project-intimacy/runs.json", request.url);
@@ -17,7 +17,7 @@ export async function loadRuns(env, request, bookableOnly = true) {
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 export function piBookedEmail(env, run) {
-  const site = env.SITE_URL || "https://www.theriptide.co.uk";
+  const site = siteUrl(env);
   const link = `${site}/project-intimacy/questionnaire/`;
   const when = run ? run.range : "your chosen dates";
   const text = `You're booked onto Project Intimacy (${when}).
