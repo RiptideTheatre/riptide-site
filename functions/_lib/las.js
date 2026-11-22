@@ -125,6 +125,7 @@ export async function confirmLas(env, session) {
     subject: `Leeds Actors Studio: you're booked for ${item.name.split(" · ")[0]}`,
     text: `Hi ${first},\n\nThanks for booking ${item.name}. We've received your payment of ${amount}${deposit ? ` (your non-refundable deposit; the remaining ${balance} is due before your first session)` : ""}.\n\n` +
       (booking ? `Next, choose a time that suits you:\n${booking}\n\n` : `We'll be in touch shortly to arrange a time.\n\n`) +
+      (item.service === "tape" ? `If you asked for a brief, we'll send your scene or speech within 24 hours. When you choose your session time, pick a slot at least 4 days away so you have time to film and send us your tape.\n\n` : "") +
       `You can move a session free of charge up to 24 hours before it starts. Sessions cancelled with less than 24 hours' notice, or missed, can't be refunded.${deposit || m.item.startsWith("ds-") ? " The £50 Drama School Admissions deposit is non-refundable." : ""}\n\n` +
       `If you have any questions, just reply to this email.\n\nLeeds Actors Studio`,
     replyTo: env.LAS_NOTIFY || "leedsactorsstudio@gmail.com"

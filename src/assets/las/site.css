@@ -358,3 +358,7 @@ details.tier[open]::details-content{block-size:auto}
 @media (max-width:900px){.quotes{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.quotes{grid-template-columns:1fr}}
 footer p a{text-underline-offset:4px}
+
+.tape-steps{margin:18px 0 22px;padding-left:1.4em;display:grid;gap:10px}
+.tape-steps li{padding-left:.2em}
+.tape-steps b{font-weight:600}
