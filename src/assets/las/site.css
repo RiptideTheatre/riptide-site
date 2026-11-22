@@ -370,7 +370,7 @@ footer p a{text-underline-offset:4px}
 .coach-title i{flex:none;margin-top:.12em}
 .coach-title .tri{width:.7em;height:.62em;background:currentColor}
 .coach-title .sq{width:.6em;height:.6em;background:currentColor}
-.tape-hook{font-family:var(--head);font-weight:300;font-size:clamp(1.9rem,4vw,3rem);line-height:1.08;letter-spacing:-.01em;max-width:18ch;opacity:1!important;margin:0 0 16px;text-wrap:balance}
+.tape-hook{font-family:var(--head);font-weight:300;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(1.15rem,2vw,1.6rem);line-height:1.35;opacity:1!important;margin:0 0 14px;padding-left:18px;border-left:2px solid currentColor;max-width:none}
 .tape-steps em{font-style:normal;font-family:var(--head);font-weight:700;text-transform:uppercase;font-size:.74rem;letter-spacing:.1em;opacity:.8}
 #coaching .coach-head{grid-template-columns:1fr;gap:22px}
 #coaching .coach-head > p, #coaching .coach-head > div > p:not(.tape-hook){max-width:62ch}
