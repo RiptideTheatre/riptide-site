@@ -152,7 +152,7 @@
 
       <article class="coach">
         <div class="coach-head">
-          <div><span class="label">2026/27 cohort</span><h3 style="margin-top:8px;font-size:1.7rem">Drama School Admissions</h3></div>
+          <div><span class="label">2026/27 cohort</span><h3 class="coach-title"><i class="tri" aria-hidden="true"></i>Drama School Admissions</h3></div>
           <p>From choosing your texts to refining your performances and making sure you deliver on the day. One-to-one coaching for actors applying to drama school.</p>
         </div>
         <div class="tiers">
@@ -195,12 +195,19 @@
 
       <article class="coach">
         <div class="coach-head">
-          <div><span class="label">1:1</span><h3 style="margin-top:8px;font-size:1.7rem">Self-Tape Surgery</h3></div>
-          <p>Self-tape could be your new superpower. Most auditions now start with one. These sessions help you stand out and make your mark with casting directors.</p>
+          <div><span class="label">1:1</span><h3 class="coach-title"><i class="sq" aria-hidden="true"></i>Self-Tape Surgery</h3></div>
+          <div><p class="tape-hook">Self-tape could be your new superpower.</p><p>Most auditions now start with one. These sessions help you stand out and make your mark with casting directors.</p></div>
         </div>
         <div class="tape-opts">
-          <div class="tape-opt"><div><b>Online self-tape coaching</b><span>60 min · Coached live as you film at home, with personalised direction and feedback.</span></div><b class="amt">£45</b></div>
-          <div class="tape-opt"><div><b>Tape check</b><span>30 min online · Notes on a tape you've already filmed, ready for a re-shoot.</span></div><b class="amt">£30</b></div>
+          <ol class="tape-steps">
+            <li><b>Get your brief.</b> We send you a scene or speech, just like a real casting. Or bring one you've chosen.</li>
+            <li><b>Film it.</b> You have 3–4 days to get your tape back to us, the usual turnaround for a self-tape request.</li>
+            <li><b>Watch it together.</b> We play your tape back in an online session and give you feedback.</li>
+            <li><b>Keep the notes.</b> A director watches your tape and sends you blow-by-blow written feedback.</li>
+            <li><b>Workshop the notes</b> with a director's guidance. <em>60-minute session only.</em></li>
+          </ol>
+          <div class="tape-opt"><div><b>Self-Tape Surgery</b><span>60 min online · Feedback on your tape, then we workshop a few moments with you until they land.</span></div><b class="amt">£45</b></div>
+          <div class="tape-opt"><div><b>Tape check</b><span>30 min online · Feedback on your tape, ready for a re-shoot. No workshop time.</span></div><b class="amt">£30</b></div>
         </div>
         <div class="foot">
           <p></p>
@@ -286,10 +293,10 @@
       {id:"company",name:"Company",detail:"Weekly · by audition · £25/month",kind:"enquiry",audition:true}]},
     {group:"1:1 coaching · book online",items:[
       {id:"ds",name:"Drama School Admissions",detail:"Three tiers · £50 deposit to book",kind:"paid",deposit:50,opts:[{id:"ds-lighter",name:"Lighter tier",price:150},{id:"ds-standard",name:"Standard",price:300},{id:"ds-recalls",name:"Recalls",price:120}],optLabel:"Choose your tier"},
-      {id:"tape",name:"Self-Tape Surgery",detail:"Online 1:1 · from £30",kind:"paid",opts:[{id:"tape-coach",name:"Online self-tape coaching · 60 min",price:45},{id:"tape-check",name:"Tape check · 30 min online",price:30}],optLabel:"Choose an option"}]}
+      {id:"tape",name:"Self-Tape Surgery",detail:"Online 1:1 · from £30",kind:"paid",opts:[{id:"tape-coach",name:"Self-Tape Surgery · 60 min, feedback and workshop",price:45},{id:"tape-check",name:"Tape check · 30 min, feedback only",price:30}],optLabel:"Choose an option"}]}
   ];
   const all=SERVICES.flatMap(g=>g.items);
-  const state={step:0,service:"hagen",date:null,rate:"standard",tier:"Standard · £300",item:"",pay:"deposit",name:"",email:"",notes:"",experience:"",speech:"",error:""};
+  const state={material:"Send me a brief",step:0,service:"hagen",date:null,rate:"standard",tier:"Standard · £300",item:"",pay:"deposit",name:"",email:"",notes:"",experience:"",speech:"",error:""};
   const opt=()=>{const s=svc();return s.opts?(s.opts.find(o=>o.id===state.item)||s.opts[s.id==="ds"?1:0]):null;};
   const due=()=>{const s=svc(),o=opt();return s.deposit&&state.pay==="deposit"?s.deposit:o.price;};
   let checkout=null;
@@ -387,20 +394,23 @@
     }
     if(state.step===2){
       const ask=s.id==="ds"?"Which schools are you applying to, and when are your deadlines?":s.id==="tape"?"What's the tape for, and when is it due?":s.audition?"Tell us a little about your training and experience":"Anything we should know?";
+      const tapeQ=s.id==="tape"?`<label class="f full">What would you like to work on?<select id="bk-mat">${["Send me a brief","A scene or speech I've chosen"].map(o=>`<option ${o===state.material?"selected":""}>${o}</option>`).join("")}</select></label>`:"";
+      const tapeAsk=state.material==="A scene or speech I've chosen"?"Which scene or speech? Tell us the play and the character.":"Any plays, playwrights or genres you'd like your brief to come from? (optional)";
       const speech=s.id==="surgery"?`<label class="f full">Speech<select id="bk-speech">${["My own speech","One of this month's released speeches"].map(o=>`<option ${o===state.speech?"selected":""}>${o}</option>`).join("")}</select></label>`:"";
       pane.innerHTML=`<form class="details" id="f" novalidate>
         <label class="f">Full name<input id="bk-name" autocomplete="name" value="${esc(state.name)}" required></label>
         <label class="f">Email<input id="bk-email" type="email" autocomplete="email" value="${esc(state.email)}" required></label>
         <label class="f full">Acting experience<select id="bk-exp">${["","Currently in training","Recent graduate","Working professionally","Other"].map(o=>`<option ${o===state.experience?"selected":""} value="${o}">${o||"Choose one (optional)"}</option>`).join("")}</select></label>
-        ${speech}
-        <label class="f full">${ask}<textarea id="bk-notes" rows="3">${esc(state.notes)}</textarea></label>
+        ${speech}${tapeQ}
+        <label class="f full" id="bk-ask">${s.id==="tape"?tapeAsk:ask}<textarea id="bk-notes" rows="3">${esc(state.notes)}</textarea></label>
         <input id="bk-web" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
         ${state.error?`<p class="err full">${state.error}</p>`:""}
         <div class="bar full"><button type="button" class="btn" id="back">Back</button><button type="submit" class="btn solid">Review</button></div>
       </form>`;
       const f=pane.querySelector("#f");
-      const sync=()=>{state.name=f.querySelector("#bk-name").value;state.email=f.querySelector("#bk-email").value;state.experience=f.querySelector("#bk-exp").value;state.notes=f.querySelector("#bk-notes").value;const sp=f.querySelector("#bk-speech");if(sp)state.speech=sp.value;};
+      const sync=()=>{state.name=f.querySelector("#bk-name").value;state.email=f.querySelector("#bk-email").value;state.experience=f.querySelector("#bk-exp").value;state.notes=f.querySelector("#bk-notes").value;const sp=f.querySelector("#bk-speech");if(sp)state.speech=sp.value;const mt=f.querySelector("#bk-mat");if(mt)state.material=mt.value;};
       f.addEventListener("input",sync);
+      const mt=f.querySelector("#bk-mat");if(mt)mt.addEventListener("change",()=>{sync();render();});
       f.addEventListener("submit",e=>{e.preventDefault();sync();if(!canGo(3)){state.error="Add your name and a valid email address to continue.";render();return;}go(3);});
       pane.querySelector("#back").onclick=()=>{sync();go(1);};
     }
@@ -421,7 +431,7 @@
       if(s.kind==="paid"){cb.onclick=async()=>{
         cb.disabled=true;cb.textContent="Opening secure payment…";
         try{
-          const r=await fetch("/api/las/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({item:opt().id,pay:s.deposit?state.pay:"full",name:state.name,email:state.email,experience:state.experience,notes:state.notes,website:(document.getElementById("bk-web")||{}).value||""})});
+          const r=await fetch("/api/las/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({item:opt().id,pay:s.deposit?state.pay:"full",name:state.name,email:state.email,experience:state.experience,notes:(s.id==="tape"?state.material+(state.notes?": "+state.notes:""):state.notes),website:(document.getElementById("bk-web")||{}).value||""})});
           const j=await r.json().catch(()=>({}));
           if(!r.ok)throw new Error(j.error||"checkout");
           const S=await loadStripe();
