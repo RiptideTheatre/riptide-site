@@ -362,3 +362,15 @@ footer p a{text-underline-offset:4px}
 .tape-steps{margin:18px 0 22px;padding-left:1.4em;display:grid;gap:10px}
 .tape-steps li{padding-left:.2em}
 .tape-steps b{font-weight:600}
+
+/* Two coaching offers: each title stands on its own */
+.coach{padding-block:clamp(48px,7vw,88px)}
+.coach + .coach{border-top-width:3px;border-top-color:var(--on-block)}
+.coach-title{margin-top:12px;font-size:clamp(2.3rem,5.4vw,4.2rem);line-height:.95;display:flex;align-items:flex-start;gap:.35em;text-wrap:balance}
+.coach-title i{flex:none;margin-top:.12em}
+.coach-title .tri{width:.7em;height:.62em;background:currentColor}
+.coach-title .sq{width:.6em;height:.6em;background:currentColor}
+.tape-hook{font-family:var(--head);font-weight:300;font-size:clamp(1.9rem,4vw,3rem);line-height:1.08;letter-spacing:-.01em;max-width:18ch;opacity:1!important;margin:0 0 16px;text-wrap:balance}
+.tape-steps em{font-style:normal;font-family:var(--head);font-weight:700;text-transform:uppercase;font-size:.74rem;letter-spacing:.1em;opacity:.8}
+#coaching .coach-head{grid-template-columns:1fr;gap:22px}
+#coaching .coach-head > p, #coaching .coach-head > div > p:not(.tape-hook){max-width:62ch}
